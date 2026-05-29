@@ -239,3 +239,70 @@
     font-size: 20px;
   }
 }
+
+/* 密钥行：输入框+按钮横排 */
+.idol-api-key-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.idol-api-key-row input {
+  flex: 1;
+}
+
+.idol-fetch-models-btn {
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* 模型行：文本输入+下拉选择 */
+.idol-model-row {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.idol-model-select {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+  color: #fff;
+  padding: 8px 10px;
+  font-size: 13px;
+  cursor: pointer;
+  outline: none;
+}
+
+.idol-model-select:focus {
+  border-color: #e94560;
+}
+
+.idol-model-select option {
+  background: #1a1a2e;
+  color: #fff;
+}
+
+/* 次要按钮样式 */
+.idol-btn-secondary {
+  background: rgba(255, 255, 255, 0.1);
+  color: #ccc;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.idol-btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.18);
+  color: #fff;
+}
+
+.idol-btn-secondary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
