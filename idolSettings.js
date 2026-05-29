@@ -1,0 +1,262 @@
+/**
+ * Idol Manager 设置界面
+ * 用于配置 API 和预设
+ */
+
+(function () {
+  "use strict";
+
+  /**
+   * 创建设置面板HTML
+   */
+  function createSettingsHTML() {
+    const config = window.IdolApiService.getApiConfig();
+    const presets = window.IdolApiService.getPresets();
+    const contextCount = window.IdolApiService.getContextCount();
+
+    return `
+            <div class="idol-settings-panel">
+                <div class="idol-settings-header">
+                    <h2>插件设置</h2>
+                    <button class="idol-settings-close" onclick="window.IdolSettings.closeSettings()">
+                        <i class="fa-solid fa-times"></i>
+                    </button>
+                </div>
+
+                <div class="idol-settings-content">
+                    <!-- API 配置 -->
+                    <div class="idol-settings-section">
+                        <h3><i class="fa-solid fa-plug"></i> API 配置</h3>
+                        <div class="idol-settings-form">
+                            <div class="idol-form-group">
+                                <label>API 地址</label>
+                                <input type="text" id="idol-api-url" value="${config.url || ""}" 
+                                       placeholder="https://api.example.com/v1">
+                                <small>支持格式：完整地址或基础地址（会自动补全 /chat/completions）<br>
+                                示例：https://api.openai.com/v1 或 https://gcli.ggchan.dev/v1</small>
+                            </div>
+                            <div class="idol-form-group">
+                                <label>API 密钥</label>
+                                <input type="password" id="idol-api-key" value="${config.key || ""}" 
+                                       placeholder="sk-...">
+                            </div>
+                            <div class="idol-form-group">
+                                <label>模型名称</label>
+                                <input type="text" id="idol-api-model" value="${config.model || ""}" 
+                                       placeholder="gpt-4">
+                            </div>
+                            <div class="idol-form-row">
+                                <div class="idol-form-group">
+                                    <label>Temperature</label>
+                                    <input type="number" id="idol-api-temp" value="${config.temperature || 0.8}" 
+                                           min="0" max="2" step="0.1">
+                                </div>
+                                <div class="idol-form-group">
+                                    <label>Max Tokens</label>
+                                    <input type="number" id="idol-api-tokens" value="${config.max_tokens || 2000}" 
+                                           min="100" max="8000" step="100">
+                                </div>
+                            </div>
+                            <button class="idol-btn idol-btn-primary" onclick="window.IdolSettings.saveApiConfig()">
+                                <i class="fa-solid fa-save"></i> 保存 API 配置
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 上下文配置 -->
+                    <div class="idol-settings-section">
+                        <h3><i class="fa-solid fa-comments"></i> 上下文配置</h3>
+                        <div class="idol-settings-form">
+                            <div class="idol-form-group">
+                                <label>读取消息数量</label>
+                                <input type="number" id="idol-context-count" value="${contextCount}" 
+                                       min="0" max="20" step="1">
+                                <small>生成内容时读取最近的N条消息作为上下文（默认3条，0表示不读取）</small>
+                            </div>
+                            <button class="idol-btn idol-btn-primary" onclick="window.IdolSettings.saveContextCount()">
+                                <i class="fa-solid fa-save"></i> 保存上下文配置
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 预设配置 -->
+                    <div class="idol-settings-section">
+                        <h3><i class="fa-solid fa-file-lines"></i> 预设配置</h3>
+                        
+                        <!-- 通告预设 -->
+                        <div class="idol-preset-block">
+                            <h4>通告生成预设</h4>
+                            <div class="idol-form-group">
+                                <label>System Prompt</label>
+                                <textarea id="idol-preset-contracts-system" rows="6" 
+                                          placeholder="请输入通告生成的系统提示词...">${presets.contracts.system || ""}</textarea>
+                            </div>
+                            <div class="idol-form-group">
+                                <label>User Prompt</label>
+                                <input type="text" id="idol-preset-contracts-user" 
+                                       value="${presets.contracts.userPrompt || ""}"
+                                       placeholder="请生成当前可用的通告列表">
+                            </div>
+                        </div>
+
+                        <!-- 商店预设 -->
+                        <div class="idol-preset-block">
+                            <h4>商店生成预设</h4>
+                            <div class="idol-form-group">
+                                <label>System Prompt</label>
+                                <textarea id="idol-preset-shop-system" rows="6" 
+                                          placeholder="请输入商店生成的系统提示词...">${presets.shop.system || ""}</textarea>
+                            </div>
+                            <div class="idol-form-group">
+                                <label>User Prompt</label>
+                                <input type="text" id="idol-preset-shop-user" 
+                                       value="${presets.shop.userPrompt || ""}"
+                                       placeholder="请生成当前商店的商品列表">
+                            </div>
+                        </div>
+
+                        <!-- 日报预设 -->
+                        <div class="idol-preset-block">
+                            <h4>日报生成预设</h4>
+                            <div class="idol-form-group">
+                                <label>System Prompt</label>
+                                <textarea id="idol-preset-news-system" rows="6" 
+                                          placeholder="请输入日报生成的系统提示词...">${presets.news.system || ""}</textarea>
+                            </div>
+                            <div class="idol-form-group">
+                                <label>User Prompt</label>
+                                <input type="text" id="idol-preset-news-user" 
+                                       value="${presets.news.userPrompt || ""}"
+                                       placeholder="请生成今日的娱乐新闻快报">
+                            </div>
+                        </div>
+
+                        <button class="idol-btn idol-btn-primary" onclick="window.IdolSettings.savePresets()">
+                            <i class="fa-solid fa-save"></i> 保存所有预设
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `;
+  }
+
+  /**
+   * 显示设置面板
+   */
+  function showSettings() {
+    // 移除旧的设置面板
+    const oldPanel = document.getElementById("idol-settings-overlay");
+    if (oldPanel) {
+      oldPanel.remove();
+    }
+
+    // 创建新的设置面板
+    const overlay = document.createElement("div");
+    overlay.id = "idol-settings-overlay";
+    overlay.className = "idol-settings-overlay";
+    overlay.innerHTML = createSettingsHTML();
+
+    document.body.appendChild(overlay);
+
+    // 点击遮罩关闭
+    overlay.addEventListener("click", function (e) {
+      if (e.target === overlay) {
+        closeSettings();
+      }
+    });
+  }
+
+  /**
+   * 关闭设置面板
+   */
+  function closeSettings() {
+    const overlay = document.getElementById("idol-settings-overlay");
+    if (overlay) {
+      overlay.remove();
+    }
+  }
+
+  /**
+   * 保存 API 配置
+   */
+  function saveApiConfig() {
+    const config = {
+      url: document.getElementById("idol-api-url").value.trim(),
+      key: document.getElementById("idol-api-key").value.trim(),
+      model: document.getElementById("idol-api-model").value.trim(),
+      temperature:
+        parseFloat(document.getElementById("idol-api-temp").value) || 0.8,
+      max_tokens:
+        parseInt(document.getElementById("idol-api-tokens").value) || 2000,
+    };
+
+    if (window.IdolApiService.saveApiConfig(config)) {
+      alert("API 配置已保存！");
+    } else {
+      alert("保存失败，请重试");
+    }
+  }
+
+  /**
+   * 保存上下文配置
+   */
+  function saveContextCount() {
+    const count =
+      parseInt(document.getElementById("idol-context-count").value) || 3;
+
+    if (window.IdolApiService.saveContextCount(count)) {
+      alert("上下文配置已保存！");
+    } else {
+      alert("保存失败，请重试");
+    }
+  }
+
+  /**
+   * 保存预设配置
+   */
+  function savePresets() {
+    const presets = {
+      contracts: {
+        name: "通告生成预设",
+        system: document
+          .getElementById("idol-preset-contracts-system")
+          .value.trim(),
+        userPrompt: document
+          .getElementById("idol-preset-contracts-user")
+          .value.trim(),
+      },
+      shop: {
+        name: "商店生成预设",
+        system: document.getElementById("idol-preset-shop-system").value.trim(),
+        userPrompt: document
+          .getElementById("idol-preset-shop-user")
+          .value.trim(),
+      },
+      news: {
+        name: "日报生成预设",
+        system: document.getElementById("idol-preset-news-system").value.trim(),
+        userPrompt: document
+          .getElementById("idol-preset-news-user")
+          .value.trim(),
+      },
+    };
+
+    if (window.IdolApiService.savePresets(presets)) {
+      alert("预设配置已保存！");
+    } else {
+      alert("保存失败，请重试");
+    }
+  }
+
+  // ========== 导出到全局 ==========
+
+  window.IdolSettings = {
+    showSettings,
+    closeSettings,
+    saveApiConfig,
+    saveContextCount,
+    savePresets,
+  };
+
+  console.info("[Idol Settings] 模块已加载");
+})();
