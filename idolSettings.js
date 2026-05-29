@@ -49,9 +49,9 @@
                                 <label>模型名称</label>
                                 <div class="idol-model-row">
                                     <input type="text" id="idol-api-model" value="${config.model || ""}" 
-                                           placeholder="gpt-4">
-                                    <select id="idol-model-select" class="idol-model-select" onchange="window.IdolSettings.onModelSelect()" style="display:none">
-                                        <option value="">-- 选择模型 --</option>
+                                           placeholder="gpt-4" style="display:none">
+                                    <select id="idol-model-select" class="idol-model-select" onchange="window.IdolSettings.onModelSelect()">
+                                        <option value="${config.model || ""}">${config.model || "-- 点击获取模型 --"}</option>
                                     </select>
                                 </div>
                                 <small id="idol-model-status"></small>
@@ -210,11 +210,14 @@
       });
 
       selectEl.style.display = "block";
+      document.getElementById("idol-api-model").style.display = "none";
       statusEl.textContent = `✅ 获取到 ${models.length} 个模型`;
       statusEl.style.color = "#4caf50";
     } catch (err) {
-      statusEl.textContent = `❌ 获取失败：${err.message}`;
+      statusEl.textContent = `❌ 获取失败，请手动输入模型名称`;
       statusEl.style.color = "#e94560";
+      document.getElementById("idol-api-model").style.display = "block";
+      selectEl.style.display = "none";
     } finally {
       btn.disabled = false;
       btn.innerHTML = '<i class="fa-solid fa-rotate"></i> 获取模型';
