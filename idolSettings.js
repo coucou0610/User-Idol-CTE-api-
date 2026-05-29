@@ -37,13 +37,24 @@
                             </div>
                             <div class="idol-form-group">
                                 <label>API 密钥</label>
-                                <input type="password" id="idol-api-key" value="${config.key || ""}" 
-                                       placeholder="sk-...">
+                                <div class="idol-api-key-row">
+                                    <input type="password" id="idol-api-key" value="${config.key || ""}" 
+                                           placeholder="sk-...">
+                                    <button class="idol-btn idol-btn-secondary idol-fetch-models-btn" onclick="window.IdolSettings.fetchModels()">
+                                        <i class="fa-solid fa-rotate"></i> 获取模型
+                                    </button>
+                                </div>
                             </div>
                             <div class="idol-form-group">
                                 <label>模型名称</label>
-                                <input type="text" id="idol-api-model" value="${config.model || ""}" 
-                                       placeholder="gpt-4">
+                                <div class="idol-model-row">
+                                    <input type="text" id="idol-api-model" value="${config.model || ""}" 
+                                           placeholder="gpt-4">
+                                    <select id="idol-model-select" class="idol-model-select" onchange="window.IdolSettings.onModelSelect()" style="display:none">
+                                        <option value="">-- 选择模型 --</option>
+                                    </select>
+                                </div>
+                                <small id="idol-model-status"></small>
                             </div>
                             <div class="idol-form-row">
                                 <div class="idol-form-group">
@@ -141,16 +152,93 @@
   }
 
   /**
+   * 获取可用模型列表
+   */
+  async function fetchModels() {
+    const url = document.getElementById("idol-api-url").value.trim();
+    const key = document.getElementById("idol-api-key").value.trim();
+    const statusEl = document.getElementById("idol-model-status");
+    const selectEl = document.getElementById("idol-model-select");
+    const btn = document.querySelector(".idol-fetch-models-btn");
+
+    if (!url || !key) {
+      statusEl.textContent = "⚠️ 请先填写 API 地址和密钥";
+      statusEl.style.color = "#f0a500";
+      return;
+    }
+
+    // 规范化 base URL
+    let baseUrl = url.replace(/\/chat\/completions\/?$/, "").replace(/\/$/, "");
+
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> 获取中...';
+    statusEl.textContent = "";
+    selectEl.style.display = "none";
+
+    try {
+      const res = await fetch(`${baseUrl}/models`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${key}`,
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!res.ok) {
+        throw new Error(`HTTP ${res.status}`);
+      }
+
+      const data = await res.json();
+      const models = (data.data || data.models || [])
+        .map((m) => (typeof m === "string" ? m : m.id))
+        .filter(Boolean)
+        .sort();
+
+      if (models.length === 0) {
+        throw new Error("未返回任何模型");
+      }
+
+      // 填充下拉列表
+      selectEl.innerHTML = '<option value="">-- 选择模型 --</option>';
+      const currentModel = document.getElementById("idol-api-model").value;
+      models.forEach((id) => {
+        const opt = document.createElement("option");
+        opt.value = id;
+        opt.textContent = id;
+        if (id === currentModel) opt.selected = true;
+        selectEl.appendChild(opt);
+      });
+
+      selectEl.style.display = "block";
+      statusEl.textContent = `✅ 获取到 ${models.length} 个模型`;
+      statusEl.style.color = "#4caf50";
+    } catch (err) {
+      statusEl.textContent = `❌ 获取失败：${err.message}`;
+      statusEl.style.color = "#e94560";
+    } finally {
+      btn.disabled = false;
+      btn.innerHTML = '<i class="fa-solid fa-rotate"></i> 获取模型';
+    }
+  }
+
+  /**
+   * 下拉选择模型时同步到输入框
+   */
+  function onModelSelect() {
+    const selectEl = document.getElementById("idol-model-select");
+    const inputEl = document.getElementById("idol-api-model");
+    if (selectEl.value) {
+      inputEl.value = selectEl.value;
+    }
+  }
+
+  /**
    * 显示设置面板
    */
   function showSettings() {
-    // 移除旧的设置面板
     const oldPanel = document.getElementById("idol-settings-overlay");
-    if (oldPanel) {
-      oldPanel.remove();
-    }
+    if (oldPanel) oldPanel.remove();
 
-    // 创建新的设置面板
     const overlay = document.createElement("div");
     overlay.id = "idol-settings-overlay";
     overlay.className = "idol-settings-overlay";
@@ -158,11 +246,8 @@
 
     document.body.appendChild(overlay);
 
-    // 点击遮罩关闭
     overlay.addEventListener("click", function (e) {
-      if (e.target === overlay) {
-        closeSettings();
-      }
+      if (e.target === overlay) closeSettings();
     });
   }
 
@@ -171,9 +256,7 @@
    */
   function closeSettings() {
     const overlay = document.getElementById("idol-settings-overlay");
-    if (overlay) {
-      overlay.remove();
-    }
+    if (overlay) overlay.remove();
   }
 
   /**
@@ -256,6 +339,8 @@
     saveApiConfig,
     saveContextCount,
     savePresets,
+    fetchModels,
+    onModelSelect,
   };
 
   console.info("[Idol Settings] 模块已加载");
