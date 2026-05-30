@@ -2040,10 +2040,11 @@
     color: #333;
     /* Ensure proper height in grid */
     height: auto;
-    min-height: 180px;
+    min-height: unset;
     max-width: 420px;
     display: flex;
     flex-direction: column;
+    padding: 12px 15px;
 }
 .cte-agency-item.hidden {
     display: none;
@@ -2076,7 +2077,7 @@
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    margin-bottom: 15px;
+    margin-bottom: 6px;
 }
 .cte-item-title-group {
     flex: 1;
@@ -2145,14 +2146,13 @@
 
 /* Item Requirements Grid */
 .cte-item-req-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2px 10px;
-    margin-bottom: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2px 12px;
+    margin-bottom: 6px;
     background: #fafafa;
-    padding: 6px;
+    padding: 4px 6px;
     border-radius: 2px;
-    flex: 1; /* Take up remaining space before footer */
 }
 .cte-item-req-row {
     display: flex;
@@ -2178,9 +2178,8 @@
     align-items: flex-start;
     font-size: 10px;
     border-top: 1px dashed #eee;
-    padding-top: 15px;
-    margin-top: auto; /* Push to bottom */
-    min-height: 50px; /* 确保有足够空间显示所有内容 */
+    padding-top: 8px;
+    margin-top: 6px;
 }
 .cte-item-footer > div {
     display: flex;
