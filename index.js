@@ -2853,7 +2853,7 @@
                 window.CTEIdolManager.refreshSchedule();
             }
             if (viewName === "manager") {
-                window.CTEIdolManager.renderRPGContent("agency");
+                window.CTEIdolManager.switchMainView("map", document.querySelector('.cte-left-nav-btn[data-view="map"]'));
             }
             if (viewName === "news") {
                 window.CTEIdolManager.renderRPGContent("news");
@@ -2879,6 +2879,57 @@
         }
     }, 500);
 
+
+
+    // ==========================================
+    // 统一左侧导航切换
+    // ==========================================
+    window.CTEIdolManager.switchMainView = function (viewName, btn) {
+        // 更新左侧按钮active状态
+        document.querySelectorAll(".cte-left-nav-btn").forEach(b => b.classList.remove("active"));
+        if (btn) btn.classList.add("active");
+
+        const contentArea = document.getElementById("cte-idol-content-area");
+        if (!contentArea) return;
+
+        // 地图和行程：切换视图div
+        if (viewName === "map" || viewName === "schedule") {
+            // 移除rpg容器（如果有）
+            const rpgContainer = contentArea.querySelector(".cte-idol-rpg-wrapper");
+            if (rpgContainer) rpgContainer.style.display = "none";
+
+            // 显示对应view
+            document.querySelectorAll(".cte-idol-view").forEach(v => v.classList.remove("active"));
+            const targetView = document.getElementById(`cte-idol-view-${viewName}`);
+            if (targetView) {
+                targetView.classList.add("active");
+                targetView.style.display = "block";
+            }
+
+            if (viewName === "schedule") {
+                window.CTEIdolManager.refreshSchedule();
+            }
+        } else {
+            // agency/courses/shop/news：显示RPG内容区
+            document.querySelectorAll(".cte-idol-view").forEach(v => {
+                v.classList.remove("active");
+                v.style.display = "none";
+            });
+
+            let rpgWrapper = contentArea.querySelector(".cte-idol-rpg-wrapper");
+            if (!rpgWrapper) {
+                rpgWrapper = document.createElement("div");
+                rpgWrapper.className = "cte-idol-rpg-wrapper";
+                rpgWrapper.style.cssText = "width:100%; height:100%; overflow-y:auto; padding:20px; box-sizing:border-box;";
+                contentArea.appendChild(rpgWrapper);
+            }
+            rpgWrapper.style.display = "block";
+
+            // 把rpg-content-area指向这里
+            rpgWrapper.id = "cte-idol-rpg-content-area";
+            window.CTEIdolManager.renderRPGContent(viewName);
+        }
+    };
 
     // ==========================================
     // 日夜模式切换
@@ -2988,20 +3039,43 @@
                 🗺️
             </div>
             <div id="cte-idol-map-panel" style="display:none;">
+                <!-- 顶部标题栏 -->
                 <div id="cte-idol-drag-handle">
                     <span>偶像养成系统</span>
                     <div class="cte-idol-nav-group">
-                        <button class="cte-idol-nav-btn active" onclick="window.CTEIdolManager.switchView('map', this)">地图</button>
-                        <button class="cte-idol-nav-btn" onclick="window.CTEIdolManager.switchView('schedule', this)">行程</button>
-                        <button class="cte-idol-nav-btn" onclick="window.CTEIdolManager.switchView('manager', this)">事务所</button>
                         <button class="idol-main-settings-btn" onclick="window.IdolSettings.showSettings()" title="独立API设置">
                             <i class="fa-solid fa-gear"></i> 设置
                         </button>
-                        <button id="cte-theme-toggle-btn" onclick="window.CTEIdolManager.toggleTheme()" title="切换日夜模式" style="background:transparent; border:none; cursor:pointer; font-size:16px; padding:4px 6px; color:inherit;">🌙</button>
                         <span id="cte-idol-close-btn" style="cursor:pointer; margin-left:10px;">❌</span>
                     </div>
                 </div>
-                <div id="cte-idol-content-area" style="position:relative; height:calc(100% - 40px);">Loading Map...</div>
+                <!-- 主体：左侧导航 + 右侧内容 -->
+                <div id="cte-idol-body" style="display:flex; height:calc(100% - 44px);">
+                    <!-- 左侧统一导航栏 -->
+                    <div id="cte-idol-left-nav">
+                        <button class="cte-left-nav-btn active" data-view="map" onclick="window.CTEIdolManager.switchMainView('map', this)" title="地图">
+                            <i class="fa-solid fa-map"></i>
+                        </button>
+                        <button class="cte-left-nav-btn" data-view="schedule" onclick="window.CTEIdolManager.switchMainView('schedule', this)" title="行程">
+                            <i class="fa-solid fa-calendar"></i>
+                        </button>
+                        <div class="cte-left-nav-divider"></div>
+                        <button class="cte-left-nav-btn" data-view="agency" onclick="window.CTEIdolManager.switchMainView('agency', this)" title="通告接洽">
+                            <i class="fa-solid fa-building"></i>
+                        </button>
+                        <button class="cte-left-nav-btn" data-view="courses" onclick="window.CTEIdolManager.switchMainView('courses', this)" title="课程培训">
+                            <i class="fa-solid fa-graduation-cap"></i>
+                        </button>
+                        <button class="cte-left-nav-btn" data-view="shop" onclick="window.CTEIdolManager.switchMainView('shop', this)" title="采购部">
+                            <i class="fa-solid fa-cart-shopping"></i>
+                        </button>
+                        <button class="cte-left-nav-btn" data-view="news" onclick="window.CTEIdolManager.switchMainView('news', this)" title="每日快报">
+                            <i class="fa-solid fa-newspaper"></i>
+                        </button>
+                    </div>
+                    <!-- 右侧内容区 -->
+                    <div id="cte-idol-content-area" style="position:relative; flex:1; overflow:hidden;">Loading Map...</div>
+                </div>
             </div>
         `;
         $("body").append(panelHTML);
@@ -3063,7 +3137,7 @@
 
             bindRPGEvents();
             window.CTEIdolManager.initTheme();
-            window.CTEIdolManager.renderRPGContent("agency");
+            window.CTEIdolManager.switchMainView("map", document.querySelector('.cte-left-nav-btn[data-view="map"]'));
         } catch (e) {
             console.error("[CTE Idol Map] Initialization Error:", e);
             const contentArea = document.getElementById(
@@ -3103,7 +3177,7 @@
                         if ($("#cte-idol-view-schedule").hasClass("active"))
                             window.CTEIdolManager.refreshSchedule();
                         if ($("#cte-idol-view-manager").hasClass("active")) {
-                            window.CTEIdolManager.renderRPGContent("agency");
+                            window.CTEIdolManager.switchMainView("map", document.querySelector('.cte-left-nav-btn[data-view="map"]'));
                         }
                     });
                 }
