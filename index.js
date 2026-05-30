@@ -2850,13 +2850,25 @@
 
         try {
             if (viewName === "schedule") {
-                window.CTEIdolManager.refreshSchedule();
-            }
-            if (viewName === "manager") {
+                window.CTEIdolManager.switchMainView("schedule", document.querySelector('.cte-left-nav-btn[data-view="schedule"]'));
+            } else if (viewName === "map") {
                 window.CTEIdolManager.switchMainView("map", document.querySelector('.cte-left-nav-btn[data-view="map"]'));
-            }
-            if (viewName === "news") {
-                window.CTEIdolManager.renderRPGContent("news");
+            } else if (viewName === "national-map") {
+                // 国家地图：直接切换view div
+                document.querySelectorAll(".cte-idol-view").forEach(v => {
+                    v.classList.remove("active");
+                    v.style.display = "none";
+                });
+                const rpgWrapper = document.querySelector(".cte-idol-rpg-wrapper");
+                if (rpgWrapper) rpgWrapper.style.display = "none";
+                const natView = document.getElementById("cte-idol-view-national-map");
+                if (natView) {
+                    natView.classList.add("active");
+                    natView.style.display = "block";
+                }
+                window.CTEIdolManager.initNationalMap();
+            } else if (viewName === "news") {
+                window.CTEIdolManager.switchMainView("news", document.querySelector('.cte-left-nav-btn[data-view="news"]'));
             }
         } catch (e) {
             console.error("[CTE Idol Map] Error switching view:", e);
@@ -3291,7 +3303,7 @@
                     document.onmouseup = null;
                     if (!hasMoved) {
                         if (city.isReturn) {
-                            window.CTEIdolManager.switchView("map");
+                            window.CTEIdolManager.switchMainView('map', document.querySelector('.cte-left-nav-btn[data-view="map"]'));
                         } else {
                             let html = `<h2><i class="fa-solid fa-scroll"></i> ${city.name} - 情报简报</h2><ul><li>${city.info}</li></ul>`;
                             html += `<div style="text-align:center; margin-top:15px; border-top:1px dashed #666; padding-top:10px;"><button class="cte-idol-btn" onclick="window.CTEIdolManager.openTravelMenu('${city.name}')" style="width:80%; padding:8px; background:#b38b59; color:#1a1a1a; font-weight:bold; font-size:14px;">🚀 前往 ${city.name}</button></div>`;
@@ -3503,7 +3515,7 @@
         window.CTEIdolManager.closeAllPopups();
         window.CTEIdolManager.tempScheduleParticipants = selected;
         window.CTEIdolManager.isSelectingForSchedule = true;
-        window.CTEIdolManager.switchView("map");
+        window.CTEIdolManager.switchMainView('map', document.querySelector('.cte-left-nav-btn[data-view="map"]'));
     };
 
     window.CTEIdolManager.openTravelMenu = function (destination) {
