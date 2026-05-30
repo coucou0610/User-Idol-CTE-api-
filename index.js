@@ -661,13 +661,7 @@
                             <i class="fa-solid fa-spinner fa-spin"></i> 正在生成通告...
                         </div>
 
-                        <div class="cte-agency-resource-bar">
-                            <div class="cte-agency-res-item">
-                                <i class="fa-solid fa-sack-dollar cte-agency-res-icon"></i>
-                                <span class="cte-agency-res-label">资金:</span>
-                                <span class="cte-agency-res-val">${funds}</span>
-                            </div>
-                        </div>
+
 
                         <div class="cte-agency-tabs">
                             <button class="cte-agency-tab-btn active" onclick="window.CTEIdolManager.Contracts.filter('all', this)">全部 / All</button>
@@ -1410,7 +1404,7 @@
                     <div class="cte-shop-card">
                         <header class="cte-shop-header">
                             <div class="cte-shop-title">
-                                <h1>CTE 采购中心</h1>
+                                <h1>采购部</h1>
                             </div>
                             <div class="cte-shop-meta">
                                 <div>物价仅供参考</div>
@@ -1425,15 +1419,7 @@
                             <i class="fa-solid fa-spinner fa-spin"></i> 正在生成商品...
                         </div>
 
-                        <div class="cte-shop-resource-bar">
-                            <div class="cte-shop-res-item">
-                                <i class="fa-solid fa-wallet cte-shop-res-icon"></i>
-                                <span class="cte-shop-res-label">预算 Budget:</span>
-                            </div>
-                            <div class="cte-shop-res-item">
-                                <span class="cte-shop-res-val">${funds}</span>
-                            </div>
-                        </div>
+
 
                         <!--
                            Requirement 3: Tab Container with Toggle Class Logic
