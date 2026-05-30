@@ -1857,7 +1857,21 @@
     margin: 0 0 2px 0;
     line-height: 1.2;
     color: #222;
-    display: inline-block; /* 允许和截止日期并排 */
+    display: block;
+}
+.cte-item-title-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: nowrap;
+    overflow: hidden;
+}
+.cte-item-title-row h3 {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 .cte-item-company {
     font-size: 10px;
@@ -1901,10 +1915,10 @@
 .cte-item-req-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 4px 10px;
-    margin-bottom: 18px;
+    gap: 2px 10px;
+    margin-bottom: 10px;
     background: #fafafa;
-    padding: 8px;
+    padding: 6px;
     border-radius: 2px;
     flex: 1; /* Take up remaining space before footer */
 }
