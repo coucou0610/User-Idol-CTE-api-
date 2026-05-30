@@ -56,8 +56,8 @@
     // RPG 数据状态
     window.CTEIdolManager.RPG = {
         state: {
-            funds: 2450000,
-            fans: 824000,
+            funds: -2000000,
+            fans: 300000,
             morale: "High",
             futureLog: [],
             activeTasks: [],
@@ -467,8 +467,10 @@
             const attrs = [
                 { key: "歌艺", label: "歌艺", val: "-" },
                 { key: "舞蹈", label: "舞蹈", val: "-" },
-                { key: "口才", label: "口才", val: "-" },
-                { key: "表演", label: "表演", val: "-" },
+                { key: "演技", label: "演技", val: "-" },
+                { key: "魅力", label: "魅力", val: "-" },
+                { key: "气质", label: "气质", val: "-" },
+                { key: "体能", label: "体能", val: "-" },
             ];
             if (!attrString || attrString === "-") return attrs;
             const cleanStr = attrString.replace(/，/g, ",").replace(/\//g, "/");
@@ -2696,13 +2698,21 @@
                                 profile.rpgStats.dance = parseInt(
                                     charData["舞蹈"],
                                 );
-                            if (charData["口才"] !== undefined)
-                                profile.rpgStats.eloquence = parseInt(
-                                    charData["口才"],
-                                );
-                            if (charData["表演"] !== undefined)
+                            if (charData["演技"] !== undefined)
                                 profile.rpgStats.acting = parseInt(
-                                    charData["表演"],
+                                    charData["演技"],
+                                );
+                            if (charData["魅力"] !== undefined)
+                                profile.rpgStats.charm = parseInt(
+                                    charData["魅力"],
+                                );
+                            if (charData["气质"] !== undefined)
+                                profile.rpgStats.grace = parseInt(
+                                    charData["气质"],
+                                );
+                            if (charData["体能"] !== undefined)
+                                profile.rpgStats.stamina = parseInt(
+                                    charData["体能"],
                                 );
                             if (charData["欲望"] !== undefined)
                                 profile.status.desire = parseInt(
@@ -2783,12 +2793,22 @@
                                 </div>
                                 <div class="cte-idol-rpg-stat-row" style="margin-top: 5px;">
                                     <div class="cte-idol-rpg-stat-bar-container">
-                                        <div class="label" style="display:flex; justify-content:space-between;"><span>口才</span> <span>${stats.eloquence}</span></div>
-                                        <div class="bar-bg"><div class="bar-fill" style="width:${Math.min(100, stats.eloquence)}%; background:#8ec565;"></div></div>
+                                        <div class="label" style="display:flex; justify-content:space-between;"><span>演技</span> <span>${stats.acting || 0}</span></div>
+                                        <div class="bar-bg"><div class="bar-fill" style="width:${Math.min(100, stats.acting || 0)}%; background:#8ec565;"></div></div>
                                     </div>
                                     <div class="cte-idol-rpg-stat-bar-container">
-                                        <div class="label" style="display:flex; justify-content:space-between;"><span>表演</span> <span>${stats.acting}</span></div>
-                                        <div class="bar-bg"><div class="bar-fill" style="width:${Math.min(100, stats.acting)}%; background:#8ec565;"></div></div>
+                                        <div class="label" style="display:flex; justify-content:space-between;"><span>魅力</span> <span>${stats.charm || 0}</span></div>
+                                        <div class="bar-bg"><div class="bar-fill" style="width:${Math.min(100, stats.charm || 0)}%; background:#8ec565;"></div></div>
+                                    </div>
+                                </div>
+                                <div class="cte-idol-rpg-stat-row" style="margin-top: 5px;">
+                                    <div class="cte-idol-rpg-stat-bar-container">
+                                        <div class="label" style="display:flex; justify-content:space-between;"><span>气质</span> <span>${stats.grace || 0}</span></div>
+                                        <div class="bar-bg"><div class="bar-fill" style="width:${Math.min(100, stats.grace || 0)}%; background:#8ec565;"></div></div>
+                                    </div>
+                                    <div class="cte-idol-rpg-stat-bar-container">
+                                        <div class="label" style="display:flex; justify-content:space-between;"><span>体能</span> <span>${stats.stamina || 0}</span></div>
+                                        <div class="bar-bg"><div class="bar-fill" style="width:${Math.min(100, stats.stamina || 0)}%; background:#8ec565;"></div></div>
                                     </div>
                                 </div>
                                 <div class="cte-idol-rpg-stat-row" style="margin-top: 5px;">
