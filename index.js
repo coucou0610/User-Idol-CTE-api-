@@ -2898,8 +2898,11 @@
             const rpgContainer = contentArea.querySelector(".cte-idol-rpg-wrapper");
             if (rpgContainer) rpgContainer.style.display = "none";
 
-            // 显示对应view
-            document.querySelectorAll(".cte-idol-view").forEach(v => v.classList.remove("active"));
+            // 隐藏所有view并显示目标
+            document.querySelectorAll(".cte-idol-view").forEach(v => {
+                v.classList.remove("active");
+                v.style.display = "none";
+            });
             const targetView = document.getElementById(`cte-idol-view-${viewName}`);
             if (targetView) {
                 targetView.classList.add("active");
