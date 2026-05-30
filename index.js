@@ -588,8 +588,8 @@
                     <div class="cte-item-stamp">AUTHORIZED</div>
                     <div class="cte-item-header">
                         <div class="cte-item-title-group">
-                            <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 8px;">
-                                <h3 style="margin: 0; flex: 1; min-width: 0;">${data.name}</h3>
+                            <div class="cte-item-title-row">
+                                <h3>${data.name}</h3>
                                 ${deadlineHtml ? `<div style="flex-shrink: 0; white-space: nowrap;">${deadlineHtml}</div>` : ""}
                             </div>
                             <div class="cte-item-company">${data.company}</div>
@@ -2610,39 +2610,20 @@
 
         let statDataRaw = null;
         try {
-            const extVars = ST.extension_settings?.variables;
-            if (extVars) {
-                if (extVars.global && extVars.global["stat_data"])
-                    statDataRaw = extVars.global["stat_data"];
-                else if (extVars.local && extVars.local["stat_data"])
-                    statDataRaw = extVars.local["stat_data"];
+            // MVU 把变量存在 chat_metadata.variables 里
+            const ctx = ST.getContext ? ST.getContext() : stContext;
+            const meta = ctx?.chatMetadata || ctx?.chat_metadata;
+            if (meta?.variables) {
+                statDataRaw = meta.variables;
+            }
+            // 兜底：也尝试 extension_settings
+            if (!statDataRaw) {
+                const extVars = ST.extension_settings?.variables;
+                if (extVars?.global) statDataRaw = extVars.global;
+                else if (extVars?.local) statDataRaw = extVars.local;
             }
         } catch (e) {
-            console.warn("[CTE Idol] Error reading ext settings:", e);
-        }
-
-        if (!statDataRaw && stContext && stContext.chat) {
-            const chat = stContext.chat;
-            for (let i = chat.length - 1; i >= 0; i--) {
-                const msg = chat[i];
-                const vars = msg.variables || (msg.data && msg.data.variables);
-                if (vars) {
-                    if (
-                        typeof vars === "object" &&
-                        !Array.isArray(vars) &&
-                        vars["stat_data"]
-                    ) {
-                        statDataRaw = vars["stat_data"];
-                        break;
-                    } else if (Array.isArray(vars)) {
-                        const found = vars.find((v) => v && v["stat_data"]);
-                        if (found) {
-                            statDataRaw = found["stat_data"];
-                            break;
-                        }
-                    }
-                }
-            }
+            console.warn("[CTE Idol] Error reading MVU stats:", e);
         }
 
         if (statDataRaw) {
@@ -2652,35 +2633,17 @@
                         ? JSON.parse(statDataRaw)
                         : statDataRaw;
 
-                if (statData.Management && statData.Management["CTE经营组"]) {
-                    const cteGroup = statData.Management["CTE经营组"];
-                    if (cteGroup["资金"] !== undefined) {
-                        const fundsStr = String(cteGroup["资金"]).replace(
-                            /,/g,
-                            "",
-                        );
+                // 从 MVU 变量结构读取：玩家状态.属性
+                const playerAttrs = statData?.玩家状态?.属性;
+                if (playerAttrs) {
+                    if (playerAttrs["资产"] !== undefined) {
                         window.CTEIdolManager.RPG.state.funds =
-                            parseInt(fundsStr, 10) || 0;
+                            parseInt(String(playerAttrs["资产"]).replace(/,/g, ""), 10) || 0;
                     }
-                    if (cteGroup["粉丝"] !== undefined) {
-                        const fansStr = String(cteGroup["粉丝"]).replace(
-                            /,/g,
-                            "",
-                        );
+                    if (playerAttrs["粉丝数"] !== undefined) {
                         window.CTEIdolManager.RPG.state.fans =
-                            parseInt(fansStr, 10) || 0;
+                            parseInt(String(playerAttrs["粉丝数"]).replace(/,/g, ""), 10) || 0;
                     }
-
-                    if (cteGroup["待办"])
-                        window.CTEIdolManager.RPG.state.futureLog =
-                            Array.isArray(cteGroup["待办"])
-                                ? cteGroup["待办"]
-                                : [cteGroup["待办"]];
-                    if (cteGroup["现有通告"])
-                        window.CTEIdolManager.RPG.state.activeTasks =
-                            Array.isArray(cteGroup["现有通告"])
-                                ? cteGroup["现有通告"]
-                                : [cteGroup["现有通告"]];
                 }
 
                 if (statData && statData.MainCharacters) {
