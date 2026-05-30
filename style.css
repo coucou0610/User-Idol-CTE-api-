@@ -1,3 +1,70 @@
+/* ================================================
+   日夜模式颜色变量系统
+   ================================================ */
+
+/* 浅色模式（默认） */
+:root,
+#cte-idol-map-panel.cte-theme-light {
+    --cte-bg-panel:        #f5f0e8;
+    --cte-bg-header:       #ede8df;
+    --cte-bg-content:      #f5f0e8;
+    --cte-bg-sidebar:      #e8e2d8;
+    --cte-bg-hud:          #ede8df;
+
+    --cte-border-main:     #c8a87a;
+    --cte-border-subtle:   rgba(180, 140, 90, 0.3);
+    --cte-border-header:   #c8a87a;
+
+    --cte-text-primary:    #2a1f14;
+    --cte-text-secondary:  #7a6a55;
+    --cte-text-nav:        #9a8a75;
+    --cte-text-nav-active: #2a1f14;
+    --cte-text-logo:       #c8a87a;
+    --cte-text-hud:        #5a4a35;
+
+    --cte-accent:          #b03050;
+    --cte-accent-gold:     #c8a87a;
+    --cte-accent-gold-glow: rgba(200, 168, 122, 0.15);
+
+    --cte-nav-active-border: #b03050;
+    --cte-sidebar-icon:    #9a8a75;
+    --cte-sidebar-icon-active: #c8a87a;
+    --cte-sidebar-icon-bg:  rgba(0,0,0,0.05);
+
+    --cte-shadow:          0 0 40px rgba(0,0,0,0.25);
+}
+
+/* 深色模式 */
+#cte-idol-map-panel.cte-theme-dark {
+    --cte-bg-panel:        #1e1a16;
+    --cte-bg-header:       #252018;
+    --cte-bg-content:      #1e1a16;
+    --cte-bg-sidebar:      #191510;
+    --cte-bg-hud:          #252018;
+
+    --cte-border-main:     #b38b59;
+    --cte-border-subtle:   rgba(179, 139, 89, 0.2);
+    --cte-border-header:   #b38b59;
+
+    --cte-text-primary:    #f0e6d3;
+    --cte-text-secondary:  #a09080;
+    --cte-text-nav:        #888;
+    --cte-text-nav-active: #e0c5a1;
+    --cte-text-logo:       #c5a065;
+    --cte-text-hud:        #e0c5a1;
+
+    --cte-accent:          #e04060;
+    --cte-accent-gold:     #c5a065;
+    --cte-accent-gold-glow: rgba(197, 160, 101, 0.2);
+
+    --cte-nav-active-border: #b38b59;
+    --cte-sidebar-icon:    #555;
+    --cte-sidebar-icon-active: #c5a065;
+    --cte-sidebar-icon-bg:  rgba(255,255,255,0.05);
+
+    --cte-shadow:          0 0 50px rgba(0,0,0,0.9);
+}
+
 /* --- 扩展面板容器 --- */
 #cte-idol-map-panel {
     position: fixed;
@@ -5,39 +72,40 @@
     left: 50%;
     transform: translate(-50%, -50%);
 
-    /* 默认桌面端样式 */
-    width: 95%; /* 默认占屏幕宽度的 95% */
-    max-width: 1000px; /* 最大不超过 1000px，确保能容纳下 950px 的子卡片 */
+    width: 95%;
+    max-width: 1000px;
     height: 85vh;
     max-height: 900px;
 
-    background: #1a1a1a;
-    border: 2px solid #b38b59;
+    background: var(--cte-bg-panel);
+    border: 1.5px solid var(--cte-border-main);
     z-index: 20000;
     display: none;
-    box-shadow: 0 0 50px rgba(0, 0, 0, 0.9);
-    border-radius: 8px;
+    box-shadow: var(--cte-shadow);
+    border-radius: 4px;
     overflow: hidden;
     font-family: "Noto Serif SC", "Cormorant Garamond", serif;
+    transition: background 0.3s ease, border-color 0.3s ease;
 }
 
 /* 顶部标题栏 */
 #cte-idol-drag-handle {
     width: 100%;
-    height: 40px;
-    background: #242424;
+    height: 44px;
+    background: var(--cte-bg-header);
     cursor: default;
     display: flex;
-    justify-content: space-between; /* 改为两端对齐 */
+    justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid #b38b59;
-    color: #e0c5a1;
+    border-bottom: 1px solid var(--cte-border-header);
+    color: var(--cte-text-hud);
     font-weight: bold;
     flex-shrink: 0;
     position: relative;
     z-index: 20003;
-    padding: 0 15px; /* 增加内边距 */
+    padding: 0 15px;
     box-sizing: border-box;
+    transition: background 0.3s ease;
 }
 
 /* 顶部导航按钮组 */
@@ -49,30 +117,32 @@
 .cte-idol-nav-btn {
     background: transparent;
     border: none;
-    color: #888;
+    color: var(--cte-text-nav);
     cursor: pointer;
     font-family: "Noto Serif SC", serif;
     font-size: 14px;
     padding: 4px 8px;
+    letter-spacing: 0.05em;
     transition: all 0.3s;
 }
 
 .cte-idol-nav-btn.active {
-    color: #e0c5a1;
-    border-bottom: 2px solid #b38b59;
+    color: var(--cte-text-nav-active);
+    border-bottom: 2px solid var(--cte-nav-active-border);
 }
 
 .cte-idol-nav-btn:hover {
-    color: #e0c5a1;
+    color: var(--cte-text-nav-active);
 }
 
 /* 内容区域 */
 #cte-idol-content-area {
-    height: calc(100% - 40px);
+    height: calc(100% - 44px);
     width: 100%;
-    position: relative; /* 改为 relative 以便绝对定位子视图 */
-    overflow: hidden; /* 隐藏溢出，由子视图处理滚动 */
-    background-color: #1a1a1a;
+    position: relative;
+    overflow: hidden;
+    background-color: var(--cte-bg-content);
+    transition: background 0.3s ease;
 }
 
 /* 视图容器 (地图/行程表) */
@@ -1168,41 +1238,43 @@
     width: 100%;
     height: 100%;
     display: flex;
-    background: #0d0d0d;
+    background: var(--cte-bg-content);
     font-family: "Inter", sans-serif;
-    color: #f9f1d8;
+    color: var(--cte-text-primary);
+    transition: background 0.3s ease;
 }
 
 /* RPG Sidebar */
 .cte-idol-rpg-sidebar {
     width: 60px;
-    background: #121212;
-    border-right: 1px solid rgba(212, 175, 55, 0.2);
+    background: var(--cte-bg-sidebar);
+    border-right: 1px solid var(--cte-border-subtle);
     display: flex;
     flex-direction: column;
     align-items: center;
     padding-top: 15px;
     gap: 15px;
     flex-shrink: 0;
+    transition: background 0.3s ease;
 }
 
 .cte-idol-rpg-logo {
     width: 36px;
     height: 36px;
-    border: 1px solid #c5a065;
+    border: 1px solid var(--cte-accent-gold);
     transform: rotate(45deg);
     display: flex;
     align-items: center;
     justify-content: center;
     margin-bottom: 20px;
-    box-shadow: 0 0 8px rgba(197, 160, 101, 0.2);
+    box-shadow: 0 0 8px var(--cte-accent-gold-glow);
 }
 
 .cte-idol-rpg-logo span {
     transform: rotate(-45deg);
     font-family: "Cormorant Garamond", serif;
     font-weight: bold;
-    color: #c5a065;
+    color: var(--cte-text-logo);
     font-size: 18px;
 }
 
@@ -1211,7 +1283,7 @@
     height: 40px;
     background: transparent;
     border: none;
-    color: #555;
+    color: var(--cte-sidebar-icon);
     font-size: 18px;
     cursor: pointer;
     transition: all 0.2s;
@@ -1220,8 +1292,8 @@
 
 .cte-idol-rpg-nav-btn:hover,
 .cte-idol-rpg-nav-btn.active {
-    color: #c5a065;
-    background: rgba(255, 255, 255, 0.05);
+    color: var(--cte-sidebar-icon-active);
+    background: var(--cte-sidebar-icon-bg);
 }
 
 /* RPG Main */
@@ -1234,13 +1306,14 @@
 
 .cte-idol-rpg-hud {
     height: 50px;
-    background: rgba(0, 0, 0, 0.5);
-    border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+    background: var(--cte-bg-hud);
+    border-bottom: 1px solid var(--cte-border-subtle);
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 0 20px;
     flex-shrink: 0;
+    transition: background 0.3s ease;
 }
 
 .cte-idol-rpg-res-group {
