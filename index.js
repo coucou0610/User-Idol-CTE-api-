@@ -1409,17 +1409,8 @@
                             <div class="cte-shop-meta">
                                 <div>物价仅供参考</div>
                                 <div>STATUS: ACTIVE</div>
-                                <button class="idol-generate-btn" onclick="window.CTEIdolManager.Shop.generateShop()" id="shop-generate-btn">
-                                    <i class="fa-solid fa-wand-magic-sparkles"></i> 刷新商品
-                                </button>
                             </div>
                         </header>
-
-                        <div id="shop-loading" style="display:none; padding:20px; text-align:center; color:#e94560;">
-                            <i class="fa-solid fa-spinner fa-spin"></i> 正在生成商品...
-                        </div>
-
-
 
                         <!--
                            Requirement 3: Tab Container with Toggle Class Logic
@@ -1433,9 +1424,14 @@
                             ${itemsHtml}
                         </div>
 
-                        <div style="margin-top: auto; padding-top:10px; opacity:0.6; font-size:9px; display:flex; justify-content:space-between; border-top: 1px solid #ddd;">
-                            <span>在酒馆输入框中发送"查看商店"</span>
-                            <span>即可刷新</span>
+                        <div style="margin-top: auto; padding-top:10px; font-size:9px; display:flex; justify-content:space-between; align-items:center; border-top: 1px solid #ddd; flex-shrink:0;">
+                            <button class="idol-generate-btn" onclick="window.CTEIdolManager.Shop.generateShop()" id="shop-generate-btn">
+                                <i class="fa-solid fa-wand-magic-sparkles"></i> 刷新商品
+                            </button>
+                            <div id="shop-loading" style="display:none; color:#e94560; font-size:12px;">
+                                <i class="fa-solid fa-spinner fa-spin"></i> 正在生成商品...
+                            </div>
+                            <span style="opacity:0.6;">即可刷新</span>
                         </div>
                     </div>
                 </div>
