@@ -3058,9 +3058,6 @@
                 <div id="cte-idol-drag-handle">
                     <span>偶像养成系统</span>
                     <div class="cte-idol-nav-group">
-                        <button class="idol-main-settings-btn" onclick="window.IdolSettings.showSettings()" title="独立API设置">
-                            <i class="fa-solid fa-gear"></i> 设置
-                        </button>
                         <span id="cte-idol-close-btn" style="cursor:pointer; margin-left:10px;">❌</span>
                     </div>
                 </div>
@@ -3086,6 +3083,10 @@
                         </button>
                         <button class="cte-left-nav-btn" data-view="news" onclick="window.CTEIdolManager.switchMainView('news', this)" title="每日快报">
                             <i class="fa-solid fa-newspaper"></i>
+                        </button>
+                        <div class="cte-left-nav-divider"></div>
+                        <button class="cte-left-nav-btn" onclick="window.IdolSettings.showSettings()" title="设置">
+                            <i class="fa-solid fa-gear"></i>
                         </button>
                     </div>
                     <!-- 右侧内容区 -->
