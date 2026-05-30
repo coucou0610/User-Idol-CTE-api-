@@ -2368,7 +2368,7 @@
                     <div class="archive-card" id="cte-news-main-card">
                         <header class="header-section">
                             <div class="header-title">
-                                <h1 title="在正文中发送 刷新日报 即可更新" onclick="window.CTEIdolManager.renderRPGContent('news')">CTE Entertainment Daily</h1>
+                                <h1 title="在正文中发送 刷新日报 即可更新" onclick="window.CTEIdolManager.renderRPGContent('news')">京港娱乐日报</h1>
                             </div>
                             <div class="header-meta">
                                 <div>每日快报</div>
@@ -2386,7 +2386,7 @@
 
                         <div class="sentiment-bar">
                             <div class="sent-item">
-                                <span class="sent-label">CTE 舆论风向</span>
+                                <span class="sent-label">艺人舆论风向</span>
                                 <span class="sent-value trend-up">POSITIVE ▲ High</span>
                             </div>
                             <div class="sent-item">
@@ -2395,7 +2395,7 @@
                             </div>
                             <div class="sent-item">
                                 <span class="sent-label">今日热词 Key Words</span>
-                                <span class="sent-value">#CTE #回归 #八卦</span>
+                                <span class="sent-value">#偶像 #娱乐圈 #今日头条</span>
                             </div>
                         </div>
 
