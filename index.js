@@ -2314,10 +2314,7 @@
                     i.type.includes("头条") ||
                     i.type.toLowerCase().includes("headline"),
             );
-            if (!headline && items.length > 0) {
-                // 兜底：直接用第一条
-                headline = items[0];
-            }
+            // 没有头条时不兜底，左栏显示空状态
 
             // 中栏：热搜 + 竞品
             const midItems = items.filter(
