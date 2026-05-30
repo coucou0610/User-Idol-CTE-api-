@@ -1,8 +1,8 @@
 {
-  "display_name": "User-Idol-CTE-api-",
-  "author": "coucou0610",
+  "display_name": "CTE-Map-Idol-Manager",
+  "author": "JLYANG1900",
   "version": "1.0.0",
-  "description": "京港市虚拟地图扩展 - 档案风格重制版。包含地图导航、行程表、事务所管理系统。",
+  "description": "京港市虚拟地图扩展 - 档案风格重制版。包含地图导航、行程表、偶像事务所管理与亲密互动系统。",
   "js": "index.js",
   "css": "style.css",
   "html": "map.html"
