@@ -1915,7 +1915,7 @@
           <div class="cte-courses-stats-bar">
             ${[
               {key:'vocal', label:'歌艺', icon:'fa-microphone', color:'#FF6B9D'},
-              {key:'dance', label:'舞蹈', icon:'fa-person-dancing', color:'#4ECDC4'},
+              {key:'dance', label:'舞蹈', icon:'fa-music', color:'#4ECDC4'},
               {key:'acting', label:'演技', icon:'fa-masks-theater', color:'#A8E6CF'},
               {key:'charm', label:'魅力', icon:'fa-star', color:'#FFD93D'},
               {key:'grace', label:'气质', icon:'fa-crown', color:'#C9A0DC'},
@@ -1936,22 +1936,15 @@
                 .map(
                     ([key, course]) => `
               <div class="cte-course-card" data-course="${key}" onclick="window.CTEIdolManager.Courses.selectCourse('${key}')">
-                <div class="cte-course-icon" style="background: ${course.color}; flex-direction: column; gap: 4px;">
+                <div class="cte-course-icon" style="background: ${course.color};">
                   <i class="fa-solid ${course.icon}"></i>
-                  <span class="cte-course-icon-stat">${(() => { const attrMap = {vocal:'歌艺',dance:'舞蹈',acting:'演技',charm:'魅力',grace:'气质',stamina:'体能'}; const stateKey = Object.entries(attrMap).find(([k,v]) => v === course.attributeName)?.[0]; const val = stateKey ? window.CTEIdolManager.RPG.state[stateKey] : undefined;
-                                    const val2Key = Object.entries(attrMap).find(([k,v]) => v === course.attributeName2)?.[0];
-                                    const val2 = val2Key ? window.CTEIdolManager.RPG.state[val2Key] : undefined;
-                                    const v1 = (val !== undefined && val !== null) ? val : '-';
-                                    const v2 = (val2 !== undefined && val2 !== null) ? val2 : '';
-                                    return v2 ? v1 + '/' + v2 : v1; })()}</span>
                 </div>
                 <div class="cte-course-info">
                   <h3>${course.name}</h3>
                   <div class="cte-course-details">
                     <div class="cte-course-attr">
-                      <i class="fa-solid fa-arrow-up" style="color:#4caf50;"></i>
-                      <span>${course.attributeName} ↑${course.increment2 > 0 ? '' : '↑'}</span>
-                      ${course.attributeName2 ? `<span style="margin-left:6px; color:#aaa;">${course.attributeName2} ↑</span>` : ''}
+                      <span>${course.attributeName} <span style="color:#4caf50;">${course.increment2 > 0 ? '↑' : '↑↑'}</span></span>
+                      ${course.attributeName2 ? `<span style="margin-left:8px;">${course.attributeName2} <span style="color:#4caf50;">↑</span></span>` : ''}
                     </div>
                     <div class="cte-course-price">
                       <i class="fa-solid fa-coins"></i>
