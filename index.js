@@ -3185,6 +3185,8 @@
                             let html = `<h2><i class="fa-solid fa-scroll"></i> ${city.name} - 情报简报</h2><ul><li>${city.info}</li></ul>`;
                             html += `<div style="text-align:center; margin-top:15px; border-top:1px dashed #666; padding-top:10px;"><button class="cte-idol-btn" onclick="window.CTEIdolManager.openTravelMenu('${city.name}')" style="width:80%; padding:8px; background:#b38b59; color:#1a1a1a; font-weight:bold; font-size:14px;">🚀 前往 ${city.name}</button></div>`;
                             infoContent.innerHTML = html;
+                            // 自动滚动到信息面板
+                            infoContent.scrollIntoView({ behavior: "smooth", block: "nearest" });
                         }
                     } else {
                         saveNationalPosition(
