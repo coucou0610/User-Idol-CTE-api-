@@ -1939,17 +1939,19 @@
                   <div class="cte-course-details">
                     <div class="cte-course-attr">
                       <span>${course.attributeName} <span style="color:#4caf50;">${course.increment2 > 0 ? '↑' : '↑↑'}</span></span>
-                      ${course.attributeName2 ? `<span style="margin-left:8px;">${course.attributeName2} <span style="color:#4caf50;">↑</span></span>` : ''}
-                    </div>
-                    <div class="cte-course-price">
-                      <i class="fa-solid fa-coins"></i>
-                      <span>¥${course.price.toLocaleString()}</span>
+                      ${course.attributeName2 ? `<span style="margin-left:6px;">${course.attributeName2} <span style="color:#4caf50;">↑</span></span>` : ''}
                     </div>
                   </div>
                 </div>
-                <button class="cte-course-select-btn">
-                  <i class="fa-solid fa-plus"></i> 选择课程
-                </button>
+                <div class="cte-course-right">
+                  <div class="cte-course-price">
+                    <i class="fa-solid fa-coins"></i>
+                    <span>¥${course.price.toLocaleString()}</span>
+                  </div>
+                  <button class="cte-course-select-btn" onclick="event.stopPropagation(); window.CTEIdolManager.Courses.selectCourse('${key}')">
+                    选择
+                  </button>
+                </div>
               </div>
             `,
                 )
