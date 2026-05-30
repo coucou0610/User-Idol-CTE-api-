@@ -269,7 +269,7 @@
           model: config.model,
           messages: messages,
           temperature: config.temperature || 0.8,
-          max_tokens: config.max_tokens || 2000,
+          max_tokens: config.max_tokens || 3000,
           stream: false,
         }),
         signal: currentAbortController.signal,
