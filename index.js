@@ -2138,7 +2138,7 @@
             const totalCost = members.length * course.price;
 
             // 生成输出文本
-            const text = `秦述为{{user}}安排了${dateInfo.name}${timeInfo.name}的公司${course.name}，花费 ¥${course.price.toLocaleString()}。`;
+            const text = `你报了${dateInfo.name}${timeInfo.name}的公司${course.name}，花费 ¥${course.price.toLocaleString()}。`;
 
             // 发送到输入框
             if (typeof stContext !== "undefined" && stContext) {
