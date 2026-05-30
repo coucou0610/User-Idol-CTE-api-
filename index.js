@@ -1551,7 +1551,6 @@
             const tabs = [
                 { k: "all", l: "All" },
                 { k: "marketing", l: "营销 PR" },
-                { k: "training", l: "课程 Edu" },
                 { k: "staff", l: "团队 Staff" },
                 { k: "fan", l: "粉丝 Fan" },
                 { k: "travel", l: "旅游 Travel" },
@@ -1908,7 +1907,7 @@
             },
             choreography: {
                 name: "编舞创作",
-                icon: "fa-person-dancing",
+                icon: "fa-music",
                 color: "#5C8374",
                 attribute: "dance",
                 attributeName: "舞蹈",
@@ -2028,9 +2027,9 @@
                   <h3>${course.name}</h3>
                   <div class="cte-course-details">
                     <div class="cte-course-attr">
-                      <span>${course.increment3 > 0 ? course.attributeName + ' <span style="color:#4caf50;">↑</span>' : course.attributeName + ' <span style="color:#4caf50;">' + (course.increment2 > 0 ? '↑' : '↑↑') + '</span>'}</span>
-                      ${course.attributeName2 ? `<span style="margin-left:6px;">${course.attributeName2} <span style="color:#4caf50;">↑</span></span>` : ''}
-                      ${course.attributeName3 ? `<span style="margin-left:6px;">${course.attributeName3} <span style="color:#4caf50;">↑</span></span>` : ''}
+                      <span>${course.attributeName} <span style="color:#4caf50;">${'↑'.repeat(course.increment)}</span></span>
+                      ${course.attributeName2 ? `<span style="margin-left:6px;">${course.attributeName2} <span style="color:#4caf50;">${'↑'.repeat(course.increment2)}</span></span>` : ''}
+                      ${course.attributeName3 ? `<span style="margin-left:6px;">${course.attributeName3} <span style="color:#4caf50;">${'↑'.repeat(course.increment3)}</span></span>` : ''}
                     </div>
                   </div>
                 </div>
