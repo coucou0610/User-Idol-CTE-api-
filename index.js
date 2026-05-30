@@ -2314,7 +2314,10 @@
                     i.type.includes("头条") ||
                     i.type.toLowerCase().includes("headline"),
             );
-            if (!headline && items.length > 0) headline = items[0];
+            if (!headline && items.length > 0) {
+                // 兜底：直接用第一条
+                headline = items[0];
+            }
 
             // 中栏：热搜 + 竞品
             const midItems = items.filter(
