@@ -588,9 +588,9 @@
                     <div class="cte-item-stamp">AUTHORIZED</div>
                     <div class="cte-item-header">
                         <div class="cte-item-title-group">
-                            <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
-                                <h3>${data.name}</h3>
-                                ${deadlineHtml ? `<div style="flex-shrink: 0;">${deadlineHtml}</div>` : ""}
+                            <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 8px;">
+                                <h3 style="margin: 0; flex: 1; min-width: 0;">${data.name}</h3>
+                                ${deadlineHtml ? `<div style="flex-shrink: 0; white-space: nowrap;">${deadlineHtml}</div>` : ""}
                             </div>
                             <div class="cte-item-company">${data.company}</div>
                         </div>
