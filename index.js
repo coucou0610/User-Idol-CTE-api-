@@ -2533,7 +2533,7 @@
 
         for (let i = context.chat.length - 1; i >= 0; i--) {
             const msg = context.chat[i].mes || "";
-            const match = msg.match(/<status_top>([\s\S]*?)<\/status_top>/i);
+            const match = msg.match(/<status_bar>([\s\S]*?)<\/status_bar>/i);
             if (match) return match[1].trim();
         }
         return null;
@@ -3364,7 +3364,7 @@
         if (!foundContent) {
             statusEl.text("未找到最新行程信息");
             container.html(
-                '<p style="text-align:center; color:#666; margin-top:50px;">在聊天记录中未找到 &lt;status_top&gt; 标签。</p>',
+                '<p style="text-align:center; color:#666; margin-top:50px;">在聊天记录中未找到 &lt;status_bar&gt; 标签。</p>',
             );
             return;
         }
@@ -3374,7 +3374,7 @@
         if (keywordIndex === -1) {
             statusEl.text(`未找到“${targetKeyword}”`);
             container.html(
-                `<p style="text-align:center; color:#666; margin-top:50px;">在 &lt;status_top&gt; 信息中未找到“${targetKeyword}”关键词。</p>`,
+                `<p style="text-align:center; color:#666; margin-top:50px;">在 &lt;status_bar&gt; 信息中未找到“${targetKeyword}”关键词。</p>`,
             );
             return;
         }
