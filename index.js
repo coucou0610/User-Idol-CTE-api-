@@ -2353,24 +2353,41 @@
 
             // Generate Trending HTML
             let trendingHtml = "";
-            trending.forEach((item, idx) => {
-                const rankClass =
-                    idx === 0 ? "rank-1" : idx === 1 ? "rank-2" : "rank-3";
-                let tagClass = "tag-new";
-                if (item.rank.includes("爆") || item.rank.includes("HOT"))
-                    tagClass = "tag-hot";
+            let trendingIdx = 0;
+            trending.forEach((item) => {
+                const isRivalry = item.type.includes("竞品") || item.type.toLowerCase().includes("rivalry");
 
-                trendingHtml += `
-                    <div class="trending-item">
-                        <div class="rank-num ${rankClass}">${idx + 1}</div>
-                        <div class="trend-content">
-                            <span class="trend-title">${item.title}</span>
-                            <div class="trend-meta">
-                                <span class="trend-tag ${tagClass}">${item.rank}</span>
-                                <span>${item.source}</span>
+                if (isRivalry) {
+                    // 竞品用brief-card样式
+                    trendingHtml += `
+                        <div class="brief-card rivalry">
+                            <div class="brief-header">
+                                <span class="brief-type">${item.type}</span>
+                                <span class="brief-source">${item.source}</span>
                             </div>
-                        </div>
-                    </div>`;
+                            <div class="brief-title">${item.title}</div>
+                            <div class="brief-text">${item.summary}</div>
+                            ${item.impact ? `<div class="impact-box"><i class="fa-solid fa-chess-pawn impact-icon"></i><span class="impact-text">${item.impact}</span></div>` : ""}
+                        </div>`;
+                } else {
+                    // 热搜用trending-item样式
+                    const rankClass = trendingIdx === 0 ? "rank-1" : trendingIdx === 1 ? "rank-2" : "rank-3";
+                    let tagClass = "tag-new";
+                    if (item.rank.includes("爆") || item.rank.includes("HOT"))
+                        tagClass = "tag-hot";
+                    trendingHtml += `
+                        <div class="trending-item">
+                            <div class="rank-num ${rankClass}">${trendingIdx + 1}</div>
+                            <div class="trend-content">
+                                <span class="trend-title">${item.title}</span>
+                                <div class="trend-meta">
+                                    <span class="trend-tag ${tagClass}">${item.rank}</span>
+                                    <span>${item.source}</span>
+                                </div>
+                            </div>
+                        </div>`;
+                    trendingIdx++;
+                }
             });
 
             // Generate Other Brief Cards
