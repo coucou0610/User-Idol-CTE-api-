@@ -3906,6 +3906,46 @@
    [NEW] COURSES MODULE STYLES (课程培训模块样式)
    ========================================================================== */
 
+
+/* 课程属性总览栏 */
+.cte-courses-stats-bar {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(197, 160, 101, 0.2);
+    border-radius: 10px;
+    padding: 12px 20px;
+    margin-bottom: 20px;
+    gap: 8px;
+}
+
+.cte-courses-stat-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    flex: 1;
+}
+
+.cte-courses-stat-item i {
+    font-size: 16px;
+}
+
+.cte-courses-stat-label {
+    font-size: 11px;
+    color: #888;
+    letter-spacing: 0.05em;
+}
+
+.cte-courses-stat-val {
+    font-size: 18px;
+    font-weight: 700;
+    color: #e0c5a1;
+    font-family: "Inter", monospace;
+    line-height: 1;
+}
+
 .cte-courses-container {
     width: 100%;
     max-width: 1200px;
