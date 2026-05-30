@@ -1956,10 +1956,7 @@
                 .join("")}
           </div>
 
-          <div class="cte-courses-tip">
-            <i class="fa-solid fa-lightbulb"></i>
-            <span>提示：选择课程后可以为多位成员同时安排培训</span>
-          </div>
+
         </div>
 
         <!-- 课程安排弹窗 -->
