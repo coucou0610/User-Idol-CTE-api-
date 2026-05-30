@@ -1861,6 +1861,96 @@
                 increment: 3,
                 increment2: 0,
             },
+            acting2: {
+                name: "影视表演",
+                icon: "fa-film",
+                color: "#7B8FA1",
+                attribute: "acting",
+                attributeName: "演技",
+                attribute2: "grace",
+                attributeName2: "气质",
+                attribute3: null,
+                attributeName3: null,
+                price: 65000,
+                increment: 2,
+                increment2: 1,
+                increment3: 0,
+            },
+            variety: {
+                name: "综艺口才",
+                icon: "fa-comments",
+                color: "#F6A623",
+                attribute: "charm",
+                attributeName: "魅力",
+                attribute2: "acting",
+                attributeName2: "演技",
+                attribute3: null,
+                attributeName3: null,
+                price: 52000,
+                increment: 2,
+                increment2: 1,
+                increment3: 0,
+            },
+            fashion: {
+                name: "时尚造型",
+                icon: "fa-wand-sparkles",
+                color: "#E8A0BF",
+                attribute: "grace",
+                attributeName: "气质",
+                attribute2: "charm",
+                attributeName2: "魅力",
+                attribute3: null,
+                attributeName3: null,
+                price: 55000,
+                increment: 2,
+                increment2: 1,
+                increment3: 0,
+            },
+            choreography: {
+                name: "编舞创作",
+                icon: "fa-person-dancing",
+                color: "#5C8374",
+                attribute: "dance",
+                attributeName: "舞蹈",
+                attribute2: "vocal",
+                attributeName2: "歌艺",
+                attribute3: null,
+                attributeName3: null,
+                price: 60000,
+                increment: 2,
+                increment2: 1,
+                increment3: 0,
+            },
+            allround: {
+                name: "综艺全能",
+                icon: "fa-star-half-stroke",
+                color: "#BA90C6",
+                attribute: "charm",
+                attributeName: "魅力",
+                attribute2: "acting",
+                attributeName2: "演技",
+                attribute3: "grace",
+                attributeName3: "气质",
+                price: 70000,
+                increment: 1,
+                increment2: 1,
+                increment3: 1,
+            },
+            idolcamp: {
+                name: "偶像特训",
+                icon: "fa-bolt",
+                color: "#E55604",
+                attribute: "vocal",
+                attributeName: "歌艺",
+                attribute2: "dance",
+                attributeName2: "舞蹈",
+                attribute3: "stamina",
+                attributeName3: "体能",
+                price: 70000,
+                increment: 1,
+                increment2: 1,
+                increment3: 1,
+            },
         },
 
         // 时段配置
@@ -1938,8 +2028,9 @@
                   <h3>${course.name}</h3>
                   <div class="cte-course-details">
                     <div class="cte-course-attr">
-                      <span>${course.attributeName} <span style="color:#4caf50;">${course.increment2 > 0 ? '↑' : '↑↑'}</span></span>
+                      <span>${course.increment3 > 0 ? course.attributeName + ' <span style="color:#4caf50;">↑</span>' : course.attributeName + ' <span style="color:#4caf50;">' + (course.increment2 > 0 ? '↑' : '↑↑') + '</span>'}</span>
                       ${course.attributeName2 ? `<span style="margin-left:6px;">${course.attributeName2} <span style="color:#4caf50;">↑</span></span>` : ''}
+                      ${course.attributeName3 ? `<span style="margin-left:6px;">${course.attributeName3} <span style="color:#4caf50;">↑</span></span>` : ''}
                     </div>
                   </div>
                 </div>
@@ -2170,9 +2261,14 @@
             const totalCost = members.length * course.price;
 
             // 生成输出文本
-            const attrText = course.attributeName2
-                ? `${course.attributeName} ↑${course.increment}、${course.attributeName2} ↑${course.increment2}`
-                : `${course.attributeName} ↑↑${course.increment}`;
+            let attrText;
+            if (course.attributeName3) {
+                attrText = `${course.attributeName} ↑${course.increment}、${course.attributeName2} ↑${course.increment2}、${course.attributeName3} ↑${course.increment3}`;
+            } else if (course.attributeName2) {
+                attrText = `${course.attributeName} ↑${course.increment}、${course.attributeName2} ↑${course.increment2}`;
+            } else {
+                attrText = `${course.attributeName} ↑↑${course.increment}`;
+            }
             const text = `你报了${dateInfo.name}${timeInfo.name}的公司${course.name}（${attrText}），花费 ¥${course.price.toLocaleString()}。`;
 
             // 发送到输入框
