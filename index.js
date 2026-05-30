@@ -1922,7 +1922,7 @@
                     </div>
                     <div class="cte-course-price">
                       <i class="fa-solid fa-coins"></i>
-                      <span>¥${course.price.toLocaleString()}/人</span>
+                      <span>¥${course.price.toLocaleString()}</span>
                     </div>
                   </div>
                 </div>
@@ -2150,7 +2150,7 @@
             const totalCost = members.length * course.price;
 
             // 生成输出文本
-            const text = `秦述为{{user}}安排了${dateInfo.name}${timeInfo.name}的${course.name}，花费 ¥${course.price.toLocaleString()}。`;
+            const text = `秦述为{{user}}安排了${dateInfo.name}${timeInfo.name}的公司${course.name}，花费 ¥${course.price.toLocaleString()}。`;
 
             // 发送到输入框
             if (typeof stContext !== "undefined" && stContext) {
@@ -2547,9 +2547,7 @@
             const fansEl = document.querySelector(
                 "#cte-idol-map-panel #cte-idol-rpg-val-fans",
             );
-            const moraleEl = document.querySelector(
-                "#cte-idol-map-panel #cte-idol-rpg-val-morale",
-            );
+            const moraleEl = null;
 
             if (fundsEl)
                 fundsEl.innerText =
@@ -2670,9 +2668,7 @@
                         window.CTEIdolManager.RPG.state.fans =
                             parseInt(fansStr, 10) || 0;
                     }
-                    if (cteGroup["团魂"])
-                        window.CTEIdolManager.RPG.state.morale =
-                            cteGroup["团魂"];
+
                     if (cteGroup["待办"])
                         window.CTEIdolManager.RPG.state.futureLog =
                             Array.isArray(cteGroup["待办"])
