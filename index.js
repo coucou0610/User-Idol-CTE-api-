@@ -65,6 +65,602 @@
     };
 
     // ==========================================
+    // [REFACTORED] Heartbeat 模块 (Netflix Style)
+    // ==========================================
+    window.CTEIdolManager.Heartbeat = {
+        // 完整活动数据
+        allActivities: [
+            {
+                name: "办公室的游戏",
+                desc: "在落地窗前，享受一场禁忌的桌上盛宴。",
+                icon: "fa-couch",
+            },
+            {
+                name: "浴室水蒸气",
+                desc: "在湿热的雾气中，探索彼此身体的每一寸。",
+                icon: "fa-shower",
+            },
+            {
+                name: "深夜卧室私语",
+                desc: "用最温柔的方式，陪伴彼此度过漫漫长夜。",
+                icon: "fa-bed",
+            },
+            {
+                name: "角色扮演Play",
+                desc: "尝试不同的身份，解锁不一样的刺激体验。",
+                icon: "fa-masks-theater",
+            },
+            {
+                name: "镜前诱惑",
+                desc: "让他看清自己为你疯狂的模样，是最好的催情剂。",
+                icon: "fa-wand-magic-sparkles",
+            },
+            {
+                name: "专属女仆",
+                desc: "换上女仆装，用羽毛轻轻挑逗他全身。",
+                icon: "fa-broom",
+            },
+            {
+                name: "厨房幻想",
+                desc: "将奶油涂满全身，让他用舌头为你清洁。",
+                icon: "fa-utensils",
+            },
+            {
+                name: "深夜停车场车震",
+                desc: "在狭小的密闭空间里，你只能跨坐在他身上。",
+                icon: "fa-car-side",
+            },
+            {
+                name: "落地窗前",
+                desc: "赤身裸体压在窗前看风景，好像让窗外的景色格外美。",
+                icon: "fa-city",
+            },
+            {
+                name: "电竞桌下口交",
+                desc: "他的手和眼都必须继续游戏哦。",
+                icon: "fa-gamepad",
+            },
+            {
+                name: "校园活动",
+                desc: "做爱的时候，和他一起穿上谌绪的高中校服吧！",
+                icon: "fa-graduation-cap",
+            },
+            {
+                name: "健身房的汗水游戏",
+                desc: "好像有人做卧推时没有穿内裤呢……",
+                icon: "fa-dumbbell",
+            },
+            {
+                name: "按摩室SPA混浴",
+                desc: "在氤氲的热气中，肌肤相亲的触感格外清晰。",
+                icon: "fa-hot-tub-person",
+            },
+            {
+                name: "私人影院",
+                desc: "昏暗的灯光下，屏幕上的画面远不如身边的你诱人。",
+                icon: "fa-film",
+            },
+            {
+                name: "试衣间的秘密",
+                desc: "门帘之外是喧嚣的人群，门帘之内是压抑的喘息。",
+                icon: "fa-shirt",
+            },
+            {
+                name: "豪华游艇",
+                desc: "在无边无际的大海上，没有人能听见你的喘息。",
+                icon: "fa-ship",
+            },
+            {
+                name: "图书馆角落",
+                desc: "要是被图书管理员听见会怎么样呢？",
+                icon: "fa-book-open",
+            },
+            {
+                name: "摩天轮顶点",
+                desc: "传说在最高点结合的恋人，会永远在一起。",
+                icon: "fa-dharmachakra",
+            },
+            {
+                name: "钢琴上的奏鸣曲",
+                desc: "凌乱的音符，用身体谱写出只属于今夜的乐章。",
+                icon: "fa-music",
+            },
+            {
+                name: "露营帐篷",
+                desc: "森林的虫鸣鸟叫，都成为了这场欢爱的伴奏。",
+                icon: "fa-campground",
+            },
+            {
+                name: "天台的夜风",
+                desc: "城市的霓虹灯在脚下闪烁，你们在风中彻底沉沦。",
+                icon: "fa-wind",
+            },
+            {
+                name: "酒吧后巷",
+                desc: "酒精麻痹了神经，却放大了感官的刺激。",
+                icon: "fa-wine-glass-empty",
+            },
+            {
+                name: "镜中双面",
+                desc: "强迫你在镜前看着自己沉沦的模样，羞耻感爆棚。",
+                icon: "fa-clone",
+            },
+            {
+                name: "丝巾蒙眼",
+                desc: "剥夺了视觉后，每一次触碰都变成了未知的战栗。",
+                icon: "fa-eye-slash",
+            },
+            {
+                name: "精油按摩",
+                desc: "温热的精油滑过肌肤，指尖的游走让理智瞬间蒸发。",
+                icon: "fa-bottle-droplet",
+            },
+            {
+                name: "冰火两重天",
+                desc: "冰块的寒冷与口腔的温热交替，极致的感官刺激。",
+                icon: "fa-temperature-half",
+            },
+            {
+                name: "领带束缚",
+                desc: "那条平时系在颈间的领带，此刻成为了掌控的枷锁。",
+                icon: "fa-user-tie",
+            },
+            {
+                name: "甜蜜盛宴",
+                desc: "蜂蜜涂抹在敏感带上，成为一道待品尝的甜点。",
+                icon: "fa-spoon",
+            },
+            {
+                name: "耳机隔离",
+                desc: "只有对方能听到指令，旁人看来只是一场静默的狂欢。",
+                icon: "fa-headphones",
+            },
+            {
+                name: "高跟鞋女王",
+                desc: "冰冷的鞋跟划过胸膛，让他臣服在你的脚下。",
+                icon: "fa-shoe-prints",
+            },
+            {
+                name: "私房摄影",
+                desc: "镜头记录下每一个淫乱的瞬间，你们是彼此专属的模特。",
+                icon: "fa-camera",
+            },
+            {
+                name: "书房禁地",
+                desc: "在充满墨香的桌案上，进行一场背德的授课。",
+                icon: "fa-book",
+            },
+            {
+                name: "楼梯激情",
+                desc: "利用台阶的高低差，探索前所未有的深入角度。",
+                icon: "fa-stairs",
+            },
+            {
+                name: "红绳束缚",
+                desc: "错综复杂的红绳将对方悬在半空，像一只待宰的羔羊。",
+                icon: "fa-link",
+            },
+            {
+                name: "泳池派对",
+                desc: "水波荡漾掩盖了水下的动作，清凉与燥热的碰撞。",
+                icon: "fa-water",
+            },
+            {
+                name: "私人诊所",
+                desc: "“病人”需要接受全方位的身体检查，尤其是那里。",
+                icon: "fa-user-doctor",
+            },
+            {
+                name: "引擎盖热度",
+                desc: "刚刚熄火的引擎盖还发烫，正如现在的你们。",
+                icon: "fa-fire",
+            },
+            {
+                name: "你的礼物",
+                desc: "除了红色的丝带，你身上一丝不挂，等他拆封。",
+                icon: "fa-gift",
+            },
+            {
+                name: "早安咬",
+                desc: "在晨光中用口舌唤醒他，美好的一天从这里开始。",
+                icon: "fa-sun",
+            },
+            {
+                name: "电车痴汉",
+                desc: "拥挤的车厢里，没人知道你们紧贴的身体间发生了什么。",
+                icon: "fa-train-subway",
+            },
+            {
+                name: "电梯惊魂",
+                desc: "在这几十秒的上升时间里，争分夺秒地索取。",
+                icon: "fa-elevator",
+            },
+            {
+                name: "野外丛林",
+                desc: "远离文明的束缚，回归最原始的野性本能，天为被地为床。",
+                icon: "fa-tree",
+            },
+        ],
+        currentActivity: null,
+
+        // 模拟 Netflix 分类
+        getRowsData: function () {
+            const total = this.allActivities.length;
+            const third = Math.ceil(total / 3);
+            return {
+                trending: this.allActivities.slice(0, third),
+                intimate: this.allActivities.slice(third, third * 2),
+                public: this.allActivities.slice(third * 2),
+            };
+        },
+
+        // 渲染主视图
+        renderGrid: function () {
+            const data = this.getRowsData();
+            this.renderRow("cte-nf-row1", data.trending);
+            this.renderRow("cte-nf-row2", data.intimate);
+            this.renderRow("cte-nf-row3", data.public);
+        },
+
+        // 渲染单行
+        renderRow: function (containerId, items) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+
+            container.innerHTML = "";
+
+            items.forEach((item) => {
+                const card = document.createElement("div");
+                card.className = "cte-nf-card";
+                card.onclick = () =>
+                    window.CTEIdolManager.Heartbeat.openModal(item.name);
+
+                card.innerHTML = `
+                    <div class="cte-nf-card-inner">
+                        <div class="cte-nf-card-visual">
+                            <i class="fa-solid ${item.icon}"></i>
+                            <div class="cte-nf-card-overlay">
+                                <div class="cte-nf-card-title">${item.name}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="cte-nf-card-details">
+                        <div class="cte-nf-meta-tags">
+                            <span>98% Match</span>
+                            <span class="cte-nf-age-rating">18+</span>
+                            <span>HD</span>
+                        </div>
+                        <div class="cte-nf-card-desc-text">${item.desc}</div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        },
+
+        // 打开成员选择弹窗
+        openModal: function (activityName) {
+            this.currentActivity = activityName;
+            const grid = document.getElementById("cte-nf-profile-grid");
+            const modal = document.getElementById("cte-nf-modal");
+
+            // [关键修改 1] 获取当前的滚动容器 (Heartbeat 视图)
+            // 确保ID与你HTML中定义的视图容器ID一致
+            const viewContainer = document.getElementById(
+                "cte-idol-view-heartbeat",
+            );
+
+            if (!grid || !modal) return;
+            grid.innerHTML = "";
+
+            const profiles = window.CTEIdolManager.characterProfiles || {};
+
+            for (const [name, profile] of Object.entries(profiles)) {
+                if (name === "你") continue;
+
+                const item = document.createElement("div");
+                item.className = "cte-nf-profile-item";
+                item.dataset.name = name;
+                item.onclick = () => item.classList.toggle("selected");
+
+                let bgStyle = profile.image
+                    ? `background-image: url('${profile.image}')`
+                    : `background-color: #333; display: flex; align-items: center; justify-content: center;`;
+                let innerContent = profile.image
+                    ? ""
+                    : '<i class="fa-solid fa-user" style="font-size:24px; color:#666;"></i>';
+
+                item.innerHTML = `
+                    <div class="cte-nf-profile-img" style="${bgStyle}">${innerContent}</div>
+                    <div class="cte-nf-profile-name">${name}</div>
+                `;
+                grid.appendChild(item);
+            }
+
+            // [关键修改 2] 动态调整弹窗位置和高度
+            if (viewContainer) {
+                // 将弹窗的 Top 设为当前滚动条的位置，确保它出现在当前视野顶部
+                modal.style.top = viewContainer.scrollTop + "px";
+
+                // 将弹窗的 Height 设为当前可见窗口的高度，确保 Flex 居中是在当前视野内居中
+                // 而不是在长长的滚动页面中心居中
+                modal.style.height = viewContainer.clientHeight + "px";
+
+                // (可选) 暂时禁止背景滚动，提升体验
+                viewContainer.style.overflow = "hidden";
+            }
+
+            modal.style.display = "flex";
+        },
+
+        closeModal: function () {
+            const modal = document.getElementById("cte-nf-modal");
+            const viewContainer = document.getElementById(
+                "cte-idol-view-heartbeat",
+            );
+
+            if (modal) modal.style.display = "none";
+
+            // [关键修改 3] 恢复背景滚动
+            if (viewContainer) {
+                viewContainer.style.overflow = ""; // 清空样式，恢复默认
+                // 也可以恢复 top 和 height，虽然不是必须的
+                if (modal) {
+                    modal.style.top = "";
+                    modal.style.height = "";
+                }
+            }
+        },
+
+        // 确认生成指令
+        confirmAssignment: function () {
+            const selectedEls = document.querySelectorAll(
+                ".cte-nf-profile-item.selected",
+            );
+            const selectedNames = Array.from(selectedEls).map(
+                (el) => el.dataset.name,
+            );
+
+            if (selectedNames.length === 0) {
+                alert("Who is watching? Please select at least one member.");
+                return;
+            }
+
+            const actObj = this.allActivities.find(
+                (a) => a.name === this.currentActivity,
+            );
+            const desc = actObj ? actObj.desc : "";
+
+            const text = `{{user}} 决定与 ${selectedNames.join("、")} 做爱：${this.currentActivity}。${desc}`;
+
+            if (typeof stContext !== "undefined" && stContext) {
+                stContext.executeSlashCommandsWithOptions(`/setinput ${text}`);
+                this.closeModal();
+
+                // 尝试关闭主面板
+                const panel = document.getElementById("cte-idol-map-panel");
+                if (panel) {
+                    if (typeof $ !== "undefined") $(panel).fadeOut();
+                    else panel.style.display = "none";
+                }
+            } else {
+                alert("指令已生成 (模拟): " + text);
+                this.closeModal();
+            }
+        },
+
+        init: function () {
+            this.renderGrid();
+        },
+    };
+
+    // 合并核心数据
+    Object.assign(window.CTEIdolManager, {
+        currentDestination: "",
+        currentCompanion: "",
+        currentScheduleItem: "",
+        isSelectingForSchedule: false,
+        tempScheduleParticipants: [],
+        tempNPCState: { enabled: false, content: "" },
+        availableParticipants: [
+            "{{user}}",
+            "秦述",
+            "司洛",
+            "鹿言",
+            "魏星泽",
+            "周锦宁",
+            "谌绪",
+            "孟明赫",
+            "亓谢",
+            "魏月华",
+            "桑洛凡",
+        ],
+
+        npcDefaults: {
+            机场: "粉丝、工作人员、其他团队成员",
+            京港电视台: "粉丝、工作人员、其他团队成员",
+            私人会所: "社交名流",
+        },
+
+        nationalCities: [
+            {
+                id: "jinggang",
+                name: "京港",
+                icon: "fa-landmark-dome",
+                top: "20%",
+                left: "70%",
+                isReturn: true,
+                info: '<strong><i class="fa-solid fa-crown"></i> 首都:</strong> 首都，政治经济文化中心，权贵聚集，国际化大都市，夜生活极度繁华。摩天大楼与历史建筑交错，霓虹灯下的金融街与老城区并存。',
+            },
+            {
+                id: "langjing",
+                name: "琅京",
+                icon: "fa-gem",
+                top: "40%",
+                left: "80%",
+                info: '<strong><i class="fa-solid fa-coins"></i> 豪门金库:</strong> 全国第二大城市，金融与地产重镇，豪门世家聚集。宽阔大道、豪宅林立，老钱家族与新贵共存。',
+            },
+            {
+                id: "shenzhou",
+                name: "深州",
+                icon: "fa-microchip",
+                top: "80%",
+                left: "75%",
+                info: '<strong><i class="fa-solid fa-chart-line"></i> 科技前沿:</strong> 沿海经济特区，科技与贸易发达，外企众多，生活节奏快。高科技园区、港口码头、国际社区。',
+            },
+            {
+                id: "haizhou",
+                name: "海洲",
+                icon: "fa-anchor",
+                top: "75%",
+                left: "55%",
+                info: '<strong><i class="fa-solid fa-skull-crossbones"></i> 灰色地带:</strong> 港口城市，地下势力活跃，赌场、夜店、黑市盛行。霓虹闪烁的港口、老旧仓库与豪华赌场并存。',
+            },
+            {
+                id: "taihe",
+                name: "台河",
+                icon: "fa-book-open",
+                top: "30%",
+                left: "40%",
+                info: '<strong><i class="fa-solid fa-graduation-cap"></i> 学术之城:</strong> 历史文化名城，教育与艺术氛围浓厚，名校云集。古典建筑、博物馆、大学城。',
+            },
+            {
+                id: "huashao",
+                name: "化邵",
+                icon: "fa-industry",
+                top: "50%",
+                left: "20%",
+                info: '<strong><i class="fa-solid fa-wrench"></i> 工业心脏:</strong> 重工业城市，工人阶层为主，生活节奏慢，治安一般。工厂烟囱、老旧居民区、工业遗址。',
+            },
+            {
+                id: "yucheng",
+                name: "玉城",
+                icon: "fa-martini-glass-citrus",
+                top: "65%",
+                left: "35%",
+                info: '<strong><i class="fa-solid fa-sun"></i> 旅游胜地，风景优美，度假产业发达，富人休闲首选。湖光山色、度假别墅、五星级酒店。',
+            },
+        ],
+
+        // 角色档案
+        characterProfiles: {
+            魏月华: {
+                image: "https://files.catbox.moe/auqnct.jpeg",
+                age: 27,
+                role: "万城娱乐CEO",
+                personality: "严肃、冷酷",
+                rpgStats: { vocal: 0, dance: 0, eloquence: 0, acting: 0 },
+                status: { desire: 0, affection: 0 },
+            },
+            秦述: {
+                image: "https://files.catbox.moe/c2khbl.jpeg",
+                age: 24,
+                role: "队长、主舞",
+                personality: "沉默、清冷",
+                rpgStats: { vocal: 0, dance: 0, eloquence: 0, acting: 0 },
+                status: { desire: 0, affection: 0 },
+            },
+            司洛: {
+                image: "https://files.catbox.moe/pohz52.jpeg",
+                age: 24,
+                role: "全能ACE",
+                personality: "慵懒、随性",
+                rpgStats: { vocal: 0, dance: 0, eloquence: 0, acting: 0 },
+                status: { desire: 0, affection: 0 },
+            },
+            鹿言: {
+                image: "https://files.catbox.moe/parliq.jpeg",
+                age: 23,
+                role: "主唱担当",
+                personality: "温柔、谦逊",
+                rpgStats: { vocal: 0, dance: 0, eloquence: 0, acting: 0 },
+                status: { desire: 0, affection: 0 },
+            },
+            魏星泽: {
+                image: "https://files.catbox.moe/syo0ze.jpeg",
+                age: 20,
+                role: "舞蹈、气氛",
+                personality: "开朗、感性",
+                rpgStats: { vocal: 0, dance: 0, eloquence: 0, acting: 0 },
+                status: { desire: 0, affection: 0 },
+            },
+            周锦宁: {
+                image: "https://files.catbox.moe/1loxsn.jpeg",
+                age: 20,
+                role: "Rapper、门面",
+                personality: "傲娇、矜贵",
+                rpgStats: { vocal: 0, dance: 0, eloquence: 0, acting: 0 },
+                status: { desire: 0, affection: 0 },
+            },
+            谌绪: {
+                image: "https://files.catbox.moe/9tnuva.png",
+                age: 18,
+                role: "主唱、忙内",
+                personality: "腹黑、恶劣",
+                rpgStats: { vocal: 0, dance: 0, eloquence: 0, acting: 0 },
+                status: { desire: 0, affection: 0 },
+            },
+            孟明赫: {
+                image: "https://files.catbox.moe/m446ro.jpeg",
+                age: 20,
+                role: "Rapper",
+                personality: "阴郁、厌世",
+                rpgStats: { vocal: 0, dance: 0, eloquence: 0, acting: 0 },
+                status: { desire: 0, affection: 0 },
+            },
+            亓谢: {
+                image: "https://files.catbox.moe/ev2g1l.png",
+                age: 18,
+                role: "舞蹈、副Rapper",
+                personality: "疯批、天才",
+                rpgStats: { vocal: 0, dance: 0, eloquence: 0, acting: 0 },
+                status: { desire: 0, affection: 0 },
+            },
+            桑洛凡: {
+                image: "https://files.catbox.moe/syudzu.png",
+                age: 27,
+                role: "传奇Solo",
+                personality: "慵懒、桀骜",
+                rpgStats: { vocal: 0, dance: 0, eloquence: 0, acting: 0 },
+                status: { desire: 0, affection: 0 },
+            },
+            你: {
+                image: "",
+                age: "?",
+                role: "CTE宿舍成员",
+                personality: "由你定义",
+                rpgStats: { vocal: 0, dance: 0, eloquence: 0, acting: 0 },
+                status: { desire: 0, affection: 0 },
+            },
+        },
+
+        roomDetails: {
+            前院与玄关: "设有小型日式枯山水庭院与智能安防通道。",
+            "客厅/公共休息区": "挑高设计，配有超大尺寸沙发和家庭影院。",
+            开放式厨房与餐厅: "设备齐全的专业级中西厨。",
+            储藏室与洗衣房: "存放生活用品和演出服装。",
+            后院与露天泳池: "精心打理的草坪和恒温泳池。",
+            周锦宁个人工作室: "顶级音乐制作设备。",
+            孟明赫个人工作室: "顶级音乐制作设备。",
+            乐器练习室: "存放钢琴、吉他等乐器。",
+            游戏娱乐室: "最新游戏主机和电竞椅。",
+            私人会客厅: "温馨私密的接待空间。",
+            收藏室: "存放礼物和奖杯。",
+            主舞蹈室: "巨大的排练空间，配有镜墙。",
+            声乐录音棚: "行业顶尖标准的录音室。",
+            造型与衣帽间: "挂满私服和演出服，配有化妆镜。",
+            成员休息室: "懒人沙发和零食饮料。",
+            会议室: "配备投影仪的大会议桌。",
+            健身房: "有氧和力量器械齐全。",
+            瑜伽与冥想室: "安静的环境，柔软地板。",
+            水疗与按摩室: "按摩浴缸和理疗床。",
+            健康管理室: "医疗用品和监测设备。",
+            "公共书房/阅览区": "藏书丰富的大书架。",
+        },
+    });
+
+    // ==========================================
+    // [NEW] 2.0 合约通告模块 (Contracts Manager)
+    // ==========================================
     window.CTEIdolManager.Contracts = {
         pendingCard: null,
         pendingRawContract: "",
@@ -2567,7 +3163,7 @@
                     };
                     let warningHtml = "";
                     if (profile.status && profile.status.desire > 80) {
-                        warningHtml = `<div class="cte-idol-rpg-warning-box"><span><i class="fa-solid fa-triangle-exclamation"></i> 欲望值过高</span></div>`;
+                        warningHtml = `<div class="cte-idol-rpg-warning-box"><span><i class="fa-solid fa-triangle-exclamation"></i> 欲望值过高</span><button class="cte-idol-heartbeat-shortcut" onclick="window.CTEIdolManager.switchView('heartbeat')"><i class="fa-solid fa-heart"></i></button></div>`;
                     }
 
                     htmlContent += `
@@ -2792,6 +3388,12 @@
                 window.CTEIdolManager.readCharacterStatsFromChat();
                 window.CTEIdolManager.renderRPGContent("dashboard");
             }
+            if (viewName === "heartbeat") {
+                // [FIXED] Call the new consolidated method
+                if (window.CTEIdolManager.Heartbeat) {
+                    window.CTEIdolManager.Heartbeat.renderGrid();
+                }
+            }
             if (viewName === "news") {
                 window.CTEIdolManager.renderRPGContent("news");
             }
@@ -2899,6 +3501,7 @@
                         <button class="cte-idol-nav-btn active" onclick="window.CTEIdolManager.switchView('map', this)">地图</button>
                         <button class="cte-idol-nav-btn" onclick="window.CTEIdolManager.switchView('schedule', this)">行程</button>
                         <button class="cte-idol-nav-btn" onclick="window.CTEIdolManager.switchView('manager', this)">事务所</button>
+                        <button class="cte-idol-nav-btn" style="color: #FF69B4;" onclick="window.CTEIdolManager.switchView('heartbeat', this)">♥</button>
                         <button class="idol-main-settings-btn" onclick="window.IdolSettings.showSettings()" title="独立API设置">
                             <i class="fa-solid fa-gear"></i> 设置
                         </button>
@@ -2952,17 +3555,20 @@
             );
             if (contentArea) contentArea.innerHTML = htmlContent;
 
-            try { bindMapEvents(); } catch(e2) { console.error("[DEBUG] bindMapEvents failed:", e2); throw e2; }
-            try { loadSavedPositions(); } catch(e2) { console.error("[DEBUG] loadSavedPositions failed:", e2); throw e2; }
-            try { loadSavedBg(); } catch(e2) { console.error("[DEBUG] loadSavedBg failed:", e2); throw e2; }
-            try { window.CTEIdolManager.initNationalMap(); } catch(e2) { console.error("[DEBUG] initNationalMap failed:", e2); throw e2; }
-            try { window.CTEIdolManager.loadSavedNationalBg(); } catch(e2) { console.error("[DEBUG] loadSavedNationalBg failed:", e2); throw e2; }
-            try { window.CTEIdolManager.Contracts.init(); } catch(e2) { console.error("[DEBUG] Contracts.init failed:", e2); throw e2; }
-            try { window.CTEIdolManager.Contracts.loadFromStorage(); } catch(e2) { console.error("[DEBUG] Contracts.loadFromStorage failed:", e2); throw e2; }
-            try { window.CTEIdolManager.Shop.loadFromStorage(); } catch(e2) { console.error("[DEBUG] Shop.loadFromStorage failed:", e2); throw e2; }
-            try { window.CTEIdolManager.News.loadFromStorage(); } catch(e2) { console.error("[DEBUG] News.loadFromStorage failed:", e2); throw e2; }
+            bindMapEvents();
+            loadSavedPositions();
+            loadSavedBg();
+            window.CTEIdolManager.initNationalMap();
+            window.CTEIdolManager.loadSavedNationalBg();
+            window.CTEIdolManager.Contracts.init();
+
+            // [NEW] 从 localStorage 加载持久化数据
+            window.CTEIdolManager.Contracts.loadFromStorage();
+            window.CTEIdolManager.Shop.loadFromStorage();
+            window.CTEIdolManager.News.loadFromStorage();
             console.log("[CTE Idol Map] 持久化数据已加载");
-            try { bindRPGEvents(); } catch(e2) { console.error("[DEBUG] bindRPGEvents failed:", e2); throw e2; }
+
+            bindRPGEvents();
         } catch (e) {
             console.error("[CTE Idol Map] Initialization Error:", e);
             const contentArea = document.getElementById(
@@ -2971,7 +3577,7 @@
             if (contentArea) {
                 contentArea.innerHTML = `<div style="padding:20px; color:white;">
                     <p style="font-weight:bold; color:#ff6b6b;">无法加载地图文件 (map.html)</p>
-                    <p style="font-size:12px; color:#ccc; margin-top:10px;">错误信息: ${e.message} | 位置: ${e.stack ? e.stack.split("\n")[1] : "unknown"}</p>
+                    <p style="font-size:12px; color:#ccc; margin-top:10px;">错误信息: ${e.message}</p>
                     <p style="font-size:11px; color:#888; margin-top:10px;">请检查：</p>
                     <ul style="font-size:11px; color:#888; margin-left:20px;">
                         <li>map.html 文件是否存在于插件目录中</li>
@@ -3005,6 +3611,12 @@
                             window.CTEIdolManager.readStatsFromMVU();
                             window.CTEIdolManager.readCharacterStatsFromChat();
                             window.CTEIdolManager.renderRPGContent("dashboard");
+                        }
+                        if (
+                            $("#cte-idol-view-heartbeat").hasClass("active") &&
+                            window.CTEIdolManager.Heartbeat
+                        ) {
+                            window.CTEIdolManager.Heartbeat.renderGrid();
                         }
                     });
                 }
@@ -3801,6 +4413,12 @@
         $("#cte-idol-map-panel .cte-idol-popup").hide();
         window.CTEIdolManager.closeSubMenu();
         // [FIX] Update close logic to new consolidated object methods
+        if (
+            window.CTEIdolManager.Heartbeat &&
+            window.CTEIdolManager.Heartbeat.closeModal
+        ) {
+            window.CTEIdolManager.Heartbeat.closeModal();
+        }
         window.CTEIdolManager.Contracts.closeModal();
         window.CTEIdolManager.Shop.closeModal();
         window.CTEIdolManager.closeTravelMenu(isTravelMenuVisible);

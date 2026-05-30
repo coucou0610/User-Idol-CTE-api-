@@ -257,7 +257,7 @@
     <span class="cte-idol-close-btn" onclick="window.CTEIdolManager.closeAllPopups()">&times;</span>
     <h3>🏠 CTE男团宿舍</h3>
     <p>坐落在北区别墅区中的CTE男团宿舍，安保和私密性都是顶级。</p>
-    <img src="https://files.catbox.moe/h67i5g.png" class="cte-idol-popup-image">
+    <img src="https://files.catbox.moe/qn281x.JPG" class="cte-idol-popup-image">
     <div style="text-align: center;">
         <button class="cte-idol-btn" onclick="window.CTEIdolManager.showPopup('cte-idol-dorm-detail-popup')">🚪 宿舍内部</button>
         <button class="cte-idol-btn" onclick="window.CTEIdolManager.openTravelMenu('CTE男团宿舍')">🚀 前往</button>
@@ -268,9 +268,21 @@
 <div id="cte-idol-dorm-detail-popup" class="cte-idol-popup">
     <span class="cte-idol-close-btn" onclick="window.CTEIdolManager.closeAllPopups()">&times;</span>
     <h3>🛋️ 宿舍内部</h3>
-    <img src="https://files.catbox.moe/pf282r.png" class="cte-idol-interior-image">
-    <div style="text-align:center">
-        <button class="cte-idol-btn" onclick="window.CTEIdolManager.openTravelMenu('CTE男团宿舍')">🚀 前往</button>
+    <div class="cte-idol-interior-container">
+        <img src="https://files.catbox.moe/40ygiw.JPG" class="cte-idol-interior-image">
+        <div class="cte-idol-floor-nav">
+            <button class="cte-idol-floor-btn" onclick="window.CTEIdolManager.openRooftopMenu()">1. 屋顶：天台花园酒吧</button>
+            <button class="cte-idol-floor-btn" onclick="window.CTEIdolManager.openSubMenu('五楼：私人宿舍区', ['秦述', '司洛', '鹿言', '魏星泽', '周锦宁', '谌绪', '孟明赫', '亓谢', '魏月华', '桑洛凡', '你', '公共书房/阅览区'])">2. 五楼：私人宿舍区</button>
+            <button class="cte-idol-floor-btn" onclick="window.CTEIdolManager.openSubMenu('四楼：健康与恢复区', ['健身房', '瑜伽与冥想室', '水疗与按摩室', '健康管理室'])">3. 四楼：健康与恢复区</button>
+            <button class="cte-idol-floor-btn" onclick="window.CTEIdolManager.openSubMenu('三楼：专业练习区', ['主舞蹈室', '声乐录音棚', '造型与衣帽间', '成员休息室', '会议室'])">4. 三楼：专业练习区</button>
+            <button class="cte-idol-floor-btn" onclick="window.CTEIdolManager.openSubMenu('二楼：个人创作与娱乐区', ['周锦宁个人工作室', '孟明赫个人工作室', '乐器练习室', '游戏娱乐室', '私人会客厅', '收藏室'])">5. 二楼：个人创作与娱乐区</button>
+            <button class="cte-idol-floor-btn" onclick="window.CTEIdolManager.openSubMenu('一楼：生活与休闲区', ['前院与玄关', '客厅/公共休息区', '开放式厨房与餐厅', '储藏室与洗衣房', '后院与露天泳池'])">6. 一楼：生活与休闲区</button>
+        </div>
+        <div id="cte-idol-interior-sub-menu" class="cte-idol-sub-menu-overlay">
+            <div id="cte-idol-sub-menu-title" style="color:#b38b59; font-size:20px; margin-bottom:20px;"></div>
+            <div id="cte-idol-sub-menu-content" class="cte-idol-sub-menu-grid"></div>
+            <div class="cte-idol-sub-menu-close" style="margin-top:20px; cursor:pointer;" onclick="window.CTEIdolManager.closeSubMenu()">[ 关闭菜单 ]</div>
+        </div>
     </div>
 </div>
 
@@ -286,3 +298,7 @@
 <div id="cte-idol-TVstation-popup" class="cte-idol-popup"><span class="cte-idol-close-btn" onclick="window.CTEIdolManager.closeAllPopups()">&times;</span><h3>📺 京港电视台</h3><p>城市媒体中心，众多节目的录制现场。</p><div style="text-align:center"><button class="cte-idol-btn" onclick="window.CTEIdolManager.openTravelMenu('京港电视台')">🚀 前往</button></div></div>
 <div id="cte-idol-airport-popup" class="cte-idol-popup"><span class="cte-idol-close-btn" onclick="window.CTEIdolManager.closeAllPopups()">&times;</span><h3>✈️ 机场</h3><p>连接京港与世界的交通枢纽。</p><div style="text-align:center"><button class="cte-idol-btn" onclick="window.CTEIdolManager.openTravelMenu('机场')">🚀 前往</button></div></div>
 <div id="cte-idol-port-popup" class="cte-idol-popup"><span class="cte-idol-close-btn" onclick="window.CTEIdolManager.closeAllPopups()">&times;</span><h3>⚓ 港口</h3><p>繁忙的国际货运港口。</p><div style="text-align:center"><button class="cte-idol-btn" onclick="window.CTEIdolManager.openTravelMenu('港口')">🚀 前往</button></div></div>
+
+
+
+
