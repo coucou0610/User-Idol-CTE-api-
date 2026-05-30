@@ -1449,8 +1449,8 @@
                         </div>
 
                         <div class="cte-shop-grid-select">
-                            <div class="cte-shop-select-btn cte-shop-span-full" onclick="window.CTEIdolManager.Shop.selectMember(this, 'CTE全员')">
-                                <span class="name">CTE 全员</span><span class="role-tag">Team</span>
+                            <div class="cte-shop-select-btn cte-shop-span-full" onclick="window.CTEIdolManager.Shop.selectMember(this, '公司采购部')">
+                                <span class="name">公司采购部</span><span class="role-tag">Team</span>
                             </div>
                             <div class="cte-shop-select-btn cte-shop-span-half" onclick="window.CTEIdolManager.Shop.selectMember(this, '魏月华')">
                                 <span class="name">魏月华</span><span class="role-tag">Manager</span>
@@ -1745,6 +1745,12 @@
                     btnEl.innerText = "确认下单 / CONFIRM";
                     btnEl.classList.remove("ready");
                 }
+                // 分配对象时隐藏公司采购部按钮
+                document.querySelectorAll(".cte-shop-select-btn").forEach(btn => {
+                    if (btn.querySelector(".name")?.innerText === "公司采购部") {
+                        btn.style.display = "none";
+                    }
+                });
             } else {
                 this.finalizePurchase();
             }
