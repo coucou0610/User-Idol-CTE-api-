@@ -3382,7 +3382,12 @@
         let scheduleContent = foundContent.substring(
             keywordIndex + targetKeyword.length,
         );
-        scheduleContent = scheduleContent.replace(/^[:：\s]+/, "").trim();
+        // 只截取到下一个 [ 之前
+        const nextBracket = scheduleContent.indexOf("]");
+        if (nextBracket !== -1) {
+            scheduleContent = scheduleContent.substring(0, nextBracket);
+        }
+        scheduleContent = scheduleContent.replace(/^[|：:\s]+/, "").trim();
         statusEl.text("行程安排 (已同步)");
         const items = window.CTEIdolManager.parseSchedule(scheduleContent);
         window.CTEIdolManager.renderSchedule(items);
