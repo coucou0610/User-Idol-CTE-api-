@@ -2528,6 +2528,7 @@
     };
 
     window.CTEIdolManager.scanForRPGStats = function () {
+        window.CTEIdolManager.readStatsFromMVU();
         if (window.CTEIdolManager.RPG && window.CTEIdolManager.RPG.state) {
             const fundsEl = document.querySelector(
                 "#cte-idol-map-panel #cte-idol-rpg-val-funds",
@@ -2892,6 +2893,61 @@
     }, 500);
 
 
+
+
+    // ==========================================
+    // 从 MVU 消息楼层读取变量数据
+    // ==========================================
+    window.CTEIdolManager.readStatsFromMVU = function () {
+        try {
+            const ctx = stContext || (window.SillyTavern?.getContext?.());
+            if (!ctx?.chat?.length) return;
+
+            // 从最新消息往前找有 stat_data 的楼层
+            let statData = null;
+            for (let i = ctx.chat.length - 1; i >= 0; i--) {
+                const vars = ctx.chat[i].variables;
+                if (!vars) continue;
+                const varArr = Array.isArray(vars) ? vars : [vars];
+                for (const v of varArr) {
+                    if (v?.stat_data?.玩家状态?.属性) {
+                        statData = v.stat_data;
+                        break;
+                    }
+                }
+                if (statData) break;
+            }
+
+            if (!statData) return;
+
+            const attrs = statData.玩家状态.属性;
+
+            // 资产
+            if (attrs.资产 !== undefined && attrs.资产 !== "")
+                window.CTEIdolManager.RPG.state.funds =
+                    parseInt(String(attrs.资产).replace(/,/g, ""), 10) || 0;
+
+            // 粉丝数
+            if (attrs.粉丝数 !== undefined && attrs.粉丝数 !== "")
+                window.CTEIdolManager.RPG.state.fans =
+                    parseInt(String(attrs.粉丝数).replace(/,/g, ""), 10) || 0;
+
+            // 六维属性
+            const attrMap = {
+                歌艺: "vocal", 舞蹈: "dance", 演技: "acting",
+                魅力: "charm", 气质: "grace", 体能: "stamina"
+            };
+            for (const [cn, en] of Object.entries(attrMap)) {
+                if (attrs[cn] !== undefined)
+                    window.CTEIdolManager.RPG.state[en] = parseInt(attrs[cn]) || 0;
+            }
+
+            console.info("[CTE Idol] MVU读取: 资产=" + attrs.资产 + " 粉丝=" + attrs.粉丝数);
+
+        } catch (e) {
+            console.warn("[CTE Idol] readStatsFromMVU error:", e);
+        }
+    };
 
     // ==========================================
     // 统一左侧导航切换
