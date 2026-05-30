@@ -64,6 +64,213 @@
         },
     };
 
+    Object.assign(window.CTEIdolManager, {
+        currentDestination: "",
+        currentCompanion: "",
+        currentScheduleItem: "",
+        isSelectingForSchedule: false,
+        tempScheduleParticipants: [],
+        tempNPCState: { enabled: false, content: "" },
+        availableParticipants: [
+            "{{user}}",
+            "秦述",
+            "司洛",
+            "鹿言",
+            "魏星泽",
+            "周锦宁",
+            "谌绪",
+            "孟明赫",
+            "亓谢",
+            "魏月华",
+            "桑洛凡",
+        ],
+
+        npcDefaults: {
+            机场: "粉丝、工作人员、其他团队成员",
+            京港电视台: "粉丝、工作人员、其他团队成员",
+            私人会所: "社交名流",
+        },
+
+        nationalCities: [
+            {
+                id: "jinggang",
+                name: "京港",
+                icon: "fa-landmark-dome",
+                top: "20%",
+                left: "70%",
+                isReturn: true,
+                info: '<strong><i class="fa-solid fa-crown"></i> 首都:</strong> 首都，政治经济文化中心，权贵聚集，国际化大都市，夜生活极度繁华。摩天大楼与历史建筑交错，霓虹灯下的金融街与老城区并存。',
+            },
+            {
+                id: "langjing",
+                name: "琅京",
+                icon: "fa-gem",
+                top: "40%",
+                left: "80%",
+                info: '<strong><i class="fa-solid fa-coins"></i> 豪门金库:</strong> 全国第二大城市，金融与地产重镇，豪门世家聚集。宽阔大道、豪宅林立，老钱家族与新贵共存。',
+            },
+            {
+                id: "shenzhou",
+                name: "深州",
+                icon: "fa-microchip",
+                top: "80%",
+                left: "75%",
+                info: '<strong><i class="fa-solid fa-chart-line"></i> 科技前沿:</strong> 沿海经济特区，科技与贸易发达，外企众多，生活节奏快。高科技园区、港口码头、国际社区。',
+            },
+            {
+                id: "haizhou",
+                name: "海洲",
+                icon: "fa-anchor",
+                top: "75%",
+                left: "55%",
+                info: '<strong><i class="fa-solid fa-skull-crossbones"></i> 灰色地带:</strong> 港口城市，地下势力活跃，赌场、夜店、黑市盛行。霓虹闪烁的港口、老旧仓库与豪华赌场并存。',
+            },
+            {
+                id: "taihe",
+                name: "台河",
+                icon: "fa-book-open",
+                top: "30%",
+                left: "40%",
+                info: '<strong><i class="fa-solid fa-graduation-cap"></i> 学术之城:</strong> 历史文化名城，教育与艺术氛围浓厚，名校云集。古典建筑、博物馆、大学城。',
+            },
+            {
+                id: "huashao",
+                name: "化邵",
+                icon: "fa-industry",
+                top: "50%",
+                left: "20%",
+                info: '<strong><i class="fa-solid fa-wrench"></i> 工业心脏:</strong> 重工业城市，工人阶层为主，生活节奏慢，治安一般。工厂烟囱、老旧居民区、工业遗址。',
+            },
+            {
+                id: "yucheng",
+                name: "玉城",
+                icon: "fa-martini-glass-citrus",
+                top: "65%",
+                left: "35%",
+                info: '<strong><i class="fa-solid fa-sun"></i> 旅游胜地，风景优美，度假产业发达，富人休闲首选。湖光山色、度假别墅、五星级酒店。',
+            },
+        ],
+
+        // 角色档案
+        characterProfiles: {
+            魏月华: {
+                image: "https://files.catbox.moe/auqnct.jpeg",
+                age: 27,
+                role: "万城娱乐CEO",
+                personality: "严肃、冷酷",
+                rpgStats: { vocal: 0, dance: 0, eloquence: 0, acting: 0 },
+                status: { desire: 0, affection: 0 },
+            },
+            秦述: {
+                image: "https://files.catbox.moe/c2khbl.jpeg",
+                age: 24,
+                role: "队长、主舞",
+                personality: "沉默、清冷",
+                rpgStats: { vocal: 0, dance: 0, eloquence: 0, acting: 0 },
+                status: { desire: 0, affection: 0 },
+            },
+            司洛: {
+                image: "https://files.catbox.moe/pohz52.jpeg",
+                age: 24,
+                role: "全能ACE",
+                personality: "慵懒、随性",
+                rpgStats: { vocal: 0, dance: 0, eloquence: 0, acting: 0 },
+                status: { desire: 0, affection: 0 },
+            },
+            鹿言: {
+                image: "https://files.catbox.moe/parliq.jpeg",
+                age: 23,
+                role: "主唱担当",
+                personality: "温柔、谦逊",
+                rpgStats: { vocal: 0, dance: 0, eloquence: 0, acting: 0 },
+                status: { desire: 0, affection: 0 },
+            },
+            魏星泽: {
+                image: "https://files.catbox.moe/syo0ze.jpeg",
+                age: 20,
+                role: "舞蹈、气氛",
+                personality: "开朗、感性",
+                rpgStats: { vocal: 0, dance: 0, eloquence: 0, acting: 0 },
+                status: { desire: 0, affection: 0 },
+            },
+            周锦宁: {
+                image: "https://files.catbox.moe/1loxsn.jpeg",
+                age: 20,
+                role: "Rapper、门面",
+                personality: "傲娇、矜贵",
+                rpgStats: { vocal: 0, dance: 0, eloquence: 0, acting: 0 },
+                status: { desire: 0, affection: 0 },
+            },
+            谌绪: {
+                image: "https://files.catbox.moe/9tnuva.png",
+                age: 18,
+                role: "主唱、忙内",
+                personality: "腹黑、恶劣",
+                rpgStats: { vocal: 0, dance: 0, eloquence: 0, acting: 0 },
+                status: { desire: 0, affection: 0 },
+            },
+            孟明赫: {
+                image: "https://files.catbox.moe/m446ro.jpeg",
+                age: 20,
+                role: "Rapper",
+                personality: "阴郁、厌世",
+                rpgStats: { vocal: 0, dance: 0, eloquence: 0, acting: 0 },
+                status: { desire: 0, affection: 0 },
+            },
+            亓谢: {
+                image: "https://files.catbox.moe/ev2g1l.png",
+                age: 18,
+                role: "舞蹈、副Rapper",
+                personality: "疯批、天才",
+                rpgStats: { vocal: 0, dance: 0, eloquence: 0, acting: 0 },
+                status: { desire: 0, affection: 0 },
+            },
+            桑洛凡: {
+                image: "https://files.catbox.moe/syudzu.png",
+                age: 27,
+                role: "传奇Solo",
+                personality: "慵懒、桀骜",
+                rpgStats: { vocal: 0, dance: 0, eloquence: 0, acting: 0 },
+                status: { desire: 0, affection: 0 },
+            },
+            你: {
+                image: "",
+                age: "?",
+                role: "CTE宿舍成员",
+                personality: "由你定义",
+                rpgStats: { vocal: 0, dance: 0, eloquence: 0, acting: 0 },
+                status: { desire: 0, affection: 0 },
+            },
+        },
+
+        roomDetails: {
+            前院与玄关: "设有小型日式枯山水庭院与智能安防通道。",
+            "客厅/公共休息区": "挑高设计，配有超大尺寸沙发和家庭影院。",
+            开放式厨房与餐厅: "设备齐全的专业级中西厨。",
+            储藏室与洗衣房: "存放生活用品和演出服装。",
+            后院与露天泳池: "精心打理的草坪和恒温泳池。",
+            周锦宁个人工作室: "顶级音乐制作设备。",
+            孟明赫个人工作室: "顶级音乐制作设备。",
+            乐器练习室: "存放钢琴、吉他等乐器。",
+            游戏娱乐室: "最新游戏主机和电竞椅。",
+            私人会客厅: "温馨私密的接待空间。",
+            收藏室: "存放礼物和奖杯。",
+            主舞蹈室: "巨大的排练空间，配有镜墙。",
+            声乐录音棚: "行业顶尖标准的录音室。",
+            造型与衣帽间: "挂满私服和演出服，配有化妆镜。",
+            成员休息室: "懒人沙发和零食饮料。",
+            会议室: "配备投影仪的大会议桌。",
+            健身房: "有氧和力量器械齐全。",
+            瑜伽与冥想室: "安静的环境，柔软地板。",
+            水疗与按摩室: "按摩浴缸和理疗床。",
+            健康管理室: "医疗用品和监测设备。",
+            "公共书房/阅览区": "藏书丰富的大书架。",
+        },
+    });
+
+    // ==========================================
+    // [NEW] 2.0 合约通告模块 (Contracts Manager)
+
     // ==========================================
     window.CTEIdolManager.Contracts = {
         pendingCard: null,
@@ -2963,6 +3170,7 @@
             console.log("[CTE Idol Map] 持久化数据已加载");
 
             bindRPGEvents();
+            window.CTEIdolManager.renderRPGContent("agency");
         } catch (e) {
             console.error("[CTE Idol Map] Initialization Error:", e);
             const contentArea = document.getElementById(
