@@ -1794,59 +1794,77 @@
     window.CTEIdolManager.Courses = {
         // 课程类型配置
         COURSE_TYPES: {
-            vocal: {
-                name: "声乐课",
-                icon: "fa-microphone",
-                color: "#FF6B9D",
-                attribute: "vocal",
-                attributeName: "歌艺",
-                price: 50000,
-                increment: 3,
-            },
-            dance: {
-                name: "舞蹈课",
-                icon: "fa-person-dancing",
-                color: "#4ECDC4",
-                attribute: "dance",
-                attributeName: "舞蹈",
-                price: 50000,
-                increment: 3,
-            },
-            acting: {
-                name: "演技课",
-                icon: "fa-masks-theater",
-                color: "#A8E6CF",
-                attribute: "acting",
-                attributeName: "演技",
-                price: 55000,
-                increment: 3,
-            },
-            charm: {
-                name: "魅力培训",
-                icon: "fa-star",
-                color: "#FFD93D",
-                attribute: "charm",
-                attributeName: "魅力",
-                price: 48000,
-                increment: 3,
-            },
-            grace: {
-                name: "气质课",
-                icon: "fa-crown",
+            photography: {
+                name: "摄影训练",
+                icon: "fa-camera",
                 color: "#C9A0DC",
                 attribute: "grace",
                 attributeName: "气质",
+                attribute2: "charm",
+                attributeName2: "魅力",
                 price: 48000,
-                increment: 3,
+                increment: 2,
+                increment2: 1,
             },
-            stamina: {
-                name: "体能训练",
-                icon: "fa-dumbbell",
+            stage: {
+                name: "舞台表演",
+                icon: "fa-star",
+                color: "#FFD93D",
+                attribute: "dance",
+                attributeName: "舞蹈",
+                attribute2: "vocal",
+                attributeName2: "歌艺",
+                price: 52000,
+                increment: 2,
+                increment2: 1,
+            },
+            aerobic: {
+                name: "有氧舞蹈",
+                icon: "fa-person-running",
                 color: "#FF8C42",
                 attribute: "stamina",
                 attributeName: "体能",
+                attribute2: "dance",
+                attributeName2: "舞蹈",
                 price: 45000,
+                increment: 2,
+                increment2: 1,
+            },
+            body: {
+                name: "肢体动作",
+                icon: "fa-person-walking",
+                color: "#4ECDC4",
+                attribute: "acting",
+                attributeName: "演技",
+                attribute2: "stamina",
+                attributeName2: "体能",
+                price: 50000,
+                increment: 2,
+                increment2: 1,
+            },
+            expression: {
+                name: "表情管理",
+                icon: "fa-masks-theater",
+                color: "#FF6B9D",
+                attribute: "charm",
+                attributeName: "魅力",
+                attribute2: "acting",
+                attributeName2: "演技",
+                price: 48000,
+                increment: 2,
+                increment2: 1,
+            },
+            vocal: {
+                name: "音感发声",
+                icon: "fa-microphone",
+                color: "#A8E6CF",
+                attribute: "vocal",
+                attributeName: "歌艺",
+                attribute2: null,
+                attributeName2: null,
+                price: 55000,
                 increment: 3,
+                increment2: 0,
             },
         },
 
@@ -1893,6 +1911,26 @@
             </div>
           </div>
 
+          <!-- 属性总览栏 -->
+          <div class="cte-courses-stats-bar">
+            ${[
+              {key:'vocal', label:'歌艺', icon:'fa-microphone', color:'#FF6B9D'},
+              {key:'dance', label:'舞蹈', icon:'fa-person-dancing', color:'#4ECDC4'},
+              {key:'acting', label:'演技', icon:'fa-masks-theater', color:'#A8E6CF'},
+              {key:'charm', label:'魅力', icon:'fa-star', color:'#FFD93D'},
+              {key:'grace', label:'气质', icon:'fa-crown', color:'#C9A0DC'},
+              {key:'stamina', label:'体能', icon:'fa-dumbbell', color:'#FF8C42'},
+            ].map(a => {
+              const val = window.CTEIdolManager.RPG.state[a.key];
+              const display = (val !== undefined && val !== null) ? val : '-';
+              return `<div class="cte-courses-stat-item">
+                <i class="fa-solid ${a.icon}" style="color:${a.color};"></i>
+                <span class="cte-courses-stat-label">${a.label}</span>
+                <span class="cte-courses-stat-val">${display}</span>
+              </div>`;
+            }).join('')}
+          </div>
+
           <div class="cte-courses-grid">
             ${Object.entries(this.COURSE_TYPES)
                 .map(
@@ -1900,14 +1938,20 @@
               <div class="cte-course-card" data-course="${key}" onclick="window.CTEIdolManager.Courses.selectCourse('${key}')">
                 <div class="cte-course-icon" style="background: ${course.color}; flex-direction: column; gap: 4px;">
                   <i class="fa-solid ${course.icon}"></i>
-                  <span class="cte-course-icon-stat">${(() => { const attrMap = {vocal:'歌艺',dance:'舞蹈',acting:'演技',charm:'魅力',grace:'气质',stamina:'体能'}; const stateKey = Object.entries(attrMap).find(([k,v]) => v === course.attributeName)?.[0]; const val = stateKey ? window.CTEIdolManager.RPG.state[stateKey] : undefined; return (val !== undefined && val !== null) ? val : '-'; })()}</span>
+                  <span class="cte-course-icon-stat">${(() => { const attrMap = {vocal:'歌艺',dance:'舞蹈',acting:'演技',charm:'魅力',grace:'气质',stamina:'体能'}; const stateKey = Object.entries(attrMap).find(([k,v]) => v === course.attributeName)?.[0]; const val = stateKey ? window.CTEIdolManager.RPG.state[stateKey] : undefined;
+                                    const val2Key = Object.entries(attrMap).find(([k,v]) => v === course.attributeName2)?.[0];
+                                    const val2 = val2Key ? window.CTEIdolManager.RPG.state[val2Key] : undefined;
+                                    const v1 = (val !== undefined && val !== null) ? val : '-';
+                                    const v2 = (val2 !== undefined && val2 !== null) ? val2 : '';
+                                    return v2 ? v1 + '/' + v2 : v1; })()}</span>
                 </div>
                 <div class="cte-course-info">
                   <h3>${course.name}</h3>
                   <div class="cte-course-details">
                     <div class="cte-course-attr">
-                      <i class="fa-solid fa-arrow-up"></i>
-                      <span>${course.attributeName} +${course.increment}</span>
+                      <i class="fa-solid fa-arrow-up" style="color:#4caf50;"></i>
+                      <span>${course.attributeName} ↑${course.increment2 > 0 ? '' : '↑'}</span>
+                      ${course.attributeName2 ? `<span style="margin-left:6px; color:#aaa;">${course.attributeName2} ↑</span>` : ''}
                     </div>
                     <div class="cte-course-price">
                       <i class="fa-solid fa-coins"></i>
@@ -2139,7 +2183,10 @@
             const totalCost = members.length * course.price;
 
             // 生成输出文本
-            const text = `你报了${dateInfo.name}${timeInfo.name}的公司${course.name}，花费 ¥${course.price.toLocaleString()}。`;
+            const attrText = course.attributeName2
+                ? `${course.attributeName} ↑${course.increment}、${course.attributeName2} ↑${course.increment2}`
+                : `${course.attributeName} ↑↑${course.increment}`;
+            const text = `你报了${dateInfo.name}${timeInfo.name}的公司${course.name}（${attrText}），花费 ¥${course.price.toLocaleString()}。`;
 
             // 发送到输入框
             if (typeof stContext !== "undefined" && stContext) {
