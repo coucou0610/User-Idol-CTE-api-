@@ -3383,10 +3383,7 @@
                 window.CTEIdolManager.refreshSchedule();
             }
             if (viewName === "manager") {
-                window.CTEIdolManager.scanForRPGStats();
-                window.CTEIdolManager.readStatsFromMVU();
-                window.CTEIdolManager.readCharacterStatsFromChat();
-                window.CTEIdolManager.renderRPGContent("dashboard");
+                window.CTEIdolManager.renderRPGContent("agency");
             }
             if (viewName === "heartbeat") {
                 // [FIXED] Call the new consolidated method
@@ -3608,9 +3605,7 @@
                         if ($("#cte-idol-view-schedule").hasClass("active"))
                             window.CTEIdolManager.refreshSchedule();
                         if ($("#cte-idol-view-manager").hasClass("active")) {
-                            window.CTEIdolManager.readStatsFromMVU();
-                            window.CTEIdolManager.readCharacterStatsFromChat();
-                            window.CTEIdolManager.renderRPGContent("dashboard");
+                            window.CTEIdolManager.renderRPGContent("agency");
                         }
                         if (
                             $("#cte-idol-view-heartbeat").hasClass("active") &&
