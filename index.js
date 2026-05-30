@@ -2316,14 +2316,16 @@
             );
             if (!headline && items.length > 0) headline = items[0];
 
-            // 中栏：热搜
+            // 中栏：热搜 + 竞品
             const midItems = items.filter(
                 (i) => i !== headline && (
                     i.type.includes("热搜") ||
-                    i.type.toLowerCase().includes("trending")
+                    i.type.toLowerCase().includes("trending") ||
+                    i.type.includes("竞品") ||
+                    i.type.toLowerCase().includes("rivalry")
                 )
             );
-            // 右栏：八卦 + 竞品 + 行业 + 其他
+            // 右栏：八卦 + 行业 + 其他
             const rightItems = items.filter(
                 (i) => i !== headline && !midItems.includes(i)
             );
@@ -2430,7 +2432,7 @@
                             <!-- 中栏：热搜+竞品 -->
                             <div class="news-col news-col-mid">
                                 <div class="sidebar-header">
-                                    <span><i class="fa-brands fa-weibo" style="color:#e74c3c;margin-right:5px;"></i> WEIBO / 实时热搜</span>
+                                    <span><i class="fa-brands fa-weibo" style="color:#e74c3c;margin-right:5px;"></i> WEIBO / 实时热搜 &amp; 竞品</span>
                                     <span style="font-size:9px;color:#999">TOP ${midItems.length}</span>
                                 </div>
                                 ${trendingHtml}
