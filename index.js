@@ -2316,16 +2316,14 @@
             );
             if (!headline && items.length > 0) headline = items[0];
 
-            // 中栏：热搜 + 竞品
+            // 中栏：热搜
             const midItems = items.filter(
                 (i) => i !== headline && (
                     i.type.includes("热搜") ||
-                    i.type.toLowerCase().includes("trending") ||
-                    i.type.includes("竞品") ||
-                    i.type.toLowerCase().includes("rivalry")
+                    i.type.toLowerCase().includes("trending")
                 )
             );
-            // 右栏：八卦 + 行业 + 其他
+            // 右栏：八卦 + 竞品 + 行业 + 其他
             const rightItems = items.filter(
                 (i) => i !== headline && !midItems.includes(i)
             );
