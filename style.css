@@ -1776,6 +1776,8 @@
     display: grid;
     /* Desktop: Side-by-side; Mobile: Collapses to single column automatically */
     grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    grid-auto-rows: min-content;
+    align-items: start;
     gap: 15px;
     padding-bottom: 20px;
 }
@@ -1810,6 +1812,7 @@
     /* Ensure proper height in grid */
     height: auto;
     min-height: 180px;
+    max-width: 420px;
     display: flex;
     flex-direction: column;
 }
