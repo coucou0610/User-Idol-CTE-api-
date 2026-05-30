@@ -2608,24 +2608,59 @@
         if (!ST && window.parent) ST = window.parent.SillyTavern;
         if (!ST) return;
 
-        let statDataRaw = null;
         try {
-            // MVU 把变量存在 chat_metadata.variables 里
             const ctx = ST.getContext ? ST.getContext() : stContext;
-            const meta = ctx?.chatMetadata || ctx?.chat_metadata;
-            if (meta?.variables) {
-                statDataRaw = meta.variables;
+            const vars = ctx?.chatMetadata?.variables || ctx?.chat_metadata?.variables;
+            if (!vars) return;
+
+            // MVU 把嵌套对象平铺成独立键存储
+            // 尝试两种格式：平铺键 "玩家状态.属性.资产" 或嵌套对象
+            let funds = null;
+            let fans = null;
+
+            // 格式1：平铺键
+            if (vars["玩家状态.属性.资产"] !== undefined)
+                funds = vars["玩家状态.属性.资产"];
+            if (vars["玩家状态.属性.粉丝数"] !== undefined)
+                fans = vars["玩家状态.属性.粉丝数"];
+
+            // 格式2：嵌套对象（直接存了整个Schema）
+            if (funds === null && vars["玩家状态"]?.属性?.资产 !== undefined)
+                funds = vars["玩家状态"].属性.资产;
+            if (fans === null && vars["玩家状态"]?.属性?.粉丝数 !== undefined)
+                fans = vars["玩家状态"].属性.粉丝数;
+
+            // 格式3：MVU 把整个 Schema 序列化成一个 JSON 字符串存在某个键里
+            if (funds === null) {
+                for (const val of Object.values(vars)) {
+                    if (typeof val === "string" && val.includes("玩家状态")) {
+                        try {
+                            const parsed = JSON.parse(val);
+                            if (parsed?.玩家状态?.属性?.资产 !== undefined)
+                                funds = parsed.玩家状态.属性.资产;
+                            if (parsed?.玩家状态?.属性?.粉丝数 !== undefined)
+                                fans = parsed.玩家状态.属性.粉丝数;
+                            break;
+                        } catch (e) {}
+                    }
+                }
             }
-            // 兜底：也尝试 extension_settings
-            if (!statDataRaw) {
-                const extVars = ST.extension_settings?.variables;
-                if (extVars?.global) statDataRaw = extVars.global;
-                else if (extVars?.local) statDataRaw = extVars.local;
-            }
+
+            if (funds !== null)
+                window.CTEIdolManager.RPG.state.funds =
+                    parseInt(String(funds).replace(/,/g, ""), 10) || 0;
+            if (fans !== null)
+                window.CTEIdolManager.RPG.state.fans =
+                    parseInt(String(fans).replace(/,/g, ""), 10) || 0;
+
+            console.info("[CTE Idol] MVU读取: 资产=" + funds + " 粉丝数=" + fans);
+
         } catch (e) {
             console.warn("[CTE Idol] Error reading MVU stats:", e);
         }
 
+        // 以下保留角色属性读取
+        const statDataRaw = null;
         if (statDataRaw) {
             try {
                 const statData =
