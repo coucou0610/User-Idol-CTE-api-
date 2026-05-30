@@ -2879,6 +2879,38 @@
         }
     }, 500);
 
+
+    // ==========================================
+    // 日夜模式切换
+    // ==========================================
+    window.CTEIdolManager.toggleTheme = function () {
+        const panel = document.getElementById("cte-idol-map-panel");
+        if (!panel) return;
+        const isDark = panel.classList.contains("cte-theme-dark");
+        if (isDark) {
+            panel.classList.remove("cte-theme-dark");
+            panel.classList.add("cte-theme-light");
+            localStorage.setItem("cte_theme", "light");
+            const btn = document.getElementById("cte-theme-toggle-btn");
+            if (btn) btn.textContent = "🌙";
+        } else {
+            panel.classList.remove("cte-theme-light");
+            panel.classList.add("cte-theme-dark");
+            localStorage.setItem("cte_theme", "dark");
+            const btn = document.getElementById("cte-theme-toggle-btn");
+            if (btn) btn.textContent = "☀️";
+        }
+    };
+
+    window.CTEIdolManager.initTheme = function () {
+        const panel = document.getElementById("cte-idol-map-panel");
+        if (!panel) return;
+        const saved = localStorage.getItem("cte_theme") || "light";
+        panel.classList.add(saved === "dark" ? "cte-theme-dark" : "cte-theme-light");
+        const btn = document.getElementById("cte-theme-toggle-btn");
+        if (btn) btn.textContent = saved === "dark" ? "☀️" : "🌙";
+    };
+
     function bindRPGEvents() {
         $(document)
             .off("click", ".cte-idol-rpg-nav-btn")
@@ -2965,6 +2997,7 @@
                         <button class="idol-main-settings-btn" onclick="window.IdolSettings.showSettings()" title="独立API设置">
                             <i class="fa-solid fa-gear"></i> 设置
                         </button>
+                        <button id="cte-theme-toggle-btn" onclick="window.CTEIdolManager.toggleTheme()" title="切换日夜模式" style="background:transparent; border:none; cursor:pointer; font-size:16px; padding:4px 6px; color:inherit;">🌙</button>
                         <span id="cte-idol-close-btn" style="cursor:pointer; margin-left:10px;">❌</span>
                     </div>
                 </div>
@@ -3029,6 +3062,7 @@
             console.log("[CTE Idol Map] 持久化数据已加载");
 
             bindRPGEvents();
+            window.CTEIdolManager.initTheme();
             window.CTEIdolManager.renderRPGContent("agency");
         } catch (e) {
             console.error("[CTE Idol Map] Initialization Error:", e);
