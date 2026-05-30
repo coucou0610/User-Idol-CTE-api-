@@ -2320,15 +2320,22 @@
             );
             if (!headline && items.length > 0) headline = items[0];
 
-            const trending = items.filter(
-                (i) =>
-                    (i.type.includes("热搜") ||
-                        i.type.toLowerCase().includes("trending")) &&
-                    i !== headline,
+            // 中栏：热搜 + 竞品
+            const midItems = items.filter(
+                (i) => i !== headline && (
+                    i.type.includes("热搜") ||
+                    i.type.toLowerCase().includes("trending") ||
+                    i.type.includes("竞品") ||
+                    i.type.toLowerCase().includes("rivalry")
+                )
             );
-            const others = items.filter(
-                (i) => i !== headline && !trending.includes(i),
+            // 右栏：八卦 + 行业 + 其他
+            const rightItems = items.filter(
+                (i) => i !== headline && !midItems.includes(i)
             );
+            // 兼容旧变量名
+            const trending = midItems;
+            const others = rightItems;
 
             // Generate Headline HTML
             const headlineHtml = headline
@@ -2397,21 +2404,14 @@
                     <div class="archive-card" id="cte-news-main-card">
                         <header class="header-section">
                             <div class="header-title">
-                                <h1 title="在正文中发送 刷新日报 即可更新" onclick="window.CTEIdolManager.renderRPGContent('news')">京港娱乐日报</h1>
+                                <h1>京港娱乐日报</h1>
                             </div>
                             <div class="header-meta">
                                 <div>每日快报</div>
                                 <div>DATE: ${dateStr}</div>
                                 <div>内部资讯</div>
-                                <button class="idol-generate-btn" onclick="window.CTEIdolManager.News.generateNews()" id="news-generate-btn">
-                                    <i class="fa-solid fa-wand-magic-sparkles"></i> 生成日报
-                                </button>
                             </div>
                         </header>
-
-                        <div id="news-loading" style="display:none; padding:20px; text-align:center; color:#e94560;">
-                            <i class="fa-solid fa-spinner fa-spin"></i> 正在生成日报...
-                        </div>
 
                         <div class="sentiment-bar">
                             <div class="sent-item">
@@ -2428,26 +2428,36 @@
                             </div>
                         </div>
 
-                        <div class="news-grid">
-                            <div class="news-main-col">
+                        <div class="news-grid-3col">
+                            <!-- 左栏：头条 -->
+                            <div class="news-col news-col-left">
                                 ${headlineHtml}
                             </div>
-                            <div class="news-sidebar">
-                                <div class="trending-section">
-                                    <div class="sidebar-header">
-                                        <span><i class="fa-brands fa-weibo" style="color:#e74c3c;margin-right:5px;"></i> Weibo / 实时热搜</span>
-                                        <span style="font-size:9px;color:#999">TOP ${trending.length}</span>
-                                    </div>
-                                    ${trendingHtml}
+                            <!-- 中栏：热搜+竞品 -->
+                            <div class="news-col news-col-mid">
+                                <div class="sidebar-header">
+                                    <span><i class="fa-brands fa-weibo" style="color:#e74c3c;margin-right:5px;"></i> WEIBO / 实时热搜</span>
+                                    <span style="font-size:9px;color:#999">TOP ${midItems.length}</span>
                                 </div>
+                                ${trendingHtml}
+                            </div>
+                            <!-- 右栏：八卦+行业 -->
+                            <div class="news-col news-col-right">
                                 ${othersHtml}
                             </div>
                         </div>
 
                         <div class="footer-status">
-                            <span>在酒馆输入框中发送"刷新日报"即可更新</span>
-                            <span>插件作者: <span style="color:green;font-weight:bold;">1900</span></span>
-                            <span>遇到问题了吗？请到Discord寻找答疑</span>
+                            <button class="idol-generate-btn" onclick="window.CTEIdolManager.News.generateNews()" id="news-generate-btn">
+                                <i class="fa-solid fa-wand-magic-sparkles"></i> 生成日报
+                            </button>
+                            <div id="news-loading" style="display:none; color:#e94560; font-size:12px;">
+                                <i class="fa-solid fa-spinner fa-spin"></i> 正在生成日报...
+                            </div>
+                            <div style="display:flex; gap:20px; font-size:11px; color:#999;">
+                                <span>插件作者: <span style="color:green;font-weight:bold;">1900</span></span>
+                                <span>遇到问题了吗？请到Discord寻找答疑</span>
+                            </div>
                         </div>
 
                     </div>
