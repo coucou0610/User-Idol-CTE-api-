@@ -586,23 +586,22 @@
             return `
                 <div class="cte-agency-item ${style.css} ${isCardExpired ? "cte-agency-item-expired" : ""}" data-category="${typeKey}" id="cte-c-${index}">
                     <div class="cte-item-stamp">AUTHORIZED</div>
-                    <div class="cte-item-header">
-                        <div class="cte-item-title-group">
-                            <div class="cte-item-title-row">
+                    <!-- 紧凑横排布局 -->
+                    <div class="cte-item-compact-row">
+                        <div class="cte-item-compact-left">
+                            <div class="cte-item-compact-title">
                                 <h3>${data.name}</h3>
-                                ${deadlineHtml ? `<div style="flex-shrink: 0; white-space: nowrap;">${deadlineHtml}</div>` : ""}
+                                <span class="cte-item-badge ${style.badge}">${data.job}</span>
+                                ${deadlineHtml ? `<div style="flex-shrink:0;">${deadlineHtml}</div>` : ""}
                             </div>
                             <div class="cte-item-company">${data.company}</div>
+                            <div class="cte-item-compact-attrs cte-item-req-grid">${attrHtml}</div>
                         </div>
-                        <span class="cte-item-badge ${style.badge}">${data.job}</span>
-                    </div>
-                    <div class="cte-item-req-grid">${attrHtml}</div>
-                    <div class="cte-item-footer">
-                        <div>
+                        <div class="cte-item-compact-right">
                             <div class="cte-item-payment">${data.pay}</div>
                             <div class="cte-item-days">${data.duration}</div>
+                            <button class="cte-item-sign-btn" onclick="window.CTEIdolManager.Contracts.openSignModal(this, '${safeRawString}')">签署合约</button>
                         </div>
-                        <button class="cte-item-sign-btn" onclick="window.CTEIdolManager.Contracts.openSignModal(this, '${safeRawString}')">签署合约</button>
                     </div>
                 </div>
             `;
@@ -651,15 +650,10 @@
                             </div>
                             <div class="cte-agency-meta">
                                 <div>AVAILABLE: ${count < 10 ? "0" + count : count}</div>
-                                <button class="idol-generate-btn" onclick="window.CTEIdolManager.Contracts.generateContracts()" id="contracts-generate-btn">
-                                    <i class="fa-solid fa-wand-magic-sparkles"></i> 生成通告
-                                </button>
                             </div>
                         </header>
 
-                        <div id="contracts-loading" style="display:none; padding:20px; text-align:center; color:#e94560;">
-                            <i class="fa-solid fa-spinner fa-spin"></i> 正在生成通告...
-                        </div>
+
 
 
 
@@ -676,9 +670,14 @@
                             ${listHtml}
                         </div>
 
-                        <div style="margin-top: 15px; border-top: 2px solid var(--cte-agency-text-primary); padding-top:10px; opacity:0.6; font-size:10px; display:flex; justify-content:space-between;">
-                            <span>在酒馆输入框中发送"查看通告"</span>
-                            <span>即可刷新</span>
+                        <div style="margin-top:auto; padding-top:10px; border-top:1px solid #ddd; display:flex; justify-content:space-between; align-items:center; flex-shrink:0;">
+                            <button class="idol-generate-btn" onclick="window.CTEIdolManager.Contracts.generateContracts()" id="contracts-generate-btn">
+                                <i class="fa-solid fa-wand-magic-sparkles"></i> 生成通告
+                            </button>
+                            <div id="contracts-loading" style="display:none; color:#e94560; font-size:12px;">
+                                <i class="fa-solid fa-spinner fa-spin"></i> 正在生成通告...
+                            </div>
+                            <span style="opacity:0.5; font-size:10px;">即可刷新</span>
                         </div>
                     </div>
                 </div>
