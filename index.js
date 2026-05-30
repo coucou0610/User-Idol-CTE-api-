@@ -2511,7 +2511,7 @@
         const timeMatch = text.match(/时间[:：]\s*(.*?)(?:\n|$)/);
         const locMatch = text.match(/地点[:：]\s*(.*?)(?:\n|$)/);
         const todayMatch = text.match(
-            /今日安排[:：]\s*([\s\S]*?)(?=最近演出安排[:：]|$)/,
+            /Schedule[:：]\s*([\s\S]*?)(?=最近演出安排[:：]|$)/,
         );
         const upcomingMatch = text.match(
             /最近演出安排[:：]\s*([\s\S]*?)(?:\n|$)/,
@@ -2520,7 +2520,7 @@
         return {
             dateStr: timeMatch ? timeMatch[1].trim() : "未知时间",
             locationStr: locMatch ? locMatch[1].trim() : "未知地点",
-            todaySchedule: todayMatch ? todayMatch[1].trim() : "无今日安排",
+            todaySchedule: todayMatch ? todayMatch[1].trim() : "暂无安排",
             upcoming: upcomingMatch ? upcomingMatch[1].trim() : "无近期演出",
         };
     };
@@ -3369,7 +3369,7 @@
             return;
         }
 
-        const targetKeyword = "今日安排";
+        const targetKeyword = "Schedule";
         const keywordIndex = foundContent.indexOf(targetKeyword);
         if (keywordIndex === -1) {
             statusEl.text(`未找到“${targetKeyword}”`);
