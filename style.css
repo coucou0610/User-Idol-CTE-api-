@@ -2902,13 +2902,16 @@
 */
 .cte-shop-tabs {
     display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-bottom: 15px;
-    padding-bottom: 5px;
+    flex-wrap: nowrap;
+    gap: 6px;
+    margin-bottom: 12px;
+    padding-bottom: 6px;
     flex-shrink: 0;
-    /* Transition for expanding (optional, but good for UX) */
-    transition: all 0.3s ease;
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+.cte-shop-tabs::-webkit-scrollbar {
+    display: none;
 }
 .cte-shop-tab-btn {
     background: transparent;
@@ -2991,10 +2994,11 @@
     flex: 1;
     overflow-y: auto;
     padding-right: 4px;
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     gap: 12px;
-    padding-bottom: 20px;
+    padding-bottom: 10px;
+    align-content: start;
 }
 .cte-shop-list::-webkit-scrollbar {
     width: 4px;
