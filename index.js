@@ -1952,14 +1952,6 @@
             </div>
 
             <div class="cte-courses-modal-body">
-              <!-- 成员选择 -->
-              <div class="cte-courses-section">
-                <h3><i class="fa-solid fa-users"></i> 选择学员（可多选）</h3>
-                <div class="cte-courses-members-grid" id="cte-courses-members-grid">
-                  <!-- 动态生成 -->
-                </div>
-              </div>
-
               <!-- 日期选择 -->
               <div class="cte-courses-section">
                 <h3><i class="fa-solid fa-calendar"></i> 选择日期</h3>
@@ -1996,16 +1988,8 @@
               <!-- 费用预览 -->
               <div class="cte-courses-summary">
                 <div class="cte-courses-summary-row">
-                  <span>已选学员：</span>
-                  <span id="cte-courses-selected-count">0 人</span>
-                </div>
-                <div class="cte-courses-summary-row">
-                  <span>单价：</span>
+                  <span>课程费用：</span>
                   <span id="cte-courses-unit-price">¥0</span>
-                </div>
-                <div class="cte-courses-summary-row cte-courses-total">
-                  <span>总费用：</span>
-                  <span id="cte-courses-total-price">¥0</span>
                 </div>
               </div>
             </div>
@@ -2035,18 +2019,13 @@
             const title = document.getElementById("cte-courses-modal-title");
             title.innerHTML = `<i class="fa-solid ${course.icon}"></i> 安排${course.name}`;
 
-            // 渲染成员列表
-            this.renderMembersList();
-
             // 更新单价显示
             document.getElementById("cte-courses-unit-price").textContent =
                 `¥${course.price.toLocaleString()}`;
 
             // 重置选择
-            this.currentSelection.members = [];
             this.currentSelection.date = null;
             this.currentSelection.timeSlot = null;
-            this.updateSummary();
 
             modal.style.display = "flex";
         },
@@ -2138,14 +2117,11 @@
 
         // 更新费用摘要
         updateSummary: function () {
-            const count = this.currentSelection.members.length;
             const course = this.COURSE_TYPES[this.currentSelection.courseType];
-            const total = count * course.price;
-
-            document.getElementById("cte-courses-selected-count").textContent =
-                `${count} 人`;
-            document.getElementById("cte-courses-total-price").textContent =
-                `¥${total.toLocaleString()}`;
+            if (course) {
+                document.getElementById("cte-courses-unit-price").textContent =
+                    `¥${course.price.toLocaleString()}`;
+            }
         },
 
         // 确认安排课程
@@ -2156,10 +2132,6 @@
             // 验证选择
             if (!courseType) {
                 alert("请选择课程类型");
-                return;
-            }
-            if (members.length === 0) {
-                alert("请至少选择一位学员");
                 return;
             }
             if (!date) {
@@ -2178,8 +2150,7 @@
             const totalCost = members.length * course.price;
 
             // 生成输出文本
-            const memberList = members.join("、");
-            const text = `{{user}} 为 ${memberList} 安排了${dateInfo.name}${timeInfo.name}的${course.name}，花费 ¥${totalCost.toLocaleString()}。`;
+            const text = `秦述为{{user}}安排了${dateInfo.name}${timeInfo.name}的${course.name}，花费 ¥${course.price.toLocaleString()}。`;
 
             // 发送到输入框
             if (typeof stContext !== "undefined" && stContext) {
