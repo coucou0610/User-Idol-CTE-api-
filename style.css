@@ -66,6 +66,97 @@
 }
 
 /* --- 扩展面板容器 --- */
+/* ================================================
+   统一左侧导航栏
+   ================================================ */
+#cte-idol-left-nav {
+    width: 60px;
+    min-width: 60px;
+    height: 100%;
+    background: #121212;
+    border-right: 1px solid rgba(179, 139, 89, 0.2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 12px;
+    gap: 4px;
+    flex-shrink: 0;
+    overflow: hidden;
+}
+
+.cte-left-nav-btn {
+    width: 44px;
+    height: 44px;
+    background: transparent;
+    border: none;
+    color: #555;
+    font-size: 18px;
+    cursor: pointer;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+.cte-left-nav-btn:hover {
+    color: #c5a065;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.cte-left-nav-btn.active {
+    color: #c5a065;
+    background: rgba(197, 160, 101, 0.12);
+}
+
+.cte-left-nav-btn.active::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 20%;
+    height: 60%;
+    width: 3px;
+    background: #b38b59;
+    border-radius: 0 2px 2px 0;
+}
+
+/* tooltip */
+.cte-left-nav-btn::after {
+    content: attr(title);
+    position: absolute;
+    left: 54px;
+    background: #333;
+    color: #e0c5a1;
+    font-size: 12px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    white-space: nowrap;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.15s ease;
+    z-index: 99999;
+    font-family: "Noto Serif SC", serif;
+}
+
+.cte-left-nav-btn:hover::after {
+    opacity: 1;
+}
+
+.cte-left-nav-divider {
+    width: 30px;
+    height: 1px;
+    background: rgba(179, 139, 89, 0.2);
+    margin: 6px 0;
+}
+
+#cte-idol-body {
+    display: flex;
+    height: calc(100% - 44px);
+    overflow: hidden;
+}
+
+
 #cte-idol-map-panel {
     position: fixed;
     top: 50%;
@@ -3828,19 +3919,19 @@
     align-items: center;
     margin-bottom: 30px;
     padding-bottom: 20px;
-    border-bottom: 2px solid rgba(197, 160, 101, 0.2);
+    border-bottom: 2px solid var(--cte-border-subtle);
 }
 
 .cte-courses-title h1 {
     font-size: 28px;
-    color: #c5a065;
+    color: var(--cte-accent-gold);
     margin: 0 0 8px 0;
     font-family: "Noto Serif SC", serif;
 }
 
 .cte-courses-subtitle {
     font-size: 14px;
-    color: #888;
+    color: var(--cte-text-secondary);
     margin: 0;
 }
 
@@ -3854,11 +3945,11 @@
     align-items: center;
     gap: 8px;
     font-size: 13px;
-    color: #aaa;
+    color: var(--cte-text-secondary);
 }
 
 .cte-courses-info-item i {
-    color: #c5a065;
+    color: var(--cte-accent-gold);
 }
 
 /* 课程卡片网格 */
@@ -3870,8 +3961,8 @@
 }
 
 .cte-course-card {
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(197, 160, 101, 0.2);
+    background: rgba(0, 0, 0, 0.02);
+    border: 1px solid var(--cte-border-subtle);
     border-radius: 8px;
     padding: 20px;
     cursor: pointer;
@@ -3898,8 +3989,8 @@
 }
 
 .cte-course-card:hover {
-    border-color: #c5a065;
-    background: rgba(255, 255, 255, 0.05);
+    border-color: var(--cte-accent-gold);
+    background: var(--cte-accent-gold-glow);
     transform: translateY(-4px);
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
 }
@@ -3922,7 +4013,7 @@
 
 .cte-course-info h3 {
     font-size: 18px;
-    color: #f9f1d8;
+    color: var(--cte-text-primary);
     margin: 0 0 12px 0;
     font-family: "Noto Serif SC", serif;
 }
@@ -3940,7 +4031,7 @@
     align-items: center;
     gap: 6px;
     font-size: 13px;
-    color: #aaa;
+    color: var(--cte-text-secondary);
 }
 
 .cte-course-attr i {
@@ -3955,8 +4046,8 @@
     width: 100%;
     padding: 10px;
     background: transparent;
-    border: 1px solid rgba(197, 160, 101, 0.3);
-    color: #c5a065;
+    border: 1px solid var(--cte-border-subtle);
+    color: var(--cte-accent-gold);
     border-radius: 6px;
     font-size: 13px;
     cursor: pointer;
@@ -3968,9 +4059,9 @@
 }
 
 .cte-course-select-btn:hover {
-    background: #c5a065;
-    color: #0d0d0d;
-    border-color: #c5a065;
+    background: var(--cte-accent-gold);
+    color: var(--cte-bg-panel);
+    border-color: var(--cte-accent-gold);
 }
 
 .cte-courses-tip {
