@@ -2952,20 +2952,17 @@
             );
             if (contentArea) contentArea.innerHTML = htmlContent;
 
-            bindMapEvents();
-            loadSavedPositions();
-            loadSavedBg();
-            window.CTEIdolManager.initNationalMap();
-            window.CTEIdolManager.loadSavedNationalBg();
-            window.CTEIdolManager.Contracts.init();
-
-            // [NEW] 从 localStorage 加载持久化数据
-            window.CTEIdolManager.Contracts.loadFromStorage();
-            window.CTEIdolManager.Shop.loadFromStorage();
-            window.CTEIdolManager.News.loadFromStorage();
+            try { bindMapEvents(); } catch(e2) { console.error("[DEBUG] bindMapEvents failed:", e2); throw e2; }
+            try { loadSavedPositions(); } catch(e2) { console.error("[DEBUG] loadSavedPositions failed:", e2); throw e2; }
+            try { loadSavedBg(); } catch(e2) { console.error("[DEBUG] loadSavedBg failed:", e2); throw e2; }
+            try { window.CTEIdolManager.initNationalMap(); } catch(e2) { console.error("[DEBUG] initNationalMap failed:", e2); throw e2; }
+            try { window.CTEIdolManager.loadSavedNationalBg(); } catch(e2) { console.error("[DEBUG] loadSavedNationalBg failed:", e2); throw e2; }
+            try { window.CTEIdolManager.Contracts.init(); } catch(e2) { console.error("[DEBUG] Contracts.init failed:", e2); throw e2; }
+            try { window.CTEIdolManager.Contracts.loadFromStorage(); } catch(e2) { console.error("[DEBUG] Contracts.loadFromStorage failed:", e2); throw e2; }
+            try { window.CTEIdolManager.Shop.loadFromStorage(); } catch(e2) { console.error("[DEBUG] Shop.loadFromStorage failed:", e2); throw e2; }
+            try { window.CTEIdolManager.News.loadFromStorage(); } catch(e2) { console.error("[DEBUG] News.loadFromStorage failed:", e2); throw e2; }
             console.log("[CTE Idol Map] 持久化数据已加载");
-
-            bindRPGEvents();
+            try { bindRPGEvents(); } catch(e2) { console.error("[DEBUG] bindRPGEvents failed:", e2); throw e2; }
         } catch (e) {
             console.error("[CTE Idol Map] Initialization Error:", e);
             const contentArea = document.getElementById(
@@ -2974,7 +2971,7 @@
             if (contentArea) {
                 contentArea.innerHTML = `<div style="padding:20px; color:white;">
                     <p style="font-weight:bold; color:#ff6b6b;">无法加载地图文件 (map.html)</p>
-                    <p style="font-size:12px; color:#ccc; margin-top:10px;">错误信息: ${e.message}</p>
+                    <p style="font-size:12px; color:#ccc; margin-top:10px;">错误信息: ${e.message} | 位置: ${e.stack ? e.stack.split("\n")[1] : "unknown"}</p>
                     <p style="font-size:11px; color:#888; margin-top:10px;">请检查：</p>
                     <ul style="font-size:11px; color:#888; margin-left:20px;">
                         <li>map.html 文件是否存在于插件目录中</li>
