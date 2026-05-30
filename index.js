@@ -1647,12 +1647,6 @@
             const item = this.items.find((i) => i.id === itemId);
             if (!item) return;
 
-            // Check Budget
-            if (window.CTEIdolManager.RPG.state.funds < item.priceVal) {
-                alert("资金不足！无法购买此商品。");
-                return;
-            }
-
             this.pendingItem = item;
 
             // Step 1 Reset
