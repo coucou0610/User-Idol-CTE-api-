@@ -1898,8 +1898,9 @@
                 .map(
                     ([key, course]) => `
               <div class="cte-course-card" data-course="${key}" onclick="window.CTEIdolManager.Courses.selectCourse('${key}')">
-                <div class="cte-course-icon" style="background: ${course.color};">
+                <div class="cte-course-icon" style="background: ${course.color}; flex-direction: column; gap: 4px;">
                   <i class="fa-solid ${course.icon}"></i>
+                  <span class="cte-course-icon-stat">${(() => { const attrMap = {vocal:'歌艺',dance:'舞蹈',acting:'演技',charm:'魅力',grace:'气质',stamina:'体能'}; const stateKey = Object.entries(attrMap).find(([k,v]) => v === course.attributeName)?.[0]; const val = stateKey ? window.CTEIdolManager.RPG.state[stateKey] : undefined; return (val !== undefined && val !== null) ? val : '-'; })()}</span>
                 </div>
                 <div class="cte-course-info">
                   <h3>${course.name}</h3>
