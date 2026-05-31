@@ -888,7 +888,21 @@
         confirmSign: function () {
             if (!this.pendingCard || !this.pendingRawContract) return;
             this.pendingCard.classList.add("signed");
-            const message = `{{user}} 接取通告：${this.pendingRawContract}`;
+            const parts = this.pendingRawContract.split("｜");
+            const desc = parts[9] ? parts[9].trim() : "";
+            const typeLabel = parts[1] || "";
+            const isFilm = typeLabel.toLowerCase().includes("movie") || typeLabel.includes("电影电视剧");
+            const autoDesc = desc || (() => {
+                const jobType = parts[4] || "";
+                const duration = parts[7] || "";
+                if (isFilm) {
+                    return `工作类型：${typeLabel}（${jobType}）。要求：请提前确认进组日期与剧本围读安排，拍摄期间遵守封闭管理规定。剧情大纲：由AI生成，详情请与经纪人确认。`;
+                } else {
+                    return `工作类型：${typeLabel}（${jobType}）。要求：请提前确认排期与妆造风格，拍摄/录制时长约${duration}，具体安排以通知为准。`;
+                }
+            })();
+            const message = `{{user}} 接取通告：${this.pendingRawContract}
+内容说明：${autoDesc}`;
             if (stContext) {
                 const textarea = document.getElementById("send_textarea");
                 const currentContent = textarea ? textarea.value.trim() : "";
