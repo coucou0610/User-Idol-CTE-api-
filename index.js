@@ -587,10 +587,7 @@
                 <div class="cte-agency-item ${style.css} ${isCardExpired ? "cte-agency-item-expired" : ""}" data-category="${typeKey}" id="cte-c-${index}">
                     <div class="cte-item-stamp">AUTHORIZED</div>
                     <!-- 紧凑横排布局 -->
-                    ${data.desc ? `<div class="cte-item-desc-area" id="cte-desc-${index}" style="display:none;">
-                        <div class="cte-item-desc-content">${data.desc.replace(/。/g, "。<br>")}</div>
-                    </div>` : ""}
-                    <div class="cte-item-compact-row" onclick="window.CTEIdolManager.Contracts.toggleDesc(${index})" style="cursor:pointer;">
+                    <div class="cte-item-compact-row">
                         <div class="cte-item-compact-left">
                             <div class="cte-item-compact-title">
                                 <h3>${data.name}</h3>
@@ -847,6 +844,19 @@
                 modal.querySelector("#cte-confirm-pay").textContent = pay;
                 modal.querySelector("#cte-confirm-duration").textContent = duration;
                 modal.querySelector("#cte-confirm-deadline").textContent = deadline;
+
+                // 内容说明
+                const desc = parts[9] ? parts[9].trim() : "";
+                const descArea = document.getElementById("cte-confirm-desc-area");
+                const descEl = document.getElementById("cte-confirm-desc");
+                if (descArea && descEl) {
+                    if (desc) {
+                        descEl.innerHTML = desc.replace(/。/g, "。<br>").replace(/\n/g, "<br>");
+                        descArea.style.display = "block";
+                    } else {
+                        descArea.style.display = "none";
+                    }
+                }
                 modal.classList.add("active");
             }
         },
