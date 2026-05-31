@@ -840,7 +840,6 @@
             if (modal) {
                 modal.querySelector("#cte-confirm-name").textContent = name;
                 modal.querySelector("#cte-confirm-company").textContent = company;
-                modal.querySelector("#cte-confirm-job").textContent = job;
                 modal.querySelector("#cte-confirm-pay").textContent = pay;
                 modal.querySelector("#cte-confirm-duration").textContent = duration;
                 modal.querySelector("#cte-confirm-deadline").textContent = deadline;
