@@ -1,3 +1,39 @@
+/* 通告确认弹窗基础样式 */
+.cte-agency-modal {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.6);
+    z-index: 99999;
+    align-items: center;
+    justify-content: center;
+}
+
+.cte-agency-modal.active {
+    display: flex;
+}
+
+.cte-agency-modal-box {
+    background: #fff;
+    border-radius: 8px;
+    padding: 24px;
+    width: 420px;
+    max-width: 90%;
+    max-height: 80vh;
+    overflow-y: auto;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+    color: #333;
+}
+
+.cte-agency-modal-title {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    color: #2a1f14;
+    font-family: "Noto Serif SC", serif;
+}
+
+
 /* 通告内容说明展开区域 */
 .cte-item-desc-area {
     background: #fafafa;
