@@ -3285,10 +3285,14 @@
             panel.style.maxHeight = viewportHeight - 20 + "px";
         } else {
             panel.style.position = "fixed";
-            panel.style.top = "50%";
-            panel.style.left = "50%";
-            panel.style.transform = "translate(-50%, -50%)";
-            panel.style.maxHeight = "85vh";
+            panel.style.transform = "none";
+            panel.style.left = Math.max(0, (viewportWidth - panelWidth) / 2) + "px";
+            // 顶部留出SillyTavern导航栏高度（约50px）再加10px间距
+            const topBarHeight = 60;
+            const availableHeight = viewportHeight - topBarHeight - 10;
+            const topPos = topBarHeight + Math.max(0, (availableHeight - panelHeight) / 2);
+            panel.style.top = topPos + "px";
+            panel.style.maxHeight = availableHeight + "px";
         }
     }
 
