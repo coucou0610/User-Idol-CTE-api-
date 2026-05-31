@@ -553,7 +553,11 @@
                 })
                 .join("");
 
-            const safeRawString = rawString
+            // rawStringを最初の]で切って内容说明がHTMLに漏れないようにする
+            const baseRawString = rawString.includes("]") 
+                ? rawString.substring(0, rawString.indexOf("]") + 1)
+                : rawString;
+            const safeRawString = baseRawString
                 .replace(/'/g, "\\'")
                 .replace(/"/g, "&quot;");
 
