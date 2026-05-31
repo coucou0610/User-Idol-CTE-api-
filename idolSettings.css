@@ -1,366 +1,308 @@
 /**
- * Idol Manager 设置界面
- * 用于配置 API 和预设
+ * Idol Manager 设置面板样式
  */
 
-(function () {
-  "use strict";
+/* 遮罩层 */
+.idol-settings-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 99999;
+  backdrop-filter: blur(5px);
+}
 
-  /**
-   * 创建设置面板HTML
-   */
-  function createSettingsHTML() {
-    const config = window.IdolApiService.getApiConfig();
-    const presets = window.IdolApiService.getPresets();
-    const contextCount = window.IdolApiService.getContextCount();
+/* 设置面板 */
+.idol-settings-panel {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  width: 90%;
+  max-width: 800px;
+  max-height: 90vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
 
-    return `
-            <div class="idol-settings-panel">
-                <div class="idol-settings-header">
-                    <h2>插件设置</h2>
-                    <button class="idol-settings-close" onclick="window.IdolSettings.closeSettings()">
-                        <i class="fa-solid fa-times"></i>
-                    </button>
-                </div>
+/* 头部 */
+.idol-settings-header {
+  background: linear-gradient(90deg, #0f3460 0%, #16213e 100%);
+  padding: 20px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
 
-                <div class="idol-settings-content">
-                    <!-- API 配置 -->
-                    <div class="idol-settings-section">
-                        <h3><i class="fa-solid fa-plug"></i> API 配置</h3>
-                        <div class="idol-settings-form">
-                            <div class="idol-form-group">
-                                <label>API 地址</label>
-                                <input type="text" id="idol-api-url" value="${config.url || ""}" 
-                                       placeholder="https://api.example.com/v1">
-                                <small>支持格式：完整地址或基础地址（会自动补全 /chat/completions）<br>
-                                示例：https://api.openai.com/v1 或 https://gcli.ggchan.dev/v1</small>
-                            </div>
-                            <div class="idol-form-group">
-                                <label>API 密钥</label>
-                                <div class="idol-api-key-row">
-                                    <input type="password" id="idol-api-key" value="${config.key || ""}" 
-                                           placeholder="sk-...">
-                                    <button class="idol-btn idol-btn-secondary idol-fetch-models-btn" onclick="window.IdolSettings.fetchModels()">
-                                        <i class="fa-solid fa-rotate"></i> 获取模型
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="idol-form-group">
-                                <label>模型名称</label>
-                                <div class="idol-model-row">
-                                    <input type="text" id="idol-api-model" value="${config.model || ""}" 
-                                           placeholder="gpt-4" style="display:none">
-                                    <select id="idol-model-select" class="idol-model-select" onchange="window.IdolSettings.onModelSelect()">
-                                        <option value="${config.model || ""}">${config.model || "-- 点击获取模型 --"}</option>
-                                    </select>
-                                </div>
-                                <small id="idol-model-status"></small>
-                            </div>
-                            <div class="idol-form-row">
-                                <div class="idol-form-group">
-                                    <label>Temperature</label>
-                                    <input type="number" id="idol-api-temp" value="${config.temperature || 0.8}" 
-                                           min="0" max="2" step="0.1">
-                                </div>
-                                <div class="idol-form-group">
-                                    <label>Max Tokens</label>
-                                    <input type="number" id="idol-api-tokens" value="${config.max_tokens || 2000}" 
-                                           min="100" max="8000" step="100">
-                                </div>
-                            </div>
-                            <button class="idol-btn idol-btn-primary" onclick="window.IdolSettings.saveApiConfig()">
-                                <i class="fa-solid fa-save"></i> 保存 API 配置
-                            </button>
-                        </div>
-                    </div>
+.idol-settings-header h2 {
+  margin: 0;
+  color: #e94560;
+  font-size: 24px;
+  font-weight: 600;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
 
-                    <!-- 上下文配置 -->
-                    <div class="idol-settings-section">
-                        <h3><i class="fa-solid fa-comments"></i> 上下文配置</h3>
-                        <div class="idol-settings-form">
-                            <div class="idol-form-group">
-                                <label>读取消息数量</label>
-                                <input type="number" id="idol-context-count" value="${contextCount}" 
-                                       min="0" max="20" step="1">
-                                <small>生成内容时读取最近的N条消息作为上下文（默认3条，0表示不读取）</small>
-                            </div>
-                            <button class="idol-btn idol-btn-primary" onclick="window.IdolSettings.saveContextCount()">
-                                <i class="fa-solid fa-save"></i> 保存上下文配置
-                            </button>
-                        </div>
-                    </div>
+.idol-settings-close {
+  background: rgba(233, 69, 96, 0.2);
+  border: 1px solid #e94560;
+  color: #e94560;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
 
-                    <!-- 预设配置 -->
-                    <div class="idol-settings-section">
-                        <h3><i class="fa-solid fa-file-lines"></i> 预设配置</h3>
-                        
-                        <!-- 通告预设 -->
-                        <div class="idol-preset-block">
-                            <h4>通告生成预设</h4>
-                            <div class="idol-form-group">
-                                <label>System Prompt</label>
-                                <textarea id="idol-preset-contracts-system" rows="6" 
-                                          placeholder="请输入通告生成的系统提示词...">${presets.contracts.system || ""}</textarea>
-                            </div>
-                            <div class="idol-form-group">
-                                <label>User Prompt</label>
-                                <input type="text" id="idol-preset-contracts-user" 
-                                       value="${presets.contracts.userPrompt || ""}"
-                                       placeholder="请生成当前可用的通告列表">
-                            </div>
-                        </div>
+.idol-settings-close:hover {
+  background: #e94560;
+  color: white;
+  transform: scale(1.1);
+}
 
-                        <!-- 商店预设 -->
-                        <div class="idol-preset-block">
-                            <h4>商店生成预设</h4>
-                            <div class="idol-form-group">
-                                <label>System Prompt</label>
-                                <textarea id="idol-preset-shop-system" rows="6" 
-                                          placeholder="请输入商店生成的系统提示词...">${presets.shop.system || ""}</textarea>
-                            </div>
-                            <div class="idol-form-group">
-                                <label>User Prompt</label>
-                                <input type="text" id="idol-preset-shop-user" 
-                                       value="${presets.shop.userPrompt || ""}"
-                                       placeholder="请生成当前商店的商品列表">
-                            </div>
-                        </div>
+/* 内容区域 */
+.idol-settings-content {
+  padding: 30px;
+  overflow-y: auto;
+  flex: 1;
+}
 
-                        <!-- 日报预设 -->
-                        <div class="idol-preset-block">
-                            <h4>日报生成预设</h4>
-                            <div class="idol-form-group">
-                                <label>System Prompt</label>
-                                <textarea id="idol-preset-news-system" rows="6" 
-                                          placeholder="请输入日报生成的系统提示词...">${presets.news.system || ""}</textarea>
-                            </div>
-                            <div class="idol-form-group">
-                                <label>User Prompt</label>
-                                <input type="text" id="idol-preset-news-user" 
-                                       value="${presets.news.userPrompt || ""}"
-                                       placeholder="请生成今日的娱乐新闻快报">
-                            </div>
-                        </div>
+.idol-settings-content::-webkit-scrollbar {
+  width: 8px;
+}
 
-                        <button class="idol-btn idol-btn-primary" onclick="window.IdolSettings.savePresets()">
-                            <i class="fa-solid fa-save"></i> 保存所有预设
-                        </button>
-                    </div>
-                </div>
-            </div>
-        `;
+.idol-settings-content::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+}
+
+.idol-settings-content::-webkit-scrollbar-thumb {
+  background: rgba(233, 69, 96, 0.5);
+  border-radius: 4px;
+}
+
+.idol-settings-content::-webkit-scrollbar-thumb:hover {
+  background: rgba(233, 69, 96, 0.7);
+}
+
+/* 设置区块 */
+.idol-settings-section {
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 12px;
+  padding: 25px;
+  margin-bottom: 25px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.idol-settings-section h3 {
+  margin: 0 0 20px 0;
+  color: #e94560;
+  font-size: 18px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.idol-settings-section h3 i {
+  font-size: 20px;
+}
+
+/* 表单 */
+.idol-settings-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.idol-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.idol-form-group label {
+  color: #a8b2d1;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.idol-form-group input,
+.idol-form-group textarea {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 12px 16px;
+  color: #e0e0e0;
+  font-size: 14px;
+  font-family: "Consolas", "Monaco", monospace;
+  transition: all 0.3s ease;
+}
+
+.idol-form-group input:focus,
+.idol-form-group textarea:focus {
+  outline: none;
+  border-color: #e94560;
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 0 0 3px rgba(233, 69, 96, 0.1);
+}
+
+.idol-form-group textarea {
+  resize: vertical;
+  min-height: 120px;
+  line-height: 1.6;
+}
+
+.idol-form-group small {
+  color: #8892b0;
+  font-size: 12px;
+  font-style: italic;
+}
+
+.idol-form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+/* 预设块 */
+.idol-preset-block {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-left: 3px solid #e94560;
+}
+
+.idol-preset-block h4 {
+  margin: 0 0 15px 0;
+  color: #64ffda;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+/* 按钮 */
+.idol-btn {
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  justify-content: center;
+}
+
+.idol-btn-primary {
+  background: linear-gradient(135deg, #e94560 0%, #d63447 100%);
+  color: white;
+  box-shadow: 0 4px 15px rgba(233, 69, 96, 0.3);
+}
+
+.idol-btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(233, 69, 96, 0.4);
+}
+
+.idol-btn-primary:active {
+  transform: translateY(0);
+}
+
+/* 响应式 */
+@media (max-width: 768px) {
+  .idol-settings-panel {
+    width: 95%;
+    max-height: 95vh;
   }
 
-  /**
-   * 获取可用模型列表
-   */
-  async function fetchModels() {
-    const url = document.getElementById("idol-api-url").value.trim();
-    const key = document.getElementById("idol-api-key").value.trim();
-    const statusEl = document.getElementById("idol-model-status");
-    const selectEl = document.getElementById("idol-model-select");
-    const btn = document.querySelector(".idol-fetch-models-btn");
-
-    if (!url || !key) {
-      statusEl.textContent = "⚠️ 请先填写 API 地址和密钥";
-      statusEl.style.color = "#f0a500";
-      return;
-    }
-
-    // 规范化 base URL
-    let baseUrl = url.replace(/\/chat\/completions\/?$/, "").replace(/\/$/, "");
-
-    btn.disabled = true;
-    btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> 获取中...';
-    statusEl.textContent = "";
-    selectEl.style.display = "none";
-
-    try {
-      const res = await fetch(`${baseUrl}/models`, {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${key}`,
-          "Content-Type": "application/json",
-        },
-      });
-
-      if (!res.ok) {
-        throw new Error(`HTTP ${res.status}`);
-      }
-
-      const data = await res.json();
-      const models = (data.data || data.models || [])
-        .map((m) => (typeof m === "string" ? m : m.id))
-        .filter(Boolean)
-        .sort();
-
-      if (models.length === 0) {
-        throw new Error("未返回任何模型");
-      }
-
-      // 填充下拉列表
-      selectEl.innerHTML = '<option value="">-- 选择模型 --</option>';
-      const currentModel = document.getElementById("idol-api-model").value;
-      models.forEach((id) => {
-        const opt = document.createElement("option");
-        opt.value = id;
-        opt.textContent = id;
-        if (id === currentModel) opt.selected = true;
-        selectEl.appendChild(opt);
-      });
-
-      selectEl.style.display = "block";
-      document.getElementById("idol-api-model").style.display = "none";
-      statusEl.textContent = `✅ 获取到 ${models.length} 个模型`;
-      statusEl.style.color = "#4caf50";
-    } catch (err) {
-      statusEl.textContent = `❌ 获取失败，请手动输入模型名称`;
-      statusEl.style.color = "#e94560";
-      document.getElementById("idol-api-model").style.display = "block";
-      selectEl.style.display = "none";
-    } finally {
-      btn.disabled = false;
-      btn.innerHTML = '<i class="fa-solid fa-rotate"></i> 获取模型';
-    }
+  .idol-settings-content {
+    padding: 20px;
   }
 
-  /**
-   * 下拉选择模型时同步到输入框
-   */
-  function onModelSelect() {
-    const selectEl = document.getElementById("idol-model-select");
-    const inputEl = document.getElementById("idol-api-model");
-    if (selectEl.value) {
-      inputEl.value = selectEl.value;
-    }
+  .idol-form-row {
+    grid-template-columns: 1fr;
   }
 
-  /**
-   * 显示设置面板
-   */
-  function showSettings() {
-    const oldPanel = document.getElementById("idol-settings-overlay");
-    if (oldPanel) oldPanel.remove();
-
-    const overlay = document.createElement("div");
-    overlay.id = "idol-settings-overlay";
-    overlay.className = "idol-settings-overlay";
-    overlay.innerHTML = createSettingsHTML();
-
-    document.body.appendChild(overlay);
-
-    // SillyTavern顶部栏偏移修正（与主面板相同逻辑）
-    const panel = overlay.querySelector(".idol-settings-panel");
-    if (panel) {
-        const topBarHeight = 60;
-        const vh = window.innerHeight;
-        const vw = window.innerWidth;
-        const panelH = Math.min(vh - topBarHeight - 20, panel.offsetHeight || 600);
-        const panelW = Math.min(vw * 0.9, 800);
-        const topPos = topBarHeight + Math.max(0, (vh - topBarHeight - 20 - panelH) / 2);
-        const leftPos = Math.max(0, (vw - panelW) / 2);
-        overlay.style.alignItems = "flex-start";
-        overlay.style.justifyContent = "center";
-        overlay.style.paddingTop = topPos + "px";
-        panel.style.maxHeight = (vh - topPos - 20) + "px";
-    }
-
-    overlay.addEventListener("click", function (e) {
-      if (e.target === overlay) closeSettings();
-    });
+  .idol-settings-header h2 {
+    font-size: 20px;
   }
+}
 
-  /**
-   * 关闭设置面板
-   */
-  function closeSettings() {
-    const overlay = document.getElementById("idol-settings-overlay");
-    if (overlay) overlay.remove();
-  }
+/* 密钥行：输入框+按钮横排 */
+.idol-api-key-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
 
-  /**
-   * 保存 API 配置
-   */
-  function saveApiConfig() {
-    const config = {
-      url: document.getElementById("idol-api-url").value.trim(),
-      key: document.getElementById("idol-api-key").value.trim(),
-      model: document.getElementById("idol-api-model").value.trim(),
-      temperature:
-        parseFloat(document.getElementById("idol-api-temp").value) || 0.8,
-      max_tokens:
-        parseInt(document.getElementById("idol-api-tokens").value) || 2000,
-    };
+.idol-api-key-row input {
+  flex: 1;
+}
 
-    if (window.IdolApiService.saveApiConfig(config)) {
-      alert("API 配置已保存！");
-    } else {
-      alert("保存失败，请重试");
-    }
-  }
+.idol-fetch-models-btn {
+  white-space: nowrap;
+  flex-shrink: 0;
+}
 
-  /**
-   * 保存上下文配置
-   */
-  function saveContextCount() {
-    const count =
-      parseInt(document.getElementById("idol-context-count").value) || 3;
+/* 模型行：文本输入+下拉选择 */
+.idol-model-row {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
 
-    if (window.IdolApiService.saveContextCount(count)) {
-      alert("上下文配置已保存！");
-    } else {
-      alert("保存失败，请重试");
-    }
-  }
+.idol-model-select {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+  color: #fff;
+  padding: 8px 10px;
+  font-size: 13px;
+  cursor: pointer;
+  outline: none;
+}
 
-  /**
-   * 保存预设配置
-   */
-  function savePresets() {
-    const presets = {
-      contracts: {
-        name: "通告生成预设",
-        system: document
-          .getElementById("idol-preset-contracts-system")
-          .value.trim(),
-        userPrompt: document
-          .getElementById("idol-preset-contracts-user")
-          .value.trim(),
-      },
-      shop: {
-        name: "商店生成预设",
-        system: document.getElementById("idol-preset-shop-system").value.trim(),
-        userPrompt: document
-          .getElementById("idol-preset-shop-user")
-          .value.trim(),
-      },
-      news: {
-        name: "日报生成预设",
-        system: document.getElementById("idol-preset-news-system").value.trim(),
-        userPrompt: document
-          .getElementById("idol-preset-news-user")
-          .value.trim(),
-      },
-    };
+.idol-model-select:focus {
+  border-color: #e94560;
+}
 
-    if (window.IdolApiService.savePresets(presets)) {
-      alert("预设配置已保存！");
-    } else {
-      alert("保存失败，请重试");
-    }
-  }
+.idol-model-select option {
+  background: #1a1a2e;
+  color: #fff;
+}
 
-  // ========== 导出到全局 ==========
+/* 次要按钮样式 */
+.idol-btn-secondary {
+  background: rgba(255, 255, 255, 0.1);
+  color: #ccc;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
 
-  window.IdolSettings = {
-    showSettings,
-    closeSettings,
-    saveApiConfig,
-    saveContextCount,
-    savePresets,
-    fetchModels,
-    onModelSelect,
-  };
+.idol-btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.18);
+  color: #fff;
+}
 
-  console.info("[Idol Settings] 模块已加载");
-})();
+.idol-btn-secondary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
