@@ -844,17 +844,24 @@
                 modal.querySelector("#cte-confirm-duration").textContent = duration;
                 modal.querySelector("#cte-confirm-deadline").textContent = deadline;
 
-                // 内容说明
+                // 内容说明：优先读第10字段，没有则根据类型自动生成模板
                 const desc = parts[9] ? parts[9].trim() : "";
+                const typeLabel = parts[1] || "";
+                const isFilm = typeLabel.toLowerCase().includes("movie") || typeLabel.includes("电影电视剧");
+                const autoDesc = desc || (() => {
+                    const jobType = parts[4] || "";
+                    const duration = parts[7] || "";
+                    if (isFilm) {
+                        return `工作类型：${typeLabel}（${jobType}）。\n要求：请提前确认进组日期与剧本围读安排，拍摄期间遵守封闭管理规定。\n剧情大纲：由AI生成，详情请与经纪人确认。`;
+                    } else {
+                        return `工作类型：${typeLabel}（${jobType}）。\n要求：请提前确认排期与妆造风格，拍摄/录制时长约${duration}，具体安排以通知为准。`;
+                    }
+                })();
                 const descArea = document.getElementById("cte-confirm-desc-area");
                 const descEl = document.getElementById("cte-confirm-desc");
                 if (descArea && descEl) {
-                    if (desc) {
-                        descEl.innerHTML = desc.replace(/。/g, "。<br>").replace(/\n/g, "<br>");
-                        descArea.style.display = "block";
-                    } else {
-                        descArea.style.display = "none";
-                    }
+                    descEl.innerHTML = autoDesc.replace(/\n/g, "<br>");
+                    descArea.style.display = "block";
                 }
                 modal.classList.add("active");
             }
