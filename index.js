@@ -868,6 +868,19 @@
                     descArea.style.display = "block";
                 }
                 modal.classList.add("active");
+                // モバイル対応：SillyTavern顶部栏を避けて位置調整
+                const modalBox = modal.querySelector(".cte-agency-modal-box");
+                if (modalBox && window.innerWidth < 768) {
+                    const topBar = 60;
+                    const vh = window.innerHeight;
+                    const boxH = modalBox.offsetHeight || 400;
+                    const topPos = topBar + Math.max(0, (vh - topBar - boxH) / 2);
+                    modal.style.alignItems = "flex-start";
+                    modal.style.paddingTop = topPos + "px";
+                } else {
+                    modal.style.paddingTop = "60px";
+                    modal.style.alignItems = "center";
+                }
             }
         },
 
