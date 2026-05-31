@@ -4657,3 +4657,43 @@
         overflow-x: auto;
     }
 }
+
+/* 通告卡片移动端竖排 */
+@media (max-width: 768px) {
+    .cte-item-compact-row {
+        flex-direction: column;
+        gap: 8px;
+    }
+    .cte-item-compact-left {
+        width: 100%;
+    }
+    .cte-item-compact-title {
+        flex-wrap: wrap;
+        gap: 6px;
+    }
+    .cte-item-compact-title h3 {
+        white-space: normal;
+        font-size: 13px;
+    }
+    .cte-item-compact-attrs {
+        flex-wrap: wrap;
+    }
+    .cte-item-compact-right {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        min-width: unset;
+        border-top: 1px dashed #eee;
+        padding-top: 8px;
+    }
+    .cte-item-compact-right .cte-item-payment {
+        font-size: 13px;
+    }
+    .cte-item-compact-right .cte-item-days {
+        font-size: 11px;
+    }
+    .cte-item-deadline {
+        font-size: 9px !important;
+    }
+}
