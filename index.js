@@ -587,7 +587,10 @@
                 <div class="cte-agency-item ${style.css} ${isCardExpired ? "cte-agency-item-expired" : ""}" data-category="${typeKey}" id="cte-c-${index}">
                     <div class="cte-item-stamp">AUTHORIZED</div>
                     <!-- 紧凑横排布局 -->
-                    <div class="cte-item-compact-row">
+                    ${data.desc ? `<div class="cte-item-desc-area" id="cte-desc-${index}" style="display:none;">
+                        <div class="cte-item-desc-content">${data.desc.replace(/。/g, "。<br>")}</div>
+                    </div>` : ""}
+                    <div class="cte-item-compact-row" onclick="window.CTEIdolManager.Contracts.toggleDesc(${index})" style="cursor:pointer;">
                         <div class="cte-item-compact-left">
                             <div class="cte-item-compact-title">
                                 <h3>${data.name}</h3>
@@ -815,20 +818,45 @@
             });
         },
 
+
+        toggleDesc: function (index) {
+            const area = document.getElementById(`cte-desc-${index}`);
+            if (!area) return;
+            const isOpen = area.style.display !== "none";
+            area.style.display = isOpen ? "none" : "block";
+        },
+
         openSignModal: function (btn, rawString) {
             this.pendingCard = btn.closest(".cte-agency-item");
             this.pendingRawContract = rawString;
-            document
-                .getElementById("cte-agency-sign-modal")
-                .classList.add("active");
+
+            // 解析通告数据显示确认弹窗
+            const parts = rawString.split("｜");
+            const name = parts[2] || "";
+            const company = parts[3] || "";
+            const job = parts[4] || "";
+            const pay = parts[6] || "";
+            const duration = parts[7] || "";
+            const deadline = parts[8] || "";
+
+            const modal = document.getElementById("cte-agency-confirm-modal");
+            if (modal) {
+                modal.querySelector("#cte-confirm-name").textContent = name;
+                modal.querySelector("#cte-confirm-company").textContent = company;
+                modal.querySelector("#cte-confirm-job").textContent = job;
+                modal.querySelector("#cte-confirm-pay").textContent = pay;
+                modal.querySelector("#cte-confirm-duration").textContent = duration;
+                modal.querySelector("#cte-confirm-deadline").textContent = deadline;
+                modal.classList.add("active");
+            }
         },
 
         closeModal: function () {
             // 增加判断：只有当元素存在时才移除 active 类，防止报错
-            const agencyModal = document.getElementById(
-                "cte-agency-sign-modal",
-            );
+            const agencyModal = document.getElementById("cte-agency-sign-modal");
             if (agencyModal) agencyModal.classList.remove("active");
+            const confirmModal = document.getElementById("cte-agency-confirm-modal");
+            if (confirmModal) confirmModal.classList.remove("active");
 
             const memoModal = document.getElementById("cte-memo-manual-modal");
             if (memoModal) memoModal.classList.remove("active");
@@ -841,12 +869,11 @@
             if (input) input.value = "";
         },
 
-        confirmSign: function (memberName) {
+        confirmSign: function () {
             if (!this.pendingCard || !this.pendingRawContract) return;
             this.pendingCard.classList.add("signed");
-            const message = `${memberName} 接取通告：${this.pendingRawContract}`;
+            const message = `{{user}} 接取通告：${this.pendingRawContract}`;
             if (stContext) {
-                // 获取当前输入框内容，累积添加而不是替换
                 const textarea = document.getElementById("send_textarea");
                 const currentContent = textarea ? textarea.value.trim() : "";
                 const newContent = currentContent
@@ -856,7 +883,11 @@
                     `/setinput ${newContent}`,
                 );
             }
-            this.closeModal();
+            // 关闭确认弹窗
+            const modal = document.getElementById("cte-agency-confirm-modal");
+            if (modal) modal.classList.remove("active");
+            this.pendingCard = null;
+            this.pendingRawContract = "";
         },
 
         confirmCustomSign: function () {
@@ -1142,6 +1173,7 @@
 
             const durationStr = parts[7] || "待定";
             const durationNum = parseInt(durationStr) || 0;
+            const descStr = parts[9] ? parts[9].trim() : "";
             const deadlineStr = parts[8] || ""; // 截止日期（可选）
 
             const startDate = dateVal
@@ -1159,6 +1191,7 @@
                 pay: parts[6] || "-",
                 durationStr: durationStr,
                 durationDays: durationNum,
+                desc: descStr,
                 deadline: deadlineStr, // 添加截止日期字段
                 startTime: startDate,
                 relatedMember: extractedName,
