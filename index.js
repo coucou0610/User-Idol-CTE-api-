@@ -852,9 +852,9 @@
                     const jobType = parts[4] || "";
                     const duration = parts[7] || "";
                     if (isFilm) {
-                        return `工作类型：${typeLabel}（${jobType}）。\n要求：请提前确认进组日期与剧本围读安排，拍摄期间遵守封闭管理规定。\n剧情大纲：由AI生成，详情请与经纪人确认。`;
+                        return `工作类型：${typeLabel}（${jobType}）。\n要求：具体要求由经纪人转达。\n剧情大纲：由AI生成，详情请与经纪人确认。`;
                     } else {
-                        return `工作类型：${typeLabel}（${jobType}）。\n要求：请提前确认排期与妆造风格，拍摄/录制时长约${duration}，具体安排以通知为准。`;
+                        return `工作类型：${typeLabel}（${jobType}）。\n要求：拍摄/录制时长约${duration}，具体要求由经纪人转达。`;
                     }
                 })();
                 const descArea = document.getElementById("cte-confirm-desc-area");
