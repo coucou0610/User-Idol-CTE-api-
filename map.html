@@ -77,6 +77,43 @@
 <!-- [新增] 偶像事务所 RPG 管理终端视图 -->
 <!-- manager view已合并到左侧导航 -->
 
+<!-- 通告确认弹窗 -->
+<div id="cte-agency-confirm-modal" class="cte-agency-modal">
+    <div class="cte-agency-modal-box">
+        <div class="cte-agency-modal-title">确认接取通告</div>
+        <div class="cte-confirm-content">
+            <div class="cte-confirm-row">
+                <span class="cte-confirm-label">通告名称</span>
+                <span id="cte-confirm-name" class="cte-confirm-value"></span>
+            </div>
+            <div class="cte-confirm-row">
+                <span class="cte-confirm-label">公司</span>
+                <span id="cte-confirm-company" class="cte-confirm-value"></span>
+            </div>
+            <div class="cte-confirm-row">
+                <span class="cte-confirm-label">工作性质</span>
+                <span id="cte-confirm-job" class="cte-confirm-value"></span>
+            </div>
+            <div class="cte-confirm-row">
+                <span class="cte-confirm-label">酬劳</span>
+                <span id="cte-confirm-pay" class="cte-confirm-value cte-confirm-pay"></span>
+            </div>
+            <div class="cte-confirm-row">
+                <span class="cte-confirm-label">拍摄周期</span>
+                <span id="cte-confirm-duration" class="cte-confirm-value"></span>
+            </div>
+            <div class="cte-confirm-row">
+                <span class="cte-confirm-label">截止日期</span>
+                <span id="cte-confirm-deadline" class="cte-confirm-value"></span>
+            </div>
+        </div>
+        <div class="cte-confirm-actions">
+            <button class="cte-agency-select-btn cte-confirm-yes" onclick="window.CTEIdolManager.Contracts.confirmSign()">✓ 接取通告</button>
+            <button class="cte-agency-select-btn cte-confirm-no" onclick="window.CTEIdolManager.Contracts.closeModal()">取消</button>
+        </div>
+    </div>
+</div>
+
 <!-- 遮罩层 -->
 <div class="cte-idol-popup-overlay" id="cte-idol-overlay" onclick="window.CTEIdolManager.closeAllPopups()"></div>
 
