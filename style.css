@@ -34,27 +34,6 @@
 }
 
 
-/* 通告内容说明展开区域 */
-.cte-item-desc-area {
-    background: #fafafa;
-    border-top: 1px dashed #e0d0c0;
-    padding: 10px 12px;
-    font-size: 12px;
-    color: #555;
-    line-height: 1.8;
-    animation: fadeIn 0.2s ease;
-}
-
-.cte-item-desc-content {
-    white-space: pre-line;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(-4px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-
 /* 通告确认弹窗 */
 .cte-confirm-content {
     display: flex;
