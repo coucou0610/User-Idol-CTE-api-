@@ -868,19 +868,19 @@
                     descArea.style.display = "block";
                 }
                 modal.classList.add("active");
-                // モバイル対応：SillyTavern顶部栏を避けて位置調整
-                const modalBox = modal.querySelector(".cte-agency-modal-box");
-                if (modalBox && window.innerWidth < 768) {
-                    const topBar = 60;
+                // 主面板と同じロジックでSillyTavern顶部栏を考慮
+                setTimeout(() => {
+                    const modalBox = modal.querySelector(".cte-agency-modal-box");
+                    if (!modalBox) return;
+                    const topBarHeight = 60;
                     const vh = window.innerHeight;
                     const boxH = modalBox.offsetHeight || 400;
-                    const topPos = topBar + Math.max(0, (vh - topBar - boxH) / 2);
+                    const availH = vh - topBarHeight - 20;
+                    const topPos = topBarHeight + Math.max(0, (availH - boxH) / 2);
                     modal.style.alignItems = "flex-start";
                     modal.style.paddingTop = topPos + "px";
-                } else {
-                    modal.style.paddingTop = "60px";
-                    modal.style.alignItems = "center";
-                }
+                    modal.style.boxSizing = "border-box";
+                }, 10);
             }
         },
 
