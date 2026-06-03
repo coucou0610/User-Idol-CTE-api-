@@ -3250,8 +3250,8 @@
             const rows = days.map((day, i) => {
                 const item = parts[i]?.trim() || "休息";
                 return `<div style="display:flex; align-items:center; gap:12px; padding:6px 0; border-bottom:1px solid rgba(255,255,255,0.05);">
-                    <span style="flex-shrink:0; width:36px; font-size:11px; color:#888;">${day}</span>
-                    <span style="font-size:13px; color:${item && item !== "休息" ? "#e0c5a1" : "#555"};">${item || "—"}</span>
+                    <span style="flex-shrink:0; width:32px; font-size:11px; color:#888;">${day}</span>
+                    <span style="font-size:13px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; color:${item && item !== "休息" ? "#e0c5a1" : "#555"};">${item || "—"}</span>
                 </div>`;
             }).join("");
             weeklyList.innerHTML = `<div style="background:rgba(197,160,101,0.04); border:1px solid rgba(197,160,101,0.15); border-radius:6px; padding:10px 14px;">${rows}</div>`;
