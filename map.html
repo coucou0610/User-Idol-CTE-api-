@@ -60,17 +60,33 @@
 <!-- [原有] 行程表视图 -->
 <div id="cte-idol-view-schedule" class="cte-idol-view">
     <div class="cte-idol-wrapper">
-        <h1>当前行程安排</h1>
+        <h1>当前日程安排</h1>
         <h2 id="cte-idol-schedule-status">正在读取最新状态...</h2>
 
         <div class="cte-idol-controls-bar">
-            <button class="cte-idol-btn" onclick="window.CTEIdolManager.refreshSchedule()">🔄 刷新行程 (读取 status_bar)</button>
+            <button class="cte-idol-btn" onclick="window.CTEIdolManager.refreshSchedule()">🔄 刷新日程 (读取 status_bar / notice_panel)</button>
         </div>
         <div id="cte-idol-schedule-datetime" style="text-align:center; font-size:13px; color:#c5a065; margin: -8px 0 16px 0; letter-spacing:0.05em;"></div>
 
+        <!-- 已接通告 -->
+        <div id="cte-idol-notices-container" style="display:none; margin-bottom:20px;">
+            <h3 style="font-family:'Noto Serif SC',serif; font-size:14px; color:#c5a065; border-bottom:1px solid rgba(197,160,101,0.3); padding-bottom:6px; margin-bottom:12px;">
+                <i class="fa-solid fa-file-contract" style="margin-right:6px;"></i>已接通告
+            </h3>
+            <div id="cte-idol-notices-list"></div>
+        </div>
+
+        <!-- 本周行程表 -->
+        <div id="cte-idol-weekly-container" style="display:none; margin-bottom:20px;">
+            <h3 style="font-family:'Noto Serif SC',serif; font-size:14px; color:#c5a065; border-bottom:1px solid rgba(197,160,101,0.3); padding-bottom:6px; margin-bottom:12px;">
+                <i class="fa-solid fa-calendar-week" style="margin-right:6px;"></i>本周行程表
+            </h3>
+            <div id="cte-idol-weekly-list"></div>
+        </div>
+
+        <!-- 今日行程时间轴 -->
         <div id="cte-idol-timeline-container" class="cte-idol-timeline-container">
-            <!-- 动态生成的时间轴内容 -->
-            <p style="text-align:center; color:#666; margin-top:50px;">暂无行程数据，请确保聊天记录中包含 &lt;status_bar&gt; 标签。</p>
+            <p style="text-align:center; color:#666; margin-top:50px;">暂无行程数据，请确保聊天记录中包含 &lt;notice_panel&gt; 或 &lt;status_bar&gt; 标签。</p>
         </div>
     </div>
 </div>
