@@ -3191,71 +3191,125 @@
     // notice_panel 読み取り・表示
     // ==========================================
     window.CTEIdolManager.refreshNoticePanel = function () {
-        const ctx = stContext || (window.SillyTavern?.getContext?.());
-        if (!ctx?.chat?.length) return;
+        try {
+            const ctx = stContext || (window.SillyTavern?.getContext?.());
 
-        let panelContent = null;
-        for (let i = ctx.chat.length - 1; i >= 0; i--) {
-            const msg = ctx.chat[i].mes || "";
-            const match = msg.match(/<notice_panel>([\s\S]*?)<\/notice_panel>/i);
-            if (match) { panelContent = match[1].trim(); break; }
-        }
-        if (!panelContent) return;
+            const noticesContainer = document.getElementById("cte-idol-notices-container");
+            const noticesList = document.getElementById("cte-idol-notices-list");
+            const weeklyContainer = document.getElementById("cte-idol-weekly-container");
+            const weeklyList = document.getElementById("cte-idol-weekly-list");
 
-        // Notices パース
-        const noticesMatch = panelContent.match(/\[Notices\|([\s\S]*?)\]/);
-        const scheduleMatch = panelContent.match(/\[Schedule\|([\s\S]*?)\]/);
-
-        // 已接通告
-        const noticesContainer = document.getElementById("cte-idol-notices-container");
-        const noticesList = document.getElementById("cte-idol-notices-list");
-        if (noticesMatch && noticesList) {
-            const parts = noticesMatch[1].split("|");
-            // 各通告は5フィールド：名称|属性|说明|报酬|截止日期
-            const notices = [];
-            for (let i = 0; i + 4 < parts.length; i += 5) {
-                const name = parts[i].trim();
-                if (!name) continue;
-                notices.push({
-                    name,
-                    attrs: parts[i+1]?.trim() || "",
-                    desc: parts[i+2]?.trim() || "",
-                    pay: parts[i+3]?.trim() || "",
-                    deadline: parts[i+4]?.trim() || ""
-                });
+            function escHtml(v) {
+                return String(v ?? "")
+                    .replace(/&/g, "&amp;")
+                    .replace(/</g, "&lt;")
+                    .replace(/>/g, "&gt;")
+                    .replace(/"/g, "&quot;")
+                    .replace(/'/g, "&#39;");
             }
-            if (notices.length > 0) {
-                noticesList.innerHTML = notices.map(n => `
-                    <div style="background:rgba(197,160,101,0.06); border:1px solid rgba(197,160,101,0.2); border-radius:6px; padding:12px 14px; margin-bottom:10px;">
-                        <div style="font-weight:700; font-size:14px; color:#e0c5a1; margin-bottom:6px;">${n.name}</div>
-                        ${n.attrs ? `<div style="font-size:11px; color:#888; margin-bottom:4px;">${n.attrs}</div>` : ""}
-                        ${n.desc ? `<div style="font-size:12px; color:#aaa; white-space:pre-line; margin-bottom:6px;">${n.desc}</div>` : ""}
-                        <div style="display:flex; gap:16px; font-size:12px;">
-                            ${n.pay ? `<span style="color:#c5a065;"><i class="fa-solid fa-coins" style="margin-right:4px;"></i>¥${parseInt(n.pay).toLocaleString()}</span>` : ""}
-                            ${n.deadline ? `<span style="color:#888;"><i class="fa-solid fa-calendar-days" style="margin-right:4px;"></i>${n.deadline}</span>` : ""}
-                        </div>
-                    </div>`).join("");
-            } else {
+
+            function moneyText(v) {
+                const s = String(v ?? "").trim();
+                if (!s || s === "无" || s === "-" || s === "暂无") return "";
+                if (/CNY/i.test(s)) return escHtml(s);
+                const num = Number(s.replace(/,/g, ""));
+                if (Number.isNaN(num)) return escHtml(s);
+                return `${num.toLocaleString("zh-CN")} CNY`;
+            }
+
+            function getSafeNoticePanelContent() {
+                if (!ctx?.chat?.length) return null;
+                for (let i = ctx.chat.length - 1; i >= 0; i--) {
+                    const msg = ctx.chat[i].mes || "";
+                    const match = msg.match(/<notice_panel>([\s\S]*?)<\/notice_panel>/i);
+                    if (match) return match[1].trim();
+                }
+                return null;
+            }
+
+            const panelContent = getSafeNoticePanelContent();
+
+            // 默认先显示空状态，避免读取失败时页面卡住或保持旧内容
+            if (noticesList) {
                 noticesList.innerHTML = `<div style="color:#555; font-size:13px; padding:12px 0;">暂无通告</div>`;
             }
-            noticesContainer.style.display = "block";
-        }
+            if (noticesContainer) noticesContainer.style.display = "block";
 
-        // 本週行程表
-        const weeklyContainer = document.getElementById("cte-idol-weekly-container");
-        const weeklyList = document.getElementById("cte-idol-weekly-list");
-        if (scheduleMatch && weeklyList) {
-            const days = ["周一","周二","周三","周四","周五","周六","周日"];
-            const parts = scheduleMatch[1].split("|");
-            const rows = days.map((day, i) => {
-                const item = parts[i]?.trim() || "休息";
-                return `<div style="display:flex; align-items:center; gap:12px; padding:6px 0; border-bottom:1px solid rgba(255,255,255,0.05);">
-                    <span style="flex-shrink:0; width:32px; font-size:11px; color:#888;">${day}</span>
-                    <span style="font-size:13px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; color:${item && item !== "休息" ? "#e0c5a1" : "#555"};">${item || "—"}</span>
-                </div>`;
-            }).join("");
-            weeklyList.innerHTML = `<div style="background:rgba(197,160,101,0.04); border:1px solid rgba(197,160,101,0.15); border-radius:6px; padding:10px 14px;">${rows}</div>`;
-            weeklyContainer.style.display = "block";
+            if (weeklyList) {
+                const days = ["周一","周二","周三","周四","周五","周六","周日"];
+                const rows = days.map(day => `
+                    <div style="display:flex; align-items:center; gap:12px; padding:6px 0; border-bottom:1px solid rgba(255,255,255,0.05);">
+                        <span style="flex-shrink:0; width:32px; font-size:11px; color:#888;">${day}</span>
+                        <span style="font-size:13px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; color:#555;">休息</span>
+                    </div>`).join("");
+                weeklyList.innerHTML = `<div style="background:rgba(197,160,101,0.04); border:1px solid rgba(197,160,101,0.15); border-radius:6px; padding:10px 14px;">${rows}</div>`;
+            }
+            if (weeklyContainer) weeklyContainer.style.display = "block";
+
+            if (!panelContent) return;
+
+            const noticesMatch = panelContent.match(/\[Notices\|([\s\S]*?)\]/i);
+            const scheduleMatch = panelContent.match(/\[Schedule\|([\s\S]*?)\]/i);
+
+            // 已接通告：每5项为一组，不足字段自动补空，绝不报错
+            if (noticesMatch && noticesList) {
+                const rawParts = noticesMatch[1].split("|").map(p => String(p ?? "").trim());
+                const notices = [];
+                for (let i = 0; i < rawParts.length; i += 5) {
+                    const group = rawParts.slice(i, i + 5);
+                    while (group.length < 5) group.push("");
+                    const [name, attrs, desc, pay, deadline] = group;
+                    if (!name || name === "无" || name === "-" || name === "暂无") continue;
+                    notices.push({ name, attrs, desc, pay, deadline });
+                }
+
+                if (notices.length > 0) {
+                    noticesList.innerHTML = notices.map(n => {
+                        const pay = moneyText(n.pay);
+                        return `
+                        <div style="background:rgba(197,160,101,0.06); border:1px solid rgba(197,160,101,0.2); border-radius:6px; padding:12px 14px; margin-bottom:10px;">
+                            <div style="font-weight:700; font-size:14px; color:#e0c5a1; margin-bottom:6px;">${escHtml(n.name)}</div>
+                            ${n.attrs ? `<div style="font-size:11px; color:#888; margin-bottom:4px;">${escHtml(n.attrs)}</div>` : ""}
+                            ${n.desc ? `<div style="font-size:12px; color:#aaa; white-space:pre-line; margin-bottom:6px;">${escHtml(n.desc)}</div>` : ""}
+                            <div style="display:flex; gap:16px; font-size:12px;">
+                                ${pay ? `<span style="color:#c5a065;"><i class="fa-solid fa-coins" style="margin-right:4px;"></i>${pay}</span>` : ""}
+                                ${n.deadline ? `<span style="color:#888;"><i class="fa-solid fa-calendar-days" style="margin-right:4px;"></i>${escHtml(n.deadline)}</span>` : ""}
+                            </div>
+                        </div>`;
+                    }).join("");
+                }
+            }
+
+            // 本周行程表：缺周日或任何一天时，自动补“休息”
+            if (weeklyList) {
+                const days = ["周一","周二","周三","周四","周五","周六","周日"];
+                let parts = [];
+                if (scheduleMatch) {
+                    parts = scheduleMatch[1].split("|").map(p => String(p ?? "").trim());
+                }
+                while (parts.length < 7) parts.push("休息");
+                parts = parts.slice(0, 7).map(v => v || "休息");
+
+                const rows = days.map((day, i) => {
+                    const item = parts[i] || "休息";
+                    return `<div style="display:flex; align-items:center; gap:12px; padding:6px 0; border-bottom:1px solid rgba(255,255,255,0.05);">
+                        <span style="flex-shrink:0; width:32px; font-size:11px; color:#888;">${day}</span>
+                        <span style="font-size:13px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; color:${item && item !== "休息" ? "#e0c5a1" : "#555"};">${escHtml(item)}</span>
+                    </div>`;
+                }).join("");
+                weeklyList.innerHTML = `<div style="background:rgba(197,160,101,0.04); border:1px solid rgba(197,160,101,0.15); border-radius:6px; padding:10px 14px;">${rows}</div>`;
+            }
+        } catch (e) {
+            console.warn("[CTE Idol] refreshNoticePanel failed safely:", e);
+            const weeklyList = document.getElementById("cte-idol-weekly-list");
+            if (weeklyList) {
+                const days = ["周一","周二","周三","周四","周五","周六","周日"];
+                weeklyList.innerHTML = `<div style="background:rgba(197,160,101,0.04); border:1px solid rgba(197,160,101,0.15); border-radius:6px; padding:10px 14px;">${days.map(day => `
+                    <div style="display:flex; align-items:center; gap:12px; padding:6px 0; border-bottom:1px solid rgba(255,255,255,0.05);">
+                        <span style="flex-shrink:0; width:32px; font-size:11px; color:#888;">${day}</span>
+                        <span style="font-size:13px; color:#555;">休息</span>
+                    </div>`).join("")}</div>`;
+            }
         }
     };
 
@@ -3736,6 +3790,8 @@
             container.html(
                 '<p style="text-align:center; color:#666; margin-top:50px;">在聊天记录中未找到 &lt;status_bar&gt; 标签。</p>',
             );
+            // 即使没有旧 status_bar，也尝试读取 notice_panel，避免通告/周行程区域空白或卡住
+            window.CTEIdolManager.refreshNoticePanel();
             return;
         }
 
@@ -3750,6 +3806,8 @@
             container.html(
                 `<p style="text-align:center; color:#666; margin-top:50px;">在 &lt;status_bar&gt; 信息中未找到“${targetKeyword}”关键词。</p>`,
             );
+            // 旧 status_bar 没有 Schedule 时，也尝试读取 notice_panel
+            window.CTEIdolManager.refreshNoticePanel();
             return;
         }
 
