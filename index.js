@@ -3235,8 +3235,10 @@
                             ${n.deadline ? `<span style="color:#888;"><i class="fa-solid fa-calendar-days" style="margin-right:4px;"></i>${n.deadline}</span>` : ""}
                         </div>
                     </div>`).join("");
-                noticesContainer.style.display = "block";
+            } else {
+                noticesList.innerHTML = `<div style="color:#555; font-size:13px; padding:12px 0;">暂无通告</div>`;
             }
+            noticesContainer.style.display = "block";
         }
 
         // 本週行程表
