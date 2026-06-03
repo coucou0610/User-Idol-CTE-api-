@@ -3186,6 +3186,77 @@
         }
     };
 
+
+    // ==========================================
+    // notice_panel 読み取り・表示
+    // ==========================================
+    window.CTEIdolManager.refreshNoticePanel = function () {
+        const ctx = stContext || (window.SillyTavern?.getContext?.());
+        if (!ctx?.chat?.length) return;
+
+        let panelContent = null;
+        for (let i = ctx.chat.length - 1; i >= 0; i--) {
+            const msg = ctx.chat[i].mes || "";
+            const match = msg.match(/<notice_panel>([\s\S]*?)<\/notice_panel>/i);
+            if (match) { panelContent = match[1].trim(); break; }
+        }
+        if (!panelContent) return;
+
+        // Notices パース
+        const noticesMatch = panelContent.match(/\[Notices\|([\s\S]*?)\]/);
+        const scheduleMatch = panelContent.match(/\[Schedule\|([\s\S]*?)\]/);
+
+        // 已接通告
+        const noticesContainer = document.getElementById("cte-idol-notices-container");
+        const noticesList = document.getElementById("cte-idol-notices-list");
+        if (noticesMatch && noticesList) {
+            const parts = noticesMatch[1].split("|");
+            // 各通告は5フィールド：名称|属性|说明|报酬|截止日期
+            const notices = [];
+            for (let i = 0; i + 4 < parts.length; i += 5) {
+                const name = parts[i].trim();
+                if (!name) continue;
+                notices.push({
+                    name,
+                    attrs: parts[i+1]?.trim() || "",
+                    desc: parts[i+2]?.trim() || "",
+                    pay: parts[i+3]?.trim() || "",
+                    deadline: parts[i+4]?.trim() || ""
+                });
+            }
+            if (notices.length > 0) {
+                noticesList.innerHTML = notices.map(n => `
+                    <div style="background:rgba(197,160,101,0.06); border:1px solid rgba(197,160,101,0.2); border-radius:6px; padding:12px 14px; margin-bottom:10px;">
+                        <div style="font-weight:700; font-size:14px; color:#e0c5a1; margin-bottom:6px;">${n.name}</div>
+                        ${n.attrs ? `<div style="font-size:11px; color:#888; margin-bottom:4px;">${n.attrs}</div>` : ""}
+                        ${n.desc ? `<div style="font-size:12px; color:#aaa; white-space:pre-line; margin-bottom:6px;">${n.desc}</div>` : ""}
+                        <div style="display:flex; gap:16px; font-size:12px;">
+                            ${n.pay ? `<span style="color:#c5a065;"><i class="fa-solid fa-coins" style="margin-right:4px;"></i>¥${parseInt(n.pay).toLocaleString()}</span>` : ""}
+                            ${n.deadline ? `<span style="color:#888;"><i class="fa-solid fa-calendar-days" style="margin-right:4px;"></i>${n.deadline}</span>` : ""}
+                        </div>
+                    </div>`).join("");
+                noticesContainer.style.display = "block";
+            }
+        }
+
+        // 本週行程表
+        const weeklyContainer = document.getElementById("cte-idol-weekly-container");
+        const weeklyList = document.getElementById("cte-idol-weekly-list");
+        if (scheduleMatch && weeklyList) {
+            const days = ["周一","周二","周三","周四","周五","周六","周日"];
+            const parts = scheduleMatch[1].split("|");
+            const rows = days.map((day, i) => {
+                const item = parts[i]?.trim() || "休息";
+                return `<div style="display:flex; align-items:center; gap:12px; padding:6px 0; border-bottom:1px solid rgba(255,255,255,0.05);">
+                    <span style="flex-shrink:0; width:36px; font-size:11px; color:#888;">${day}</span>
+                    <span style="font-size:13px; color:${item && item !== "休息" ? "#e0c5a1" : "#555"};">${item || "—"}</span>
+                </div>`;
+            }).join("");
+            weeklyList.innerHTML = `<div style="background:rgba(197,160,101,0.04); border:1px solid rgba(197,160,101,0.15); border-radius:6px; padding:10px 14px;">${rows}</div>`;
+            weeklyContainer.style.display = "block";
+        }
+    };
+
     // ==========================================
     // 统一左侧导航切换
     // ==========================================
@@ -3689,11 +3760,14 @@
             scheduleContent = scheduleContent.substring(0, nextBracket);
         }
         scheduleContent = scheduleContent.replace(/^[|：:\s]+/, "").trim();
-        statusEl.text("行程安排 (已同步)");
+        statusEl.text("日程 (已同步)");
         const datetimeEl = document.getElementById("cte-idol-schedule-datetime");
         if (datetimeEl) datetimeEl.textContent = metaDatetime || "";
         const items = window.CTEIdolManager.parseSchedule(scheduleContent);
         window.CTEIdolManager.renderSchedule(items);
+
+        // notice_panel 読み取り
+        window.CTEIdolManager.refreshNoticePanel();
     };
 
     window.CTEIdolManager.parseSchedule = function (text) {
