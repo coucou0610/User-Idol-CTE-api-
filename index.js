@@ -3666,6 +3666,10 @@
             return;
         }
 
+        // Meta フィールドから日付時刻を読み取る
+        const metaMatch = foundContent.match(/\[Meta\|([^\|]+)\|/);
+        const metaDatetime = metaMatch ? metaMatch[1].trim() : "";
+
         const targetKeyword = "Schedule";
         const keywordIndex = foundContent.indexOf(targetKeyword);
         if (keywordIndex === -1) {
@@ -3686,6 +3690,8 @@
         }
         scheduleContent = scheduleContent.replace(/^[|：:\s]+/, "").trim();
         statusEl.text("行程安排 (已同步)");
+        const datetimeEl = document.getElementById("cte-idol-schedule-datetime");
+        if (datetimeEl) datetimeEl.textContent = metaDatetime || "";
         const items = window.CTEIdolManager.parseSchedule(scheduleContent);
         window.CTEIdolManager.renderSchedule(items);
     };
