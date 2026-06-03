@@ -64,12 +64,13 @@
         <h2 id="cte-idol-schedule-status">正在读取最新状态...</h2>
 
         <div class="cte-idol-controls-bar">
-            <button class="cte-idol-btn" onclick="window.CTEIdolManager.refreshSchedule()">🔄 刷新行程 (读取 status_top)</button>
+            <button class="cte-idol-btn" onclick="window.CTEIdolManager.refreshSchedule()">🔄 刷新行程 (读取 status_bar)</button>
         </div>
+        <div id="cte-idol-schedule-datetime" style="text-align:center; font-size:13px; color:#c5a065; margin: -8px 0 16px 0; letter-spacing:0.05em;"></div>
 
         <div id="cte-idol-timeline-container" class="cte-idol-timeline-container">
             <!-- 动态生成的时间轴内容 -->
-            <p style="text-align:center; color:#666; margin-top:50px;">暂无行程数据，请确保聊天记录中包含 &lt;status_top&gt; 标签。</p>
+            <p style="text-align:center; color:#666; margin-top:50px;">暂无行程数据，请确保聊天记录中包含 &lt;status_bar&gt; 标签。</p>
         </div>
     </div>
 </div>
