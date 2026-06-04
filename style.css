@@ -4713,3 +4713,17 @@
     align-items: flex-start;
     align-self: center;
 }
+
+/* 日程页面移动端：并排改为上下排列 */
+@media (max-width: 768px) {
+    .cte-idol-notice-panel-row {
+        flex-direction: column !important;
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+    #cte-idol-notices-container,
+    #cte-idol-weekly-container {
+        max-width: 100% !important;
+        width: 100% !important;
+    }
+}
