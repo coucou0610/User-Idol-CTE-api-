@@ -97,6 +97,7 @@
                     <!-- 预设配置 -->
                     <div class="idol-settings-section">
                         <h3><i class="fa-solid fa-file-lines"></i> 预设配置</h3>
+                        <p style="font-size:12px; color:#888; margin:0 0 16px 0;">⚠️ 留空即使用内置默认预设，无需填写。仅在需要自定义时修改。</p>
                         
                         <!-- 通告预设 -->
                         <div class="idol-preset-block">
@@ -104,7 +105,7 @@
                             <div class="idol-form-group">
                                 <label>System Prompt</label>
                                 <textarea id="idol-preset-contracts-system" rows="6" 
-                                          placeholder="请输入通告生成的系统提示词...">${presets.contracts.system || ""}</textarea>
+                                          placeholder="留空则使用内置默认预设。仅在需要自定义时填写，填写后将覆盖默认预设。">${presets.contracts.system || ""}</textarea>
                             </div>
                             <div class="idol-form-group">
                                 <label>User Prompt</label>
@@ -120,7 +121,7 @@
                             <div class="idol-form-group">
                                 <label>System Prompt</label>
                                 <textarea id="idol-preset-shop-system" rows="6" 
-                                          placeholder="请输入商店生成的系统提示词...">${presets.shop.system || ""}</textarea>
+                                          placeholder="留空则使用内置默认预设。仅在需要自定义时填写，填写后将覆盖默认预设。">${presets.shop.system || ""}</textarea>
                             </div>
                             <div class="idol-form-group">
                                 <label>User Prompt</label>
