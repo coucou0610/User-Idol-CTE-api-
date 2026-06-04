@@ -79,16 +79,32 @@
    * 获取预设配置
    */
   function getPresets() {
+    const defaultPresets = getDefaultPresets();
     try {
       const stored = localStorage.getItem(STORAGE_KEYS.PRESETS);
       if (stored) {
-        return JSON.parse(stored);
+        const parsed = JSON.parse(stored);
+        // 用户留空时回退到默认预设
+        for (const key of Object.keys(defaultPresets)) {
+          if (parsed[key]) {
+            if (!parsed[key].system || parsed[key].system.trim() === "") {
+              parsed[key].system = defaultPresets[key].system;
+            }
+            if (!parsed[key].userPrompt || parsed[key].userPrompt.trim() === "") {
+              parsed[key].userPrompt = defaultPresets[key].userPrompt;
+            }
+          }
+        }
+        return parsed;
       }
     } catch (e) {
       console.error("[Idol API] 读取预设失败:", e);
     }
 
-    // 默认预设
+    return defaultPresets;
+  }
+
+  function getDefaultPresets() {
     return {
       contracts: {
         name: "通告生成预设",
