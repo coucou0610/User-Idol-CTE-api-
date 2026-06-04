@@ -736,6 +736,11 @@
             loading.style.display = "block";
 
             try {
+                // 属性情報をuserPromptに注入
+                const state = window.CTEIdolManager.RPG.state;
+                const attrInfo = `当前艺人属性：歌艺${state.vocal||'-'}，舞蹈${state.dance||'-'}，演技${state.acting||'-'}，魅力${state.charm||'-'}，气质${state.grace||'-'}，体能${state.stamina||'-'}。请根据以上属性生成符合该咖位的通告，至少一条通告的属性要求低于当前数值（可接取），其余通告可略高作为目标。`;
+                window.IdolApiService.setDynamicUserPrompt("contracts", attrInfo + "请严格按格式生成通告列表，每条必须包含全部10个字段（含截止日期和内容说明），内容说明控制在50字以内，直接输出<contracts>标签，不要任何前言。");
+
                 const result =
                     await window.IdolApiService.callAiApi("contracts");
 
