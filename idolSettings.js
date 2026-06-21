@@ -276,6 +276,21 @@
   }
 
   /**
+   * 在偶像系统主面板内渲染设置页
+   */
+  function renderSettings(container) {
+    if (!container) return;
+    const oldPanel = document.getElementById("idol-settings-overlay");
+    if (oldPanel) oldPanel.remove();
+
+    container.innerHTML = `
+      <div class="idol-settings-inline">
+        ${createSettingsHTML()}
+      </div>
+    `;
+  }
+
+  /**
    * 关闭设置面板
    */
   function closeSettings() {
@@ -359,6 +374,7 @@
 
   window.IdolSettings = {
     showSettings,
+    renderSettings,
     closeSettings,
     saveApiConfig,
     saveContextCount,
