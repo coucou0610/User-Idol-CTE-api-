@@ -3308,7 +3308,11 @@
 
             // 把rpg-content-area指向这里
             rpgWrapper.id = "cte-idol-rpg-content-area";
-            window.CTEIdolManager.renderRPGContent(viewName);
+            if (viewName === "settings" && window.IdolSettings?.renderSettings) {
+                window.IdolSettings.renderSettings(rpgWrapper);
+            } else {
+                window.CTEIdolManager.renderRPGContent(viewName);
+            }
         }
     };
 
@@ -3455,7 +3459,7 @@
                             <i class="fa-solid fa-newspaper"></i>
                         </button>
                         <div class="cte-left-nav-divider"></div>
-                        <button class="cte-left-nav-btn" onclick="window.IdolSettings.showSettings()" title="设置">
+                        <button class="cte-left-nav-btn" data-view="settings" onclick="window.CTEIdolManager.switchMainView('settings', this)" title="设置">
                             <i class="fa-solid fa-gear"></i>
                         </button>
                     </div>
