@@ -596,8 +596,8 @@
                             <div class="cte-item-compact-title">
                                 <h3>${data.name}</h3>
                                 <span class="cte-item-badge ${style.badge}">${data.job}</span>
-                                ${deadlineHtml ? `<div style="flex-shrink:0;">${deadlineHtml}</div>` : ""}
                             </div>
+                            ${deadlineHtml ? `<div class="cte-item-deadline-row">${deadlineHtml}</div>` : ""}
                             <div class="cte-item-company">${data.company}</div>
                             <div class="cte-item-compact-attrs cte-item-req-grid">${attrHtml}</div>
                         </div>
