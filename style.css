@@ -4671,14 +4671,18 @@
     }
     .cte-item-compact-left {
         width: 100%;
+        min-width: 0;
     }
     .cte-item-compact-title {
         flex-wrap: wrap;
         gap: 6px;
+        overflow: visible;
     }
     .cte-item-compact-title h3 {
         white-space: normal;
         font-size: 13px;
+        overflow: visible;
+        text-overflow: unset;
     }
     .cte-item-compact-attrs {
         flex-wrap: wrap;
@@ -4689,8 +4693,10 @@
         align-items: center;
         width: 100%;
         min-width: unset;
+        max-width: 100%;
         border-top: 1px dashed #eee;
         padding-top: 8px;
+        overflow: visible;
     }
     .cte-item-compact-right .cte-item-payment {
         font-size: 13px;
@@ -4700,6 +4706,15 @@
     }
     .cte-item-deadline {
         font-size: 9px !important;
+        white-space: nowrap;
+    }
+    .cte-item-sign-btn {
+        flex-shrink: 0;
+        font-size: 12px;
+        padding: 6px 10px;
+    }
+    .cte-agency-item {
+        padding: 10px 12px;
     }
 }
 
