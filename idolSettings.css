@@ -330,3 +330,153 @@
   opacity: 0.5;
   cursor: not-allowed;
 }
+
+/* 让内嵌设置页与主系统的纸张风格统一 */
+.idol-settings-inline {
+  --idol-settings-paper: #f9f9f7;
+  --idol-settings-ink: #1a1a1a;
+  --idol-settings-muted: #666;
+  --idol-settings-line: #e0e0dc;
+  --idol-settings-soft: #f1eee8;
+  --idol-settings-accent: #b08d55;
+  --idol-settings-danger: #b03050;
+  width: 100%;
+  min-height: 100%;
+  color: var(--idol-settings-ink);
+  font-family: "Inter", sans-serif;
+}
+
+.idol-settings-inline .idol-settings-panel {
+  width: 96%;
+  max-width: 950px;
+  max-height: none;
+  min-height: 100%;
+  margin: 0 auto;
+  background: var(--idol-settings-paper);
+  border: 1px solid rgba(26, 26, 26, 0.08);
+  border-radius: 4px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+  color: var(--idol-settings-ink);
+}
+
+.idol-settings-inline .idol-settings-header {
+  background: transparent;
+  padding: 20px 25px 12px;
+  border-bottom: 4px solid var(--idol-settings-ink);
+}
+
+.idol-settings-inline .idol-settings-header h2 {
+  color: var(--idol-settings-ink);
+  font-family: "Noto Serif SC", serif;
+  font-size: 24px;
+  line-height: 1;
+  text-shadow: none;
+}
+
+.idol-settings-inline .idol-settings-close {
+  display: none;
+}
+
+.idol-settings-inline .idol-settings-content {
+  padding: 20px 25px 25px;
+  overflow: visible;
+}
+
+.idol-settings-inline .idol-settings-section {
+  background: #fff;
+  border: 1px solid var(--idol-settings-line);
+  border-left: 4px solid var(--idol-settings-accent);
+  border-radius: 4px;
+  padding: 18px 20px;
+  margin-bottom: 16px;
+}
+
+.idol-settings-inline .idol-settings-section h3 {
+  color: var(--idol-settings-ink);
+  font-family: "Noto Serif SC", serif;
+  font-size: 17px;
+  margin-bottom: 16px;
+}
+
+.idol-settings-inline .idol-settings-section h3 i,
+.idol-settings-inline .idol-preset-block h4 {
+  color: var(--idol-settings-accent);
+}
+
+.idol-settings-inline .idol-settings-form {
+  gap: 16px;
+}
+
+.idol-settings-inline .idol-form-group label {
+  color: var(--idol-settings-muted);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
+.idol-settings-inline .idol-form-group input,
+.idol-settings-inline .idol-form-group textarea,
+.idol-settings-inline .idol-model-select {
+  background: #fbfbfa !important;
+  border: 1px solid #d8d4cc !important;
+  border-radius: 4px;
+  color: var(--idol-settings-ink) !important;
+  font-family: "Inter", "Noto Serif SC", sans-serif;
+  box-shadow: none;
+}
+
+.idol-settings-inline .idol-form-group input:focus,
+.idol-settings-inline .idol-form-group textarea:focus,
+.idol-settings-inline .idol-model-select:focus {
+  border-color: var(--idol-settings-accent) !important;
+  background: #fff !important;
+  box-shadow: 0 0 0 3px rgba(176, 141, 85, 0.12);
+}
+
+.idol-settings-inline .idol-form-group small,
+.idol-settings-inline #idol-model-status {
+  color: #888;
+}
+
+.idol-settings-inline .idol-preset-block {
+  background: var(--idol-settings-soft);
+  border-left: 3px solid var(--idol-settings-accent);
+  border-radius: 4px;
+}
+
+.idol-settings-inline .idol-preset-block h4 {
+  font-family: "Noto Serif SC", serif;
+  font-size: 15px;
+}
+
+.idol-settings-inline .idol-btn {
+  border-radius: 4px;
+}
+
+.idol-settings-inline .idol-btn-primary {
+  background: var(--idol-settings-danger);
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(176, 48, 80, 0.22);
+}
+
+.idol-settings-inline .idol-btn-primary:hover {
+  background: #9f2846;
+  box-shadow: 0 6px 16px rgba(176, 48, 80, 0.26);
+}
+
+.idol-settings-inline .idol-btn-secondary {
+  background: #fff;
+  color: var(--idol-settings-muted);
+  border: 1px solid #d8d4cc;
+}
+
+.idol-settings-inline .idol-btn-secondary:hover {
+  background: var(--idol-settings-ink);
+  color: #fff;
+  border-color: var(--idol-settings-ink);
+}
+
+.idol-settings-inline .idol-model-select option {
+  background: #fff;
+  color: var(--idol-settings-ink);
+}
