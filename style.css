@@ -1,11 +1,19 @@
 /* 截止日期独立行 */
 .cte-item-deadline-row {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
+    flex-wrap: wrap;
 }
 .cte-item-deadline-row .cte-item-deadline,
 .cte-item-deadline-row .cte-item-deadline-expired {
     font-size: 10px !important;
+    white-space: normal;
+    word-break: break-all;
+}
+.cte-item-deadline span,
+.cte-item-deadline-expired span {
+    white-space: normal;
+    word-break: break-word;
 }
 
 /* 通告确认弹窗基础样式 */
