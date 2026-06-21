@@ -561,10 +561,11 @@
                 .replace(/'/g, "\\'")
                 .replace(/"/g, "&quot;");
 
-            // 处理截止日期显示
+            // 处理截止日期显示（只取日期部分，去掉内容说明）
+            const deadlineOnly = (data.deadline || "").split("｜")[0].replace(/[\[\]]/g, "").trim();
             let deadlineHtml = "";
-            if (data.deadline && data.deadline !== "-") {
-                const isExpired = this.isDeadlineExpired(data.deadline);
+            if (deadlineOnly && deadlineOnly !== "-") {
+                const isExpired = this.isDeadlineExpired(deadlineOnly);
                 const deadlineClass = isExpired
                     ? "cte-item-deadline-expired"
                     : "cte-item-deadline";
@@ -573,7 +574,7 @@
                     : "fa-calendar-days";
                 deadlineHtml = `<div class="${deadlineClass}">
                     <i class="fa-solid ${deadlineIcon}"></i>
-                    <span>${isExpired ? "已过期" : "截止"}: ${data.deadline}</span>
+                    <span>${isExpired ? "已过期" : "截止"}: ${deadlineOnly}</span>
                 </div>`;
             }
 
