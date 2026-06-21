@@ -29,7 +29,7 @@
 
                 <div class="idol-settings-content">
                     <!-- API 配置 -->
-                    <div class="idol-settings-section">
+                    <div class="idol-settings-section idol-settings-api-section">
                         <h3><i class="fa-solid fa-plug"></i> API 配置</h3>
                         <div class="idol-settings-form">
                             <div class="idol-form-group">
@@ -79,7 +79,7 @@
                     </div>
 
                     <!-- 上下文配置 -->
-                    <div class="idol-settings-section">
+                    <div class="idol-settings-section idol-settings-context-section">
                         <h3><i class="fa-solid fa-comments"></i> 上下文配置</h3>
                         <div class="idol-settings-form">
                             <div class="idol-form-group">
@@ -95,7 +95,7 @@
                     </div>
 
                     <!-- 预设配置 -->
-                    <div class="idol-settings-section">
+                    <div class="idol-settings-section idol-settings-presets-section">
                         <h3><i class="fa-solid fa-file-lines"></i> 预设配置</h3>
                         <p style="font-size:12px; color:#888; margin:0 0 16px 0;">⚠️ 留空即使用内置默认预设，无需填写。仅在需要自定义时修改。</p>
                         
