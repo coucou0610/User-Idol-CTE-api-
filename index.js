@@ -877,8 +877,7 @@
                 }
                 modal.classList.add("active");
                 // 主面板と同じロジックでSillyTavern顶部栏を考慮
-                modal.style.alignItems = "center";
-                modal.style.paddingTop = "0";
+                // CSS側のpadding-topで制御
             }
         },
 
