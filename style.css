@@ -1,3 +1,13 @@
+/* 截止日期独立行 */
+.cte-item-deadline-row {
+    display: flex;
+    align-items: center;
+}
+.cte-item-deadline-row .cte-item-deadline,
+.cte-item-deadline-row .cte-item-deadline-expired {
+    font-size: 10px !important;
+}
+
 /* 通告确认弹窗基础样式 */
 .cte-agency-modal {
     display: none;
@@ -4696,25 +4706,28 @@
         max-width: 100%;
         border-top: 1px dashed #eee;
         padding-top: 8px;
-        overflow: visible;
     }
     .cte-item-compact-right .cte-item-payment {
-        font-size: 13px;
+        font-size: 12px;
+        white-space: nowrap;
     }
     .cte-item-compact-right .cte-item-days {
         font-size: 11px;
-    }
-    .cte-item-deadline {
-        font-size: 9px !important;
         white-space: nowrap;
     }
     .cte-item-sign-btn {
-        flex-shrink: 0;
-        font-size: 12px;
-        padding: 6px 10px;
+        flex-shrink: 0 !important;
+        font-size: 11px;
+        padding: 5px 10px;
+        white-space: nowrap;
     }
     .cte-agency-item {
         padding: 10px 12px;
+    }
+    .cte-item-compact-title h3 {
+        white-space: normal;
+        overflow: visible;
+        text-overflow: unset;
     }
 }
 
