@@ -877,14 +877,8 @@
                 }
                 modal.classList.add("active");
                 // 主面板と同じロジックでSillyTavern顶部栏を考慮
-                // SillyTavern顶部栏高度を考慮して中央配置
-                setTimeout(() => {
-                    const topBar = document.getElementById("top-bar") || document.querySelector(".topBar");
-                    const topBarH = topBar ? topBar.offsetHeight : 50;
-                    modal.style.alignItems = "center";
-                    modal.style.paddingTop = topBarH + "px";
-                    modal.style.boxSizing = "border-box";
-                }, 10);
+                modal.style.alignItems = "center";
+                modal.style.paddingTop = "0";
             }
         },
 
