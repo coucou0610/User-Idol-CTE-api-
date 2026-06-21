@@ -646,6 +646,27 @@
                     '<div class="cte-agency-empty">暂无符合格式的通告<br>No Contracts Available</div>';
             }
 
+            const attributeOverviewHtml = `
+                <div class="cte-agency-stats-bar">
+                    ${[
+                        { key: "vocal", label: "歌艺", icon: "fa-microphone" },
+                        { key: "dance", label: "舞蹈", icon: "fa-music" },
+                        { key: "acting", label: "演技", icon: "fa-masks-theater" },
+                        { key: "charm", label: "魅力", icon: "fa-star" },
+                        { key: "grace", label: "气质", icon: "fa-crown" },
+                        { key: "stamina", label: "体能", icon: "fa-dumbbell" },
+                    ].map((attr) => {
+                        const val = window.CTEIdolManager.RPG.state[attr.key];
+                        const display = val !== undefined && val !== null ? val : "-";
+                        return `<div class="cte-agency-stat-item">
+                            <i class="fa-solid ${attr.icon}"></i>
+                            <span class="cte-agency-stat-label">${attr.label}</span>
+                            <span class="cte-agency-stat-val">${display}</span>
+                        </div>`;
+                    }).join("")}
+                </div>
+            `;
+
             const html = `
                 <div class="cte-agency-scope cte-agency-container">
                     <div class="cte-agency-card">
@@ -658,9 +679,7 @@
                             </div>
                         </header>
 
-
-
-
+                        ${attributeOverviewHtml}
 
                         <div class="cte-agency-tabs">
                             <button class="cte-agency-tab-btn active" onclick="window.CTEIdolManager.Contracts.filter('all', this)">全部 / All</button>
@@ -2919,8 +2938,6 @@
                 container.innerHTML = htmlContent;
             } else if (viewType === "agency") {
                 window.CTEIdolManager.Contracts.renderView(container);
-            } else if (viewType === "courses") {
-                window.CTEIdolManager.Courses.renderView(container);
             } else if (viewType === "shop") {
                 window.CTEIdolManager.Shop.renderView(container);
             } else if (viewType === "news") {
@@ -3448,9 +3465,6 @@
                         <div class="cte-left-nav-divider"></div>
                         <button class="cte-left-nav-btn" data-view="agency" onclick="window.CTEIdolManager.switchMainView('agency', this)" title="通告接洽">
                             <i class="fa-solid fa-building"></i>
-                        </button>
-                        <button class="cte-left-nav-btn" data-view="courses" onclick="window.CTEIdolManager.switchMainView('courses', this)" title="课程培训">
-                            <i class="fa-solid fa-graduation-cap"></i>
                         </button>
                         <button class="cte-left-nav-btn" data-view="shop" onclick="window.CTEIdolManager.switchMainView('shop', this)" title="采购部">
                             <i class="fa-solid fa-cart-shopping"></i>
