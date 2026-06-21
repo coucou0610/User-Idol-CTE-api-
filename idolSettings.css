@@ -279,6 +279,30 @@
   border-color: #e94560;
 }
 
+/* 嵌入主面板时，设置页作为普通内容显示 */
+.idol-settings-inline {
+  width: 100%;
+  min-height: 100%;
+  color: #e0e0e0;
+}
+
+.idol-settings-inline .idol-settings-panel {
+  width: 100%;
+  max-width: none;
+  max-height: none;
+  min-height: 100%;
+  border-radius: 8px;
+  box-shadow: none;
+}
+
+.idol-settings-inline .idol-settings-close {
+  display: none;
+}
+
+.idol-settings-inline .idol-settings-content {
+  overflow: visible;
+}
+
 .idol-model-select option {
   background: #1a1a2e;
   color: #fff;
