@@ -16,27 +16,25 @@
     word-break: break-word;
 }
 
-/* 通告确认弹窗基础样式
-   FIX: 以前弹窗盒子本身使用 position: fixed + top:50% + transform。
-   在 SillyTavern / 插件面板被 transform 或缩放包裹时，fixed 会改为相对父容器计算，
-   导致确认弹窗被顶到屏幕上方甚至出界。现在由遮罩层负责 fixed 居中，
-   弹窗盒子只做普通 flex 子元素，避免被父级定位干扰。 */
+/* 通告确认弹窗基础样式 */
 .cte-agency-modal {
     display: none;
-    position: fixed !important;
-    inset: 0 !important;
-    width: 100vw !important;
-    height: 100vh !important;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
     background: rgba(0,0,0,0.6);
-    z-index: 2147483600 !important;
-    align-items: center !important;
-    justify-content: center !important;
+    z-index: 99999;
+    align-items: center;
+    justify-content: center;
     box-sizing: border-box;
-    padding: 24px;
+    padding: 24px 12px;
+    overflow-y: auto;
+    overscroll-behavior: contain;
 }
 
 .cte-agency-modal.active {
-    display: flex !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .cte-agency-modal-box {
@@ -44,19 +42,14 @@
     border-radius: 8px;
     padding: 24px;
     width: 420px;
-    max-width: min(90vw, 420px);
-    max-height: calc(100vh - 64px);
+    max-width: 90vw;
+    max-height: calc(100vh - 48px);
     overflow-y: auto;
     box-shadow: 0 20px 60px rgba(0,0,0,0.4);
     color: #333;
-    position: relative !important;
-    top: auto !important;
-    left: auto !important;
-    right: auto !important;
-    bottom: auto !important;
-    transform: none !important;
+    position: relative;
     margin: auto;
-    z-index: 2147483601 !important;
+    z-index: 1000000;
 }
 
 .cte-agency-modal-title {
