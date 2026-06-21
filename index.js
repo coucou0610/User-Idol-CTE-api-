@@ -878,6 +878,40 @@
                 if (modal.parentElement !== document.body) {
                     document.body.appendChild(modal);
                 }
+                Object.assign(modal.style, {
+                    display: "flex",
+                    position: "fixed",
+                    inset: "0",
+                    zIndex: "2147483647",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    padding: "24px 12px",
+                    overflowY: "auto",
+                    background: "rgba(0,0,0,0.6)",
+                    boxSizing: "border-box",
+                });
+                modal.style.setProperty("display", "flex", "important");
+                modal.style.setProperty("position", "fixed", "important");
+                modal.style.setProperty("inset", "0", "important");
+                modal.style.setProperty("z-index", "2147483647", "important");
+                const modalBox = modal.querySelector(".cte-agency-modal-box");
+                if (modalBox) {
+                    Object.assign(modalBox.style, {
+                        position: "relative",
+                        top: "auto",
+                        left: "auto",
+                        transform: "none",
+                        zIndex: "2147483647",
+                        margin: "auto",
+                        maxHeight: "calc(100vh - 48px)",
+                        overflowY: "auto",
+                    });
+                    modalBox.style.setProperty("position", "relative", "important");
+                    modalBox.style.setProperty("top", "auto", "important");
+                    modalBox.style.setProperty("left", "auto", "important");
+                    modalBox.style.setProperty("transform", "none", "important");
+                    modalBox.style.setProperty("z-index", "2147483647", "important");
+                }
                 modal.classList.add("active");
                 // 主面板と同じロジックでSillyTavern顶部栏を考慮
                 // CSS側のpadding-topで制御
@@ -889,7 +923,10 @@
             const agencyModal = document.getElementById("cte-agency-sign-modal");
             if (agencyModal) agencyModal.classList.remove("active");
             const confirmModal = document.getElementById("cte-agency-confirm-modal");
-            if (confirmModal) confirmModal.classList.remove("active");
+            if (confirmModal) {
+                confirmModal.classList.remove("active");
+                confirmModal.style.display = "none";
+            }
 
             const memoModal = document.getElementById("cte-memo-manual-modal");
             if (memoModal) memoModal.classList.remove("active");
