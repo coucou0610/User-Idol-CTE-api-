@@ -875,6 +875,9 @@
                     descEl.innerHTML = autoDesc.replace(/\n/g, "<br>");
                     descArea.style.display = "block";
                 }
+                if (modal.parentElement !== document.body) {
+                    document.body.appendChild(modal);
+                }
                 modal.classList.add("active");
                 // 主面板と同じロジックでSillyTavern顶部栏を考慮
                 // CSS側のpadding-topで制御
