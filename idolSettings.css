@@ -480,3 +480,9 @@
   background: #fff;
   color: var(--idol-settings-ink);
 }
+
+/* 常用设置页只保留 API 配置，隐藏低频配置项 */
+.idol-settings-inline .idol-settings-context-section,
+.idol-settings-inline .idol-settings-presets-section {
+  display: none;
+}
