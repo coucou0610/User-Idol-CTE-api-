@@ -845,7 +845,7 @@
             const job = parts[4] || "";
             const pay = parts[6] || "";
             const duration = parts[7] || "";
-            const deadline = (parts[8] || "").replace(/[\[\]]/g, "").trim();
+            const deadline = (parts[8] || "").replace(/[\[\]]/g, "").split("｜")[0].trim();
 
             const modal = document.getElementById("cte-agency-confirm-modal");
             if (modal) {
@@ -1228,7 +1228,7 @@
             const durationStr = parts[7] || "待定";
             const durationNum = parseInt(durationStr) || 0;
             const descStr = parts[9] ? parts[9].trim() : "";
-            const deadlineStr = (parts[8] || "").replace(/[\[\]]/g, "").trim(); // 截止日期（可选）
+            const deadlineStr = (parts[8] || "").replace(/[\[\]]/g, "").split("｜")[0].trim(); // 截止日期（可选）
 
             const startDate = dateVal
                 ? new Date(dateVal).getTime()
