@@ -877,18 +877,9 @@
                 }
                 modal.classList.add("active");
                 // 主面板と同じロジックでSillyTavern顶部栏を考慮
-                setTimeout(() => {
-                    const modalBox = modal.querySelector(".cte-agency-modal-box");
-                    if (!modalBox) return;
-                    const topBarHeight = 60;
-                    const vh = window.innerHeight;
-                    const boxH = modalBox.offsetHeight || 400;
-                    const availH = vh - topBarHeight - 20;
-                    const topPos = topBarHeight + Math.max(0, (availH - boxH) / 2);
-                    modal.style.alignItems = "flex-start";
-                    modal.style.paddingTop = topPos + "px";
-                    modal.style.boxSizing = "border-box";
-                }, 10);
+                // CSSのflex align-items:centerで自動センタリング
+                modal.style.alignItems = "center";
+                modal.style.paddingTop = "0";
             }
         },
 
