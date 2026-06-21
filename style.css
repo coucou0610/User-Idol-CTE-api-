@@ -25,12 +25,13 @@
     z-index: 99999;
     align-items: center;
     justify-content: center;
-    padding-top: 60px;
     box-sizing: border-box;
 }
 
 .cte-agency-modal.active {
     display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .cte-agency-modal-box {
@@ -38,12 +39,15 @@
     border-radius: 8px;
     padding: 24px;
     width: 420px;
-    max-width: 90%;
+    max-width: 90vw;
     max-height: 80vh;
     overflow-y: auto;
     box-shadow: 0 20px 60px rgba(0,0,0,0.4);
     color: #333;
-    position: relative;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     z-index: 1000000;
 }
 
