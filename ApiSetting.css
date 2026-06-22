@@ -245,10 +245,12 @@
   display: flex;
   gap: 8px;
   align-items: center;
+  flex-wrap: wrap;
 }
 
 .idol-api-key-row input {
   flex: 1;
+  min-width: 0;
 }
 
 .idol-fetch-models-btn {
@@ -476,6 +478,14 @@
   border-color: var(--idol-settings-ink);
 }
 
+.idol-settings-inline .idol-api-key-row {
+  align-items: stretch;
+}
+
+.idol-settings-inline .idol-fetch-models-btn {
+  min-width: 118px;
+}
+
 .idol-settings-inline .idol-model-select option {
   background: #fff;
   color: var(--idol-settings-ink);
@@ -485,4 +495,14 @@
 .idol-settings-inline .idol-settings-context-section,
 .idol-settings-inline .idol-settings-presets-section {
   display: none;
+}
+
+@media (max-width: 560px) {
+  .idol-settings-inline .idol-api-key-row {
+    flex-direction: column;
+  }
+
+  .idol-settings-inline .idol-fetch-models-btn {
+    width: 100%;
+  }
 }
